@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRID BASKETBALL — Rules & Score Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --orange: #F06B1A;
+  --dark: #0a0a0a;
+  --card-bg: #111;
+  --gold: #FDB927;
+}
+
+body {
+  background: var(--dark);
+  font-family: 'Barlow Condensed', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  gap: 1rem;
+}
+
+.no-print {
+  text-align: center;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+}
+.no-print h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  letter-spacing: 8px;
+  color: var(--orange);
+}
+.no-print p { font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: #555; margin: 0.3rem 0 0.8rem; }
+.btn-print {
+  background: var(--orange); color: #000; border: none;
+  padding: 0.5rem 1.8rem; font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem; letter-spacing: 3px; cursor: pointer; border-radius: 2px;
+}
+.btn-print:hover { background: #fff; }
+
+/* ── SHARED CARD SHELL ── */
+.page {
+  width: 7.5in;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+  page-break-inside: avoid;
+  page-break-after: always;
+}
+
+/* ═══════════════════════════════════
+   RULES CARD
+═══════════════════════════════════ */
+.rules-card {
+  background: #0d0d0d;
+  border: 2px solid #222;
+  min-height: 4in;
+}
+
+.rules-header {
+  background: #111;
+  border-bottom: 3px solid var(--orange);
+  padding: 0.18in 0.22in;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.rules-title-block {}
+.rules-eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 7pt;
+  letter-spacing: 5px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.rules-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 38pt;
+  letter-spacing: 4px;
+  color: #fff;
+  line-height: 0.9;
+}
+.rules-subtitle {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 9pt;
+  letter-spacing: 3px;
+  color: #555;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.rules-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 9pt;
+  letter-spacing: 3px;
+  color: #333;
+  text-align: right;
+  line-height: 1.6;
+}
+.rules-badge span { color: var(--gold); }
+
+.rules-body {
+  padding: 0.18in 0.22in;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.18in;
+}
+
+.rules-section {}
+.section-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32pt;
+  color: #1e1e1e;
+  line-height: 1;
+  margin-bottom: -6px;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13pt;
+  letter-spacing: 2px;
+  color: var(--orange);
+  border-bottom: 1px solid #222;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+.section-body {
+  font-size: 8pt;
+  color: #888;
+  line-height: 1.75;
+  letter-spacing: 0.3px;
+}
+.section-body strong {
+  color: #ccc;
+  font-weight: 600;
+}
+.section-body .highlight {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.rules-divider {
+  height: 1px;
+  background: #1a1a1a;
+  margin: 0 0.22in;
+}
+
+.tier-section {
+  padding: 0.14in 0.22in;
+}
+.tier-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 10pt;
+  letter-spacing: 3px;
+  color: #444;
+  margin-bottom: 8px;
+}
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+.tier-item {
+  border: 1px solid #1e1e1e;
+  border-radius: 3px;
+  padding: 5px 8px;
+  text-align: center;
+}
+.tier-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 8pt;
+  letter-spacing: 1.5px;
+  margin-bottom: 2px;
+}
+.tier-range {
+  font-size: 7pt;
+  color: #555;
+  letter-spacing: 0.5px;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+.tier-teams {
+  font-size: 6.5pt;
+  color: #444;
+  letter-spacing: 0.3px;
+  font-family: 'Barlow Condensed', sans-serif;
+  margin-top: 2px;
+  font-style: italic;
+}
+.tier-wildcard {
+  font-size: 6pt;
+  letter-spacing: 0.5px;
+  margin-top: 3px;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+.rules-footer {
+  background: #0a0a0a;
+  border-top: 1px solid #1a1a1a;
+  padding: 6px 0.22in;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rules-footer-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 7pt;
+  letter-spacing: 3px;
+  color: #333;
+}
+.rules-footer-text span { color: var(--orange); }
+
+/* ═══════════════════════════════════
+   SCORE SHEET
+═══════════════════════════════════ */
+.score-card {
+  background: #0d0d0d;
+  border: 2px solid #1e1e1e;
+}
+
+.score-header {
+  background: #111;
+  border-bottom: 3px solid var(--gold);
+  padding: 0.15in 0.22in;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.score-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28pt;
+  letter-spacing: 4px;
+  color: var(--gold);
+  line-height: 1;
+}
+.score-subtitle {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 7pt;
+  letter-spacing: 3px;
+  color: #444;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+.score-season-block {
+  text-align: right;
+}
+.score-season-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 7pt;
+  letter-spacing: 3px;
+  color: #333;
+  text-transform: uppercase;
+}
+.score-season-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14pt;
+  letter-spacing: 2px;
+  color: #444;
+}
+
+/* Score table */
+.score-table-wrap {
+  padding: 0.12in 0.22in 0.1in;
+}
+
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Column header row */
+.score-table .col-heads th {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 7pt;
+  letter-spacing: 2px;
+  color: #444;
+  text-align: center;
+  padding: 3px 2px 5px;
+  border-bottom: 1px solid #1e1e1e;
+  font-weight: normal;
+}
+.score-table .col-heads th.left { text-align: left; padding-left: 4px; }
+.score-table .col-heads th.winner-col { color: var(--gold); }
+
+/* Data rows */
+.score-table tbody tr {
+  border-bottom: 1px solid #141414;
+}
+.score-table tbody tr:nth-child(odd) td {
+  background: rgba(255,255,255,0.012);
+}
+.score-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.score-table td {
+  padding: 0;
+  height: 22px;
+}
+
+/* Game number */
+.td-game {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 8pt;
+  color: #333;
+  text-align: center;
+  width: 28px;
+  letter-spacing: 1px;
+}
+
+/* Team name cells */
+.td-team {
+  border: 1px solid #1a1a1a;
+  border-radius: 1px;
+  margin: 1px;
+  width: 1.4in;
+  background: #0f0f0f;
+}
+
+/* Score cells */
+.td-score {
+  border: 1px solid #1a1a1a;
+  width: 0.55in;
+  background: #0c0c0c;
+  text-align: center;
+}
+
+/* Winner cell */
+.td-winner {
+  border: 1px solid #221a00;
+  width: 1.2in;
+  background: #0f0c00;
+}
+
+/* Notes cell */
+.td-notes {
+  border: 1px solid #1a1a1a;
+  background: #0c0c0c;
+}
+
+/* Section dividers within table */
+.score-table .section-row td {
+  background: #0f0f0f;
+  padding: 3px 4px;
+  border-top: 1px solid #1e1e1e;
+  border-bottom: 1px solid #1e1e1e;
+}
+.section-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 7.5pt;
+  letter-spacing: 4px;
+  color: #2a2a2a;
+}
+
+/* Summary section */
+.score-summary {
+  padding: 0.1in 0.22in;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+  border-top: 1px solid #1a1a1a;
+}
+.summary-box {
+  border: 1px solid #1a1a1a;
+  border-radius: 3px;
+  padding: 6px 10px;
+  background: #0c0c0c;
+}
+.summary-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 6pt;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 3px;
+}
+.summary-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18pt;
+  color: #1e1e1e;
+  line-height: 1;
+}
+.summary-sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 6pt;
+  color: #2a2a2a;
+  letter-spacing: 1px;
+  margin-top: 1px;
+}
+
+.score-footer {
+  background: #0a0a0a;
+  border-top: 1px solid #1a1a1a;
+  padding: 5px 0.22in;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.score-footer-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 6.5pt;
+  letter-spacing: 2.5px;
+  color: #2a2a2a;
+}
+.score-footer-text span { color: var(--gold); }
+
+@media print {
+  body { background: white; padding: 0.15in; gap: 0.25in; }
+  .no-print { display: none; }
+  .page { box-shadow: none; }
+  .rules-card { border-color: #ddd; background: #fafafa; }
+  .score-card { border-color: #ddd; background: #fafafa; }
+  .rules-header { background: #f0f0f0; border-bottom-color: #c0440a; }
+  .score-header { background: #f0f0f0; border-bottom-color: #cc8800; }
+  .rules-title { color: #111; }
+  .score-title { color: #cc8800; }
+  .section-title { color: #c0440a; }
+  .section-num { color: #ebebeb; }
+  .section-body { color: #444; }
+  .section-body strong { color: #111; }
+  .section-body .highlight { color: #cc8800; }
+  .tier-item { border-color: #ddd; }
+  .rules-footer { background: #f0f0f0; border-top-color: #ddd; }
+  .rules-footer-text { color: #aaa; }
+  .rules-footer-text span { color: #c0440a; }
+  .rules-divider { background: #e0e0e0; }
+  .tier-title { color: #bbb; }
+  .tier-range { color: #888; }
+  .tier-teams { color: #aaa; }
+  .score-table .col-heads th { color: #aaa; border-bottom-color: #ddd; }
+  .score-table tbody tr { border-bottom-color: #eee; }
+  .score-table tbody tr:nth-child(odd) td { background: #f8f8f8; }
+  .td-team { border-color: #ddd; background: #f5f5f5; }
+  .td-score { border-color: #ddd; background: #f9f9f9; }
+  .td-winner { border-color: #ddd; background: #fffdf0; }
+  .td-notes { border-color: #ddd; background: #f9f9f9; }
+  .td-game { color: #bbb; }
+  .score-table .section-row td { background: #f0f0f0; border-color: #ddd; }
+  .section-label { color: #bbb; }
+  .summary-box { border-color: #ddd; background: #f5f5f5; }
+  .summary-label { color: #aaa; }
+  .summary-val { color: #ddd; }
+  .summary-sub { color: #ccc; }
+  .score-footer { background: #f0f0f0; border-top-color: #ddd; }
+  .score-footer-text { color: #bbb; }
+  .score-footer-text span { color: #cc8800; }
+  .score-subtitle { color: #aaa; }
+  .score-season-label { color: #aaa; }
+  .score-season-val { color: #bbb; }
+  .rules-subtitle { color: #aaa; }
+  .rules-badge { color: #aaa; }
+  .tier-wildcard { color: #888; }
+}
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <h1>GRID BASKETBALL</h1>
+  <p>Rules Card & Season Score Sheet · 2025–26</p>
+  <button class="btn-print" onclick="window.print()">🖨 Print Rules & Score Sheet</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  RULES CARD                                 -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="page rules-card">
+  <div class="rules-header">
+    <div class="rules-title-block">
+      <div class="rules-eyebrow">Grid Sports Series</div>
+      <div class="rules-title">GRID BASKETBALL</div>
+      <div class="rules-subtitle">Official Rules · 2025–26 NBA Season</div>
+    </div>
+    <div class="rules-badge">
+      30 Teams &nbsp;·&nbsp; <span>2 Dice</span> &nbsp;·&nbsp; 12 Rolls Per Team<br>
+      Head-to-Head &nbsp;·&nbsp; <span>Higher Score Wins</span>
+    </div>
+  </div>
+
+  <div class="rules-body">
+
+    <div class="rules-section">
+      <div class="section-num">01</div>
+      <div class="section-title">What You Need</div>
+      <div class="section-body">
+        Two standard six-sided dice in <strong>different colours</strong> — one acts as the <strong>Red Die</strong> (column), the other as the <strong>Blue Die</strong> (row).<br><br>
+        Pull the cards for the <strong>two teams</strong> you want to play. Place them side by side.<br><br>
+        You'll need a pencil and this score sheet, or the roll tracker printed on each card.
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <div class="section-num">02</div>
+      <div class="section-title">How to Play</div>
+      <div class="section-body">
+        <strong>Pick a team to play first.</strong> Roll both dice. The Red Die gives the column (1–6), the Blue Die gives the row (1–6). Find that cell on the card — the number is the points scored on that possession run.<br><br>
+        <strong>Record the points.</strong> Roll again. Repeat until you have made <span class="highlight">12 rolls</span>. Add all 12 point values together for the team's final score.<br><br>
+        Then play the <strong>second team's card</strong> the same way. 12 rolls, add them up.
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <div class="section-num">03</div>
+      <div class="section-title">Winning & Tiebreaker</div>
+      <div class="section-body">
+        The team with the <span class="highlight">higher final score wins</span> the game. Record the result on your score sheet.<br><br>
+        <strong>Tiebreaker:</strong> If both teams finish on the exact same score, each player rolls one die. <strong>Higher single die roll wins</strong> — this is Sudden Death Overtime. Re-roll again if tied a second time.<br><br>
+        Record OT wins separately on your score sheet with a ★ mark.
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <div class="section-num">04</div>
+      <div class="section-title">The 🔥 Wildcard Cell</div>
+      <div class="section-body">
+        Tier 3, 4 and 5 teams have <strong>two wildcard cells</strong> marked with 🔥 and a value of <strong>13</strong>. These represent a hot shooting stretch — the kind of run that keeps a struggling team in a game.<br><br>
+        Wildcard cells work exactly like normal cells — just record the 13 points. No special action required. Their rarity is what makes them special.
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <div class="section-num">05</div>
+      <div class="section-title">Season Play</div>
+      <div class="section-body">
+        Use the score sheet to run a <strong>full season</strong>. Pick any matchups you like — play every team against every other, run a conference schedule, or simulate the playoffs bracket.<br><br>
+        Track <strong>wins, losses, and final scores</strong> across the sheet. At season end, tally each team's record to crown a champion.<br><br>
+        <strong>Tip:</strong> Play all 30 teams round-robin over a weekend for a full simulated season.
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <div class="section-num">06</div>
+      <div class="section-title">Reading the Cards</div>
+      <div class="section-body">
+        Each card shows the team's real <strong>2025–26 ORTG</strong> (offensive rating per 100 possessions) and their offensive rank in the league. This determines which tier they belong to.<br><br>
+        The <strong>footer badge</strong> shows the tier: Elite, Strong, Average, Below Average, or Rebuilding. Better teams have higher cell values and a higher scoring floor — but any team can have a big night.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="rules-divider"></div>
+
+  <div class="tier-section">
+    <div class="tier-title">Team Tiers — 2025–26 Season</div>
+    <div class="tier-grid">
+      <div class="tier-item" style="border-color:#332200;background:#0f0c00">
+        <div class="tier-badge" style="color:#FFD700">ELITE</div>
+        <div class="tier-range">ORTG 122+</div>
+        <div class="tier-teams">Nuggets, Knicks, Rockets</div>
+        <div class="tier-wildcard" style="color:#555">Cells: 10–14 · No wildcards</div>
+      </div>
+      <div class="tier-item" style="border-color:#1a1a1a;background:#0c0c0c">
+        <div class="tier-badge" style="color:#C0C0C0">STRONG</div>
+        <div class="tier-range">ORTG 118–121</div>
+        <div class="tier-teams">Celtics, Thunder, Mavs, Spurs, Lakers, Cavs, Pistons, T-Wolves</div>
+        <div class="tier-wildcard" style="color:#555">Cells: 9–13 · No wildcards</div>
+      </div>
+      <div class="tier-item" style="border-color:#1a1a1a;background:#0c0c0c">
+        <div class="tier-badge" style="color:#CD7F32">AVERAGE</div>
+        <div class="tier-range">ORTG 115–117</div>
+        <div class="tier-teams">Warriors, Suns, Magic, Heat, Hornets, Raptors</div>
+        <div class="tier-wildcard" style="color:#F06B1A">Cells: 8–12 · 2× 🔥 wildcard</div>
+      </div>
+      <div class="tier-item" style="border-color:#1a1a1a;background:#0c0c0c">
+        <div class="tier-badge" style="color:#888">BELOW AVG</div>
+        <div class="tier-range">ORTG 112–114</div>
+        <div class="tier-teams">Bulls, Bucks, Hawks, Blazers, Jazz, Pelicans, Clippers, 76ers</div>
+        <div class="tier-wildcard" style="color:#F06B1A">Cells: 7–11 · 2× 🔥 wildcard</div>
+      </div>
+      <div class="tier-item" style="border-color:#1a1a1a;background:#0c0c0c">
+        <div class="tier-badge" style="color:#555">REBUILDING</div>
+        <div class="tier-range">ORTG &lt;112</div>
+        <div class="tier-teams">Nets, Pacers, Grizzlies, Kings, Wizards</div>
+        <div class="tier-wildcard" style="color:#F06B1A">Cells: 6–10 · 2× 🔥 wildcard</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules-footer">
+    <div class="rules-footer-text">GRID SPORTS SERIES &nbsp;·&nbsp; <span>GRID BASKETBALL</span> &nbsp;·&nbsp; 2025–26 NBA SEASON</div>
+    <div class="rules-footer-text">Stats sourced from StatMuse · March 2026</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  SCORE SHEET                                -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="page score-card">
+  <div class="score-header">
+    <div>
+      <div class="score-title">SEASON SCORE SHEET</div>
+      <div class="score-subtitle">Grid Basketball · 2025–26 NBA Season</div>
+    </div>
+    <div class="score-season-block">
+      <div class="score-season-label">Player Name</div>
+      <div class="score-season-val">________________________</div>
+    </div>
+  </div>
+
+  <div class="score-table-wrap">
+    <table class="score-table">
+      <thead>
+        <tr class="col-heads">
+          <th style="width:28px">#</th>
+          <th class="left" style="width:1.4in">HOME TEAM</th>
+          <th style="width:0.55in">SCORE</th>
+          <th style="width:0.55in">SCORE</th>
+          <th class="left" style="width:1.4in">AWAY TEAM</th>
+          <th class="winner-col" style="width:1.2in">WINNER</th>
+          <th class="left">NOTES / OT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Block 1: Games 1-10 -->
+        <tr class="section-row"><td colspan="7"><span class="section-label">GAMES 1 – 10</span></td></tr>
+        ${Array.from({length:10},(_,i)=>`
+        <tr>
+          <td class="td-game">${i+1}</td>
+          <td class="td-team"></td>
+          <td class="td-score"></td>
+          <td class="td-score"></td>
+          <td class="td-team"></td>
+          <td class="td-winner"></td>
+          <td class="td-notes"></td>
+        </tr>`).join('')}
+
+        <!-- Block 2: Games 11-20 -->
+        <tr class="section-row"><td colspan="7"><span class="section-label">GAMES 11 – 20</span></td></tr>
+        ${Array.from({length:10},(_,i)=>`
+        <tr>
+          <td class="td-game">${i+11}</td>
+          <td class="td-team"></td>
+          <td class="td-score"></td>
+          <td class="td-score"></td>
+          <td class="td-team"></td>
+          <td class="td-winner"></td>
+          <td class="td-notes"></td>
+        </tr>`).join('')}
+
+        <!-- Block 3: Games 21-30 -->
+        <tr class="section-row"><td colspan="7"><span class="section-label">GAMES 21 – 30</span></td></tr>
+        ${Array.from({length:10},(_,i)=>`
+        <tr>
+          <td class="td-game">${i+21}</td>
+          <td class="td-team"></td>
+          <td class="td-score"></td>
+          <td class="td-score"></td>
+          <td class="td-team"></td>
+          <td class="td-winner"></td>
+          <td class="td-notes"></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="score-summary">
+    <div class="summary-box">
+      <div class="summary-label">Games Played</div>
+      <div class="summary-val">/ 30</div>
+      <div class="summary-sub">Total this sheet</div>
+    </div>
+    <div class="summary-box">
+      <div class="summary-label">OT Games</div>
+      <div class="summary-val">★ ___</div>
+      <div class="summary-sub">Sudden death wins</div>
+    </div>
+    <div class="summary-box">
+      <div class="summary-label">Biggest Win</div>
+      <div class="summary-val">+___</div>
+      <div class="summary-sub">Largest margin</div>
+    </div>
+    <div class="summary-box">
+      <div class="summary-label">Best Score</div>
+      <div class="summary-val">___</div>
+      <div class="summary-sub">Highest single team</div>
+    </div>
+  </div>
+
+  <div class="score-footer">
+    <div class="score-footer-text">GRID SPORTS SERIES &nbsp;·&nbsp; <span>GRID BASKETBALL</span></div>
+    <div class="score-footer-text">★ = Overtime win (sudden death) &nbsp;·&nbsp; Higher score wins &nbsp;·&nbsp; 12 rolls per team</div>
+    <div class="score-footer-text"><span>2025–26</span> NBA Season</div>
+  </div>
+</div>
+
+</body>
+</html>

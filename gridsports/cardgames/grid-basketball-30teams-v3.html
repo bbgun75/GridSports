@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRID BASKETBALL — All 30 Teams 2025–26</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0a0a0a; font-family:'Barlow Condensed',sans-serif; display:flex; flex-direction:column; align-items:center; padding:1.5rem; gap:0.8rem; }
+.no-print { text-align:center; color:#aaa; margin-bottom:0.5rem; }
+.no-print h1 { font-family:'Bebas Neue',sans-serif; font-size:2.8rem; letter-spacing:8px; color:#F06B1A; }
+.no-print p { font-size:0.75rem; letter-spacing:3px; text-transform:uppercase; color:#555; margin:0.3rem 0 0.8rem; }
+.btn-print { background:#F06B1A; color:#000; border:none; padding:0.5rem 1.8rem; font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:3px; cursor:pointer; border-radius:2px; }
+.btn-print:hover { background:#fff; }
+.conf-header { width:7.5in; font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:6px; color:#333; text-align:center; padding:0.5rem 0 0.2rem; border-top:1px solid #1a1a1a; margin-top:0.4rem; }
+.card { width:7.5in; height:3.8in; position:relative; overflow:hidden; display:flex; flex-direction:column; border-radius:4px; box-shadow:0 4px 20px rgba(0,0,0,0.5); page-break-inside:avoid; }
+.card-header { display:flex; align-items:center; padding:0.12in 0.18in; gap:0.12in; flex-shrink:0; }
+.logo-block { display:flex; flex-direction:column; line-height:1; min-width:1.15in; }
+.logo-text { font-family:'Bebas Neue',sans-serif; font-size:24pt; letter-spacing:2px; line-height:0.9; }
+.team-city { font-family:'Barlow Condensed',sans-serif; font-size:6.5pt; letter-spacing:3px; text-transform:uppercase; margin-top:2px; }
+.hdr-div { width:1px; height:34px; background:rgba(255,255,255,0.2); margin:0 0.08in; }
+.hdr-stats { display:flex; gap:0.16in; flex:1; }
+.hstat { display:flex; flex-direction:column; align-items:center; }
+.hstat-val { font-family:'Bebas Neue',sans-serif; font-size:14pt; color:#fff; line-height:1; }
+.hstat-lbl { font-size:5pt; letter-spacing:1.5px; color:rgba(255,255,255,0.4); text-transform:uppercase; margin-top:1px; }
+.hdr-right { text-align:right; }
+.game-lbl { font-family:'Bebas Neue',sans-serif; font-size:7.5pt; letter-spacing:3px; color:rgba(255,255,255,0.3); }
+.season-lbl { font-size:5.5pt; letter-spacing:2px; color:rgba(255,255,255,0.2); text-transform:uppercase; }
+.card-body { display:flex; flex:1; min-height:0; }
+.grid-section { flex:1; padding:0.07in 0.1in; display:flex; flex-direction:column; gap:2px; }
+.grid-lbl { font-size:5.5pt; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.2); display:flex; justify-content:space-between; margin-bottom:1px; }
+.dice-grid { display:grid; grid-template-columns:15px repeat(6,1fr); grid-template-rows:15px repeat(6,1fr); gap:2px; flex:1; }
+.corner {}
+.col-hdr,.row-hdr { font-family:'Bebas Neue',sans-serif; font-size:8pt; display:flex; align-items:center; justify-content:center; opacity:0.6; }
+.gc { border:1px solid; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:2px; padding:1px; }
+.gc-pts { font-family:'Bebas Neue',sans-serif; font-size:10.5pt; line-height:1; }
+.gc-lbl { font-size:4.5pt; letter-spacing:0.5px; opacity:0.55; margin-top:1px; font-family:'Barlow Condensed',sans-serif; }
+.right-panel { width:1.25in; display:flex; flex-direction:column; border-left:1px solid rgba(255,255,255,0.07); padding:0.07in 0.1in; gap:0.05in; flex-shrink:0; }
+.panel-title { font-size:5.5pt; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.25); margin-bottom:2px; }
+.roll-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
+.roll-box { border:1px solid rgba(255,255,255,0.09); border-radius:2px; height:16px; display:flex; align-items:center; justify-content:center; font-size:5.5pt; color:rgba(255,255,255,0.15); font-family:'Bebas Neue',sans-serif; }
+.div-line { height:1px; background:rgba(255,255,255,0.07); margin:2px 0; }
+.total-row { display:flex; justify-content:space-between; align-items:center; }
+.total-lbl { font-size:6pt; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.3); font-family:'Barlow Condensed',sans-serif; }
+.total-box { width:0.45in; height:19px; border:1px solid rgba(255,255,255,0.15); border-radius:2px; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:10pt; color:rgba(255,255,255,0.1); }
+.how-to { margin-top:auto; font-size:5.5pt; color:rgba(255,255,255,0.3); line-height:1.75; font-family:'Barlow Condensed',sans-serif; }
+.how-to strong { color:rgba(255,255,255,0.5); }
+.card-footer { display:flex; align-items:center; justify-content:space-between; padding:3px 0.18in; flex-shrink:0; }
+.footer-txt { font-family:'Bebas Neue',sans-serif; font-size:6pt; letter-spacing:2px; color:rgba(255,255,255,0.4); }
+.ortg-pill { font-family:'Bebas Neue',sans-serif; font-size:6.5pt; letter-spacing:1.5px; padding:1px 7px; border-radius:10px; }
+@media print {
+  body { background:white; padding:0.15in; gap:0.2in; }
+  .no-print { display:none; }
+  .card { box-shadow:none; page-break-after:always; }
+  .conf-header { page-break-before:always; }
+}
+</style>
+</head>
+<body>
+<div class="no-print">
+  <h1>GRID BASKETBALL</h1>
+  <p>All 30 Teams · 2025–26 Season · All cells 7–13 · Balanced Upset Rates · Higher Score Wins</p>
+  <button class="btn-print" onclick="window.print()">🖨 Print All 30 Cards</button>
+</div>
+<script>
+// ALL CELLS ARE 7-13. Averages differ by team ORTG.
+// Nets avg/roll=9.78 (game avg 117) vs Nuggets avg/roll=10.50 (game avg 126)
+// Nets beat Knicks ~12% of games — matches real NBA upset rates
+const teams = [
+  {n:"CELTICS",c:"BOSTON",bg:"#007A33",ac:"#FFFFFF",hdr:"#007A33",ortg:121.2,rec:"44-23",rnk:"4th",p1:"TATUM",p2:"BROWN",avg:10.33,game_avg:124,cells:[10,12,12,10,11,12,10,10,11,11,8,10,8,12,12,8,13,13,12,11,10,7,10,8,9,9,8,10,10,12,10,11,11,11,10,10]},
+  {n:"NETS",c:"BROOKLYN",bg:"#111111",ac:"#FFFFFF",hdr:"#111111",ortg:107.8,rec:"17-50",rnk:"29th",p1:"THOMAS",p2:"BAILEY",avg:9.78,game_avg:117,cells:[10,9,11,9,12,9,12,10,12,11,8,10,9,10,12,8,9,9,10,10,8,8,11,10,9,9,11,9,10,12,10,10,8,10,8,9]},
+  {n:"KNICKS",c:"NEW YORK",bg:"#006BB6",ac:"#F58426",hdr:"#006BB6",ortg:122.0,rec:"43-25",rnk:"3rd",p1:"BRUNSON",p2:"TOWNS",avg:10.36,game_avg:124,cells:[9,11,9,12,9,10,11,12,11,11,9,12,9,11,11,10,10,7,11,10,11,9,12,11,11,9,10,13,10,8,10,9,12,11,9,13]},
+  {n:"76ERS",c:"PHILADELPHIA",bg:"#006BB6",ac:"#ED174C",hdr:"#003DA5",ortg:113.0,rec:"36-31",rnk:"9th",p1:"MAXEY",p2:"EMBIID",avg:9.97,game_avg:120,cells:[8,9,9,12,11,10,10,11,11,10,8,10,12,9,9,10,8,9,11,9,10,13,10,9,8,10,9,9,12,9,9,11,10,13,11,10]},
+  {n:"RAPTORS",c:"TORONTO",bg:"#CE1141",ac:"#FFFFFF",hdr:"#CE1141",ortg:115.5,rec:"37-29",rnk:"6th",p1:"BARRETT",p2:"SIAKAM",avg:10.08,game_avg:121,cells:[11,11,9,12,12,8,12,10,8,11,9,10,10,13,9,7,11,9,11,11,9,11,9,10,11,10,9,11,13,10,8,10,10,10,8,10]},
+  {n:"BULLS",c:"CHICAGO",bg:"#CE1141",ac:"#FFFFFF",hdr:"#9d0d2e",ortg:113.3,rec:"27-40",rnk:"12th",p1:"WHITE",p2:"GIDDEY",avg:10.0,game_avg:120,cells:[11,11,11,11,9,10,11,11,11,11,9,9,8,8,9,9,12,10,8,11,10,10,10,9,8,10,10,8,13,9,11,10,12,10,9,11]},
+  {n:"CAVALIERS",c:"CLEVELAND",bg:"#860038",ac:"#FDBB30",hdr:"#860038",ortg:117.7,rec:"41-26",rnk:"4th",p1:"MOBLEY",p2:"GARLAND",avg:10.17,game_avg:122,cells:[11,11,10,11,10,9,12,9,11,11,8,11,13,11,9,9,10,9,11,9,10,9,11,10,13,10,11,10,9,11,8,8,11,11,10,9]},
+  {n:"PISTONS",c:"DETROIT",bg:"#C8102E",ac:"#1D428A",hdr:"#C8102E",ortg:117.6,rec:"48-18",rnk:"1st",p1:"CUNNINGHAM",p2:"DUREN",avg:10.17,game_avg:122,cells:[12,10,8,11,9,10,11,9,12,10,9,11,12,10,9,11,10,12,9,10,11,8,10,11,11,11,8,9,9,12,11,10,10,10,10,10]},
+  {n:"PACERS",c:"INDIANA",bg:"#002D62",ac:"#FDBB30",hdr:"#002D62",ortg:111.0,rec:"15-52",rnk:"30th",p1:"NEMBHARD",p2:"MATHURIN",avg:9.89,game_avg:119,cells:[10,9,11,10,10,7,10,10,9,10,9,11,12,11,12,11,12,8,11,9,9,10,10,11,9,9,13,8,7,7,11,12,10,9,11,8]},
+  {n:"BUCKS",c:"MILWAUKEE",bg:"#00471B",ac:"#EEE829",hdr:"#00471B",ortg:110.8,rec:"27-39",rnk:"11th",p1:"GIANNIS",p2:"LILLARD",avg:9.89,game_avg:119,cells:[9,8,10,12,12,10,10,8,10,10,9,9,10,9,9,11,11,10,8,7,9,13,11,11,11,9,10,8,8,11,8,10,11,11,11,12]},
+  {n:"HAWKS",c:"ATLANTA",bg:"#E03A3E",ac:"#C1D32F",hdr:"#26282A",ortg:114.8,rec:"36-31",rnk:"8th",p1:"YOUNG",p2:"JOHNSON",avg:10.06,game_avg:121,cells:[10,13,7,12,9,9,10,10,12,9,9,11,11,12,10,12,7,10,11,10,11,11,10,8,10,10,10,12,11,10,9,10,8,9,10,9]},
+  {n:"HORNETS",c:"CHARLOTTE",bg:"#1D1160",ac:"#00788C",hdr:"#1D1160",ortg:115.3,rec:"34-34",rnk:"10th",p1:"BALL",p2:"MILLER",avg:10.08,game_avg:121,cells:[9,8,9,12,9,11,9,10,11,10,10,13,11,10,7,8,12,13,8,11,7,9,8,11,13,11,9,8,11,10,13,13,8,9,13,9]},
+  {n:"HEAT",c:"MIAMI",bg:"#98002E",ac:"#F9A01B",hdr:"#98002E",ortg:115.6,rec:"38-30",rnk:"7th",p1:"BUTLER",p2:"ADEBAYO",avg:10.08,game_avg:121,cells:[12,11,9,9,11,8,13,12,8,10,9,11,11,8,8,10,11,7,8,8,9,12,11,11,9,11,10,9,10,13,9,13,12,9,10,11]},
+  {n:"MAGIC",c:"ORLANDO",bg:"#0077C0",ac:"#FFFFFF",hdr:"#0077C0",ortg:115.8,rec:"38-28",rnk:"5th",p1:"BANCHERO",p2:"WAGNER",avg:10.11,game_avg:121,cells:[10,11,12,10,7,10,9,9,8,11,12,9,10,13,13,8,8,10,8,10,8,11,9,9,12,9,12,9,11,12,12,9,11,13,10,9]},
+  {n:"WIZARDS",c:"WASHINGTON",bg:"#002B5C",ac:"#E31837",hdr:"#002B5C",ortg:112.7,rec:"16-50",rnk:"28th",p1:"DAVIS",p2:"POOLE",avg:9.97,game_avg:120,cells:[11,9,9,9,11,10,9,9,13,10,8,8,9,9,10,10,11,9,7,11,10,11,7,11,13,10,9,10,12,10,13,12,8,8,13,10]},
+  {n:"NUGGETS",c:"DENVER",bg:"#0E2240",ac:"#FEC524",hdr:"#0E2240",ortg:125.5,rec:"41-27",rnk:"1st",p1:"JOKIC",p2:"MURRAY",avg:10.5,game_avg:126,cells:[12,10,12,10,13,12,9,10,11,11,9,8,9,11,10,10,12,9,11,10,12,10,11,10,8,9,11,12,9,10,12,10,11,10,12,12]},
+  {n:"TIMBERWOLVES",c:"MINNESOTA",bg:"#0C2340",ac:"#236192",hdr:"#0C2340",ortg:117.6,rec:"41-26",rnk:"5th",p1:"EDWARDS",p2:"GOBERT",avg:10.17,game_avg:122,cells:[9,10,10,10,10,8,8,8,11,10,12,10,11,12,9,11,10,12,12,7,9,12,9,12,11,9,13,13,7,11,11,9,10,9,12,9]},
+  {n:"THUNDER",c:"OKC",bg:"#007AC1",ac:"#EF3B24",hdr:"#007AC1",ortg:119.1,rec:"52-15",rnk:"1st",p1:"SGA",p2:"WILLIAMS",avg:10.22,game_avg:123,cells:[7,10,8,13,12,9,13,10,12,9,10,9,13,9,11,10,9,10,8,12,8,10,10,7,9,13,13,9,9,10,13,12,9,9,11,12]},
+  {n:"TRAIL BLAZERS",c:"PORTLAND",bg:"#E03A3E",ac:"#000000",hdr:"#E03A3E",ortg:114.4,rec:"35-36",rnk:"8th",p1:"GRANT",p2:"HENDERSON",avg:10.06,game_avg:121,cells:[11,11,11,10,10,10,11,11,10,9,10,8,8,9,10,10,12,13,10,12,10,10,10,9,12,12,10,8,9,10,9,9,11,9,8,10]},
+  {n:"JAZZ",c:"UTAH",bg:"#002B5C",ac:"#F9A01B",hdr:"#002B5C",ortg:114.7,rec:"20-46",rnk:"19th",p1:"MARKKANEN",p2:"GEORGE",avg:10.06,game_avg:121,cells:[11,8,8,8,11,12,12,8,8,9,11,13,11,11,10,10,8,12,11,7,11,10,11,9,11,12,10,11,11,11,10,9,9,13,7,8]},
+  {n:"WARRIORS",c:"GOLDEN STATE",bg:"#1D428A",ac:"#FFC72C",hdr:"#1D428A",ortg:115.7,rec:"34-36",rnk:"9th",p1:"CURRY",p2:"GREEN",avg:10.08,game_avg:121,cells:[11,10,13,9,10,11,9,9,11,12,11,12,11,8,9,10,8,8,8,9,12,8,11,10,12,9,8,11,9,10,11,11,11,9,11,11]},
+  {n:"CLIPPERS",c:"LOS ANGELES",bg:"#C8102E",ac:"#1D428A",hdr:"#8B0000",ortg:113.4,rec:"34-33",rnk:"8th",p1:"HARDEN",p2:"ZUBAC",avg:10.0,game_avg:120,cells:[10,11,7,8,11,11,10,9,11,10,9,9,9,9,12,10,12,12,9,10,9,10,11,10,10,9,12,11,10,9,10,11,12,7,10,10]},
+  {n:"LAKERS",c:"LOS ANGELES",bg:"#552583",ac:"#FDB927",hdr:"#552583",ortg:116.5,rec:"42-25",rnk:"3rd",p1:"JAMES",p2:"AD",avg:10.14,game_avg:122,cells:[9,13,9,11,8,12,9,11,11,9,10,10,11,11,9,9,13,9,10,8,9,10,10,10,7,11,11,9,9,11,9,13,12,13,11,8]},
+  {n:"SUNS",c:"PHOENIX",bg:"#1D1160",ac:"#E56020",hdr:"#1D1160",ortg:112.5,rec:"39-28",rnk:"7th",p1:"DURANT",p2:"BOOKER",avg:9.97,game_avg:120,cells:[10,9,10,12,8,10,10,11,9,9,9,12,11,10,9,10,9,11,13,9,9,11,9,9,8,10,9,10,10,13,10,10,10,9,12,9]},
+  {n:"KINGS",c:"SACRAMENTO",bg:"#5A2D81",ac:"#63727A",hdr:"#5A2D81",ortg:108.0,rec:"21-49",rnk:"14th",p1:"FOX",p2:"SABONIS",avg:9.78,game_avg:117,cells:[11,8,11,9,12,8,9,11,10,10,11,8,7,11,7,9,10,13,8,10,10,10,11,9,9,7,11,9,7,12,8,12,11,10,12,11]},
+  {n:"MAVERICKS",c:"DALLAS",bg:"#00538C",ac:"#B8C4CA",hdr:"#00538C",ortg:119.3,rec:"38-32",rnk:"6th",p1:"DONCIC",p2:"FLAGG",avg:10.25,game_avg:123,cells:[9,12,11,8,8,10,11,9,10,9,10,13,9,12,13,8,11,11,9,11,10,11,12,9,11,11,8,13,9,11,10,11,9,9,10,11]},
+  {n:"ROCKETS",c:"HOUSTON",bg:"#CE1141",ac:"#C4CED4",hdr:"#CE1141",ortg:122.6,rec:"41-25",rnk:"4th",p1:"IQ",p2:"SENGUN",avg:10.39,game_avg:125,cells:[10,9,10,9,11,12,10,9,10,8,8,11,13,9,11,12,11,12,12,11,9,10,11,10,8,12,11,10,11,10,10,10,9,13,12,10]},
+  {n:"GRIZZLIES",c:"MEMPHIS",bg:"#5D76A9",ac:"#12173F",hdr:"#5D76A9",ortg:112.5,rec:"24-45",rnk:"11th",p1:"SMART",p2:"ALDAMA",avg:9.97,game_avg:120,cells:[11,10,9,7,8,9,10,11,9,11,10,10,12,10,7,10,11,9,7,10,10,9,11,8,10,12,13,11,13,11,9,10,11,7,11,12]},
+  {n:"PELICANS",c:"NEW ORLEANS",bg:"#0C2340",ac:"#C8102E",hdr:"#0C2340",ortg:113.2,rec:"25-45",rnk:"12th",p1:"WILLIAMSON",p2:"MURPHY",avg:10.0,game_avg:120,cells:[8,10,10,11,10,9,11,9,11,8,10,11,11,8,12,10,10,10,10,12,9,8,9,9,9,11,12,8,11,11,13,9,10,10,11,9]},
+  {n:"SPURS",c:"SAN ANTONIO",bg:"#000000",ac:"#C4CED4",hdr:"#1a1a1a",ortg:120.0,rec:"49-18",rnk:"2nd",p1:"WEMBY",p2:"JOHNSON",avg:10.28,game_avg:123,cells:[11,11,10,10,11,9,8,11,11,11,12,11,9,9,10,9,13,12,11,10,8,9,9,11,10,11,9,12,10,8,10,8,12,11,12,11]},
+];
+
+function hexToRgb(hex){
+  hex=hex.replace('#','');
+  if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');
+  return{r:parseInt(hex.substring(0,2),16),g:parseInt(hex.substring(2,4),16),b:parseInt(hex.substring(4,6),16)};
+}
+function darken(hex,amt){const{r,g,b}=hexToRgb(hex);return`rgb(${Math.max(0,r-amt)},${Math.max(0,g-amt)},${Math.max(0,b-amt)})`;}
+function lighten(hex,amt){const{r,g,b}=hexToRgb(hex);return`rgb(${Math.min(255,r+amt)},${Math.min(255,g+amt)},${Math.min(255,b+amt)})`;}
+
+function cellStyle(pts,bg,ac){
+  // All cells are 7-13. Shade by value.
+  const intensity = (pts-7)/(13-7); // 0 to 1
+  const bgColor = pts>=12 ? lighten(bg,30) : pts>=10 ? lighten(bg,15) : pts>=8 ? lighten(bg,5) : darken(bg,5);
+  const textColor = pts>=12 ? ac : 'rgba(255,255,255,0.85)';
+  const subColor = pts>=12 ? ac : 'rgba(255,255,255,0.4)';
+  return{bgColor,textColor,subColor};
+}
+
+function cellLabel(pts,p1,p2){
+  if(pts>=13) return '🔥 HOT';
+  if(pts>=12) return p1.substring(0,7);
+  if(pts>=10) return p2.substring(0,7);
+  if(pts>=8)  return 'FLOW';
+  return 'GRIND';
+}
+
+function ortgTier(ortg){
+  if(ortg>=122)return{label:'ELITE',color:'#FFD700'};
+  if(ortg>=118)return{label:'STRONG',color:'#C0C0C0'};
+  if(ortg>=115)return{label:'AVERAGE',color:'#CD7F32'};
+  if(ortg>=112)return{label:'BELOW AVG',color:'#888888'};
+  return{label:'REBUILDING',color:'#555555'};
+}
+
+function renderCard(t){
+  const tier=ortgTier(t.ortg);
+  const cardBg=darken(t.bg,50);
+  const borderCol=lighten(t.bg,12);
+
+  let gridHTML=`<div class="corner"></div>`;
+  for(let c=1;c<=6;c++) gridHTML+=`<div class="col-hdr" style="color:${t.ac}">${c}</div>`;
+
+  for(let row=0;row<6;row++){
+    gridHTML+=`<div class="row-hdr" style="color:${t.ac}">${row+1}</div>`;
+    for(let col=0;col<6;col++){
+      const pts=t.cells[row*6+col];
+      const{bgColor,textColor,subColor}=cellStyle(pts,t.bg,t.ac);
+      const lbl=cellLabel(pts,t.p1,t.p2);
+      gridHTML+=`<div class="gc" style="background:${bgColor};border-color:${lighten(t.bg,20)}">
+        <div class="gc-pts" style="color:${textColor}">${pts}</div>
+        <div class="gc-lbl" style="color:${subColor}">${lbl}</div>
+      </div>`;
+    }
+  }
+
+  return`<div class="card" style="background:${cardBg};border:2px solid ${borderCol}">
+    <div class="card-header" style="background:${t.hdr}">
+      <div class="logo-block">
+        <div class="logo-text" style="color:${t.ac}">${t.n}</div>
+        <div class="team-city" style="color:rgba(255,255,255,0.55)">${t.c}</div>
+      </div>
+      <div class="hdr-div"></div>
+      <div class="hdr-stats">
+        <div class="hstat"><div class="hstat-val">${t.rec}</div><div class="hstat-lbl">RECORD</div></div>
+        <div class="hstat"><div class="hstat-val">${t.ortg}</div><div class="hstat-lbl">ORTG</div></div>
+        <div class="hstat"><div class="hstat-val">${t.rnk}</div><div class="hstat-lbl">OFF RNK</div></div>
+        <div class="hstat"><div class="hstat-val">~${t.game_avg}</div><div class="hstat-lbl">AVG PTS</div></div>
+      </div>
+      <div class="hdr-right">
+        <div class="game-lbl">GRID BASKETBALL</div>
+        <div class="season-lbl">2025–26 Season</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="grid-section">
+        <div class="grid-lbl">
+          <span>🎲 RED DIE → COLUMN &nbsp;|&nbsp; BLUE DIE → ROW</span>
+          <span>ROLL 12 TIMES · ADD ALL POINTS · HIGHER SCORE WINS</span>
+        </div>
+        <div class="dice-grid">${gridHTML}</div>
+      </div>
+      <div class="right-panel">
+        <div class="panel-title">12 Rolls</div>
+        <div class="roll-grid">${Array.from({length:12},(_,i)=>`<div class="roll-box">R${i+1}</div>`).join('')}</div>
+        <div class="div-line"></div>
+        <div class="total-row"><div class="total-lbl">Score</div><div class="total-box"></div></div>
+        <div class="div-line"></div>
+        <div class="how-to">Red = column<br>Blue = row<br>Roll 12×<br>Add points<br><strong>Higher wins</strong></div>
+      </div>
+    </div>
+    <div class="card-footer" style="background:${darken(t.bg,55)}">
+      <div class="footer-txt" style="color:rgba(255,255,255,0.38)">GRID BASKETBALL · ${t.c} ${t.n} · 2025–26</div>
+      <div class="ortg-pill" style="background:${tier.color};color:#000">${tier.label}</div>
+      <div class="footer-txt" style="color:rgba(255,255,255,0.38)">${t.p1} · ${t.p2}</div>
+    </div>
+  </div>`;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  let html=`<div class="conf-header">— EASTERN CONFERENCE —</div>`;
+  teams.slice(0,15).forEach(t=>html+=renderCard(t));
+  html+=`<div class="conf-header">— WESTERN CONFERENCE —</div>`;
+  teams.slice(15).forEach(t=>html+=renderCard(t));
+  document.body.insertAdjacentHTML('beforeend',html);
+});
+</script>
+</body>
+</html>

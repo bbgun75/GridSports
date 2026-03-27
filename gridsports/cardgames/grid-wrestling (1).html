@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Grid Wrestling</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@400;600&display=swap');
+@page { size: 5in 3in; margin: 0; }
+@media print {
+  html, body { margin: 0; padding: 0; background: white; }
+  .no-print { display: none !important; }
+  .card-page { page-break-after: always; break-after: page; }
+  .card-page:last-of-type { page-break-after: avoid; break-after: avoid; }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #ddd; font-family: 'Barlow Condensed', sans-serif; }
+
+.no-print { background: #1a0a2a; padding: 20px; text-align: center; border-bottom: 3px solid #FFD700; }
+.no-print h1 { font-family: 'Bebas Neue'; font-size: 2.4rem; color: #FFD700; letter-spacing: 5px; }
+.no-print p { color: #888; font-size: 11px; margin-top: 6px; font-family: 'Barlow'; }
+.no-print button { margin-top: 12px; background: #FFD700; color: #1a0a2a; border: none; padding: 9px 26px; font-family: 'Bebas Neue'; font-size: 1rem; letter-spacing: 3px; cursor: pointer; border-radius: 2px; }
+
+.card-page { width: 5in; height: 3in; margin: 20px auto; display: block; }
+.card { width: 5in; height: 3in; background: #fff; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #ccc; }
+
+/* BANNER */
+.banner { display: flex; height: 0.48in; flex-shrink: 0; }
+.banner-name { display: flex; align-items: center; padding: 0 12px; min-width: 1.9in; font-family: 'Bebas Neue'; font-size: 20px; color: #fff; letter-spacing: 2px; white-space: nowrap; flex-shrink: 0; }
+.banner-info { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 10px; }
+.banner-tier { font-family: 'Bebas Neue'; font-size: 8px; letter-spacing: 3px; opacity: 0.9; }
+.banner-finisher { font-family: 'Bebas Neue'; font-size: 13px; color: #fff; letter-spacing: 1.5px; line-height: 1; }
+
+/* BODY */
+.card-body { flex: 1; display: flex; overflow: hidden; }
+
+/* LEFT COL */
+.left-col { width: 1.45in; flex-shrink: 0; border-right: 1px solid #eee; display: flex; flex-direction: column; padding: 6px 9px 6px; }
+.quote { font-family: 'Barlow Condensed'; font-style: italic; font-size: 8.5px; color: #333; line-height: 1.35; margin-bottom: 6px; flex-shrink: 0; }
+.stats { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.stat-row { display: flex; justify-content: space-between; align-items: baseline; }
+.stat-label { font-size: 6.5px; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; font-family: 'Barlow'; }
+.stat-val { font-family: 'Bebas Neue'; font-size: 10px; color: #333; letter-spacing: 0.5px; }
+.nickname-line { font-family: 'Barlow Condensed'; font-style: italic; font-size: 7.5px; color: #bbb; margin-top: 5px; flex-shrink: 0; }
+
+/* MOMENTUM */
+.momentum { margin-top: auto; flex-shrink: 0; }
+.mom-label { font-size: 6px; letter-spacing: 2px; text-transform: uppercase; color: #bbb; font-family: 'Barlow'; display: block; margin-bottom: 3px; }
+.mom-boxes { display: flex; gap: 3px; }
+.mom-box { width: 13px; height: 13px; border: 1.5px solid #ccc; border-radius: 2px; }
+.mom-pin { border-color: #C8102E !important; position: relative; }
+.mom-pin::after { content: 'PIN'; position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%); font-size: 5px; font-family: 'Bebas Neue'; color: #C8102E; white-space: nowrap; }
+
+/* RIGHT COL */
+.right-col { flex: 1; display: flex; flex-direction: column; padding: 6px 8px 6px 8px; }
+
+/* GRID */
+.dice-grid { flex: 1; display: grid; grid-template-columns: 16px repeat(6, 1fr); grid-template-rows: repeat(7, 1fr); gap: 2px; }
+.axis-blank { }
+.axis-cell { display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue'; font-size: 9px; color: #fff; background: #111; border-radius: 1px; }
+.cell { border-radius: 1px; }
+.PIN     { background: #1a2a6e; }
+.HIT     { background: #e02020; }
+.STUN    { background: #e8c020; }
+.BLOCK   { background: #1a8a3a; }
+.GRAPPLE { background: #cccccc; }
+
+/* LEGEND */
+.legend { display: flex; gap: 6px 10px; flex-wrap: wrap; margin-top: 4px; flex-shrink: 0; }
+.legend-item { display: flex; align-items: center; gap: 3px; font-family: 'Barlow'; font-size: 6.5px; color: #666; font-weight: 600; text-transform: uppercase; }
+.legend-dot { width: 8px; height: 8px; border-radius: 1px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="no-print">
+  <h1>GRID WRESTLING</h1>
+  <p>25 wrestlers &mdash; 3 tiers &mdash; print on 5x3 index cards</p>
+  <button onclick="window.print()">PRINT ALL 25 CARDS</button>
+</div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#444444;">KENNY COPE</div>
+    <div class="banner-info" style="background:#666666;">
+      <div class="banner-tier" style="color:#aaa;">JOBBER</div>
+      <div class="banner-finisher">The Coping Mechanism</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I almost had him."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">5'11"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">198 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Akron, OH</span></div>
+      </div>
+      <div class="nickname-line">"Always almost"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">2</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="axis-cell">3</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">6</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#444444;">PARTICIPATION PETE</div>
+    <div class="banner-info" style="background:#666666;">
+      <div class="banner-tier" style="color:#aaa;">JOBBER</div>
+      <div class="banner-finisher">The Consolation Prize</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I got a ribbon once."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'0"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">203 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Dayton, OH</span></div>
+      </div>
+      <div class="nickname-line">"He showed up"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">3</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">6</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#444444;">ALMOST ALVAREZ</div>
+    <div class="banner-info" style="background:#666666;">
+      <div class="banner-tier" style="color:#aaa;">JOBBER</div>
+      <div class="banner-finisher">The Near Fall</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"Next time. Definitely next time."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'1"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">217 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">El Paso, TX</span></div>
+      </div>
+      <div class="nickname-line">"So close. Every time."</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">3</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#444444;">DALE FROM ACCOUNTING</div>
+    <div class="banner-info" style="background:#666666;">
+      <div class="banner-tier" style="color:#aaa;">JOBBER</div>
+      <div class="banner-finisher">The Quarterly Review</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I have a 9 o'clock meeting tomorrow."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'2"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">231 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Columbus, OH</span></div>
+      </div>
+      <div class="nickname-line">"He put in for the day off"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">2</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">3</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">6</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#444444;">TIMID TIM</div>
+    <div class="banner-info" style="background:#666666;">
+      <div class="banner-tier" style="color:#aaa;">JOBBER</div>
+      <div class="banner-finisher">The Reluctant Slam</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I don't really want to do this."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">5'10"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">189 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Toledo, OH</span></div>
+      </div>
+      <div class="nickname-line">"He prefers not to"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box" style="border-color:#888888;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">3</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">CRUZ</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">The Cruz Control</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"You already know who I am."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'1"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">237 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">San Antonio, TX</span></div>
+      </div>
+      <div class="nickname-line">"No last name needed"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">2</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">3</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">5</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">REDLINE</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">The Red Zone</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I don't have a brake pedal."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'0"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">229 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Detroit, MI</span></div>
+      </div>
+      <div class="nickname-line">"He never slows down"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">2</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">3</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">4</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">AJAX</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">The Ajax Protocol</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"Go ahead. Try to move me."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'4"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">268 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Philadelphia, PA</span></div>
+      </div>
+      <div class="nickname-line">"Built different"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">2</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">3</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">4</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">SABLE VOSS</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">The Voss Verdict</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I already know how this ends."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">5'9"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">194 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Stockholm, Sweden</span></div>
+      </div>
+      <div class="nickname-line">"Calculated. Cold. Correct."</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">3</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">IVORY JACK</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">The Ivory Tower</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"They don't make them like me anymore."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'2"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">244 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Memphis, TN</span></div>
+      </div>
+      <div class="nickname-line">"Old school never died"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">2</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">3</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">6</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">DAGGER</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">The Point</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"Blink."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">5'10"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">211 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Las Vegas, NV</span></div>
+      </div>
+      <div class="nickname-line">"Short. Sharp. Done."</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">2</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">3</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">MARCO VEGA</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">The Vega Rush</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"Every city I walk into, I own it."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'1"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">223 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Miami, FL</span></div>
+      </div>
+      <div class="nickname-line">"The pride of everywhere he goes"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">3</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">THE HAMMER</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">Last Call</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"Everything gets flattened eventually."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'3"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">271 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Pittsburgh, PA</span></div>
+      </div>
+      <div class="nickname-line">"They ran out of nails"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="axis-cell">2</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">3</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">5</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">6</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">STATIC</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">The Signal Drop</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I don't play fair. I play smart."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'0"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">218 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Chicago, IL</span></div>
+      </div>
+      <div class="nickname-line">"Interference is his specialty"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">2</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">3</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a1a2e;">COLT BRIGGS</div>
+    <div class="banner-info" style="background:#8a6800;">
+      <div class="banner-tier" style="color:#FFD700;">MID-CARD</div>
+      <div class="banner-finisher">The Briggs Special</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I win the right way or I don't win at all."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'2"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">241 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Nashville, TN</span></div>
+      </div>
+      <div class="nickname-line">"The last honest man in wrestling"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box" style="border-color:#c8a800;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">3</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">THE SOVEREIGN</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">The Royal Decree</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"Bow. Now."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'4"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">259 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">London, England</span></div>
+      </div>
+      <div class="nickname-line">"You will kneel"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="axis-cell">3</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">4</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">BLACKOUT</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">Lights Out</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"You won't see it coming."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'3"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">247 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Unknown</span></div>
+      </div>
+      <div class="nickname-line">"The lights go off. He walks out."</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">2</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">3</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">5</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">VENOM</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">The Venom Strike</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I'm not here to hurt you. Much."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'2"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">238 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">New Orleans, LA</span></div>
+      </div>
+      <div class="nickname-line">"One bite. One fall."</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">3</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">4</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">THE COLOSSUS</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">The Colossus Crash</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I have not lost. I will not lose."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'8"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">341 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Moscow, Russia</span></div>
+      </div>
+      <div class="nickname-line">"Unmovable. Unbreakable. Unbeaten."</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">2</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="axis-cell">3</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">REIGN</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">End of Days</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"This. Is. My. Time."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'3"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">253 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Atlanta, GA</span></div>
+      </div>
+      <div class="nickname-line">"This is his era"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">3</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">HAVOC</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">Pure Chaos</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I came here to make a mess."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'1"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">229 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Belfast, Ireland</span></div>
+      </div>
+      <div class="nickname-line">"Order is overrated"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">2</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">3</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">4</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">5</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">THE REAPER</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">The Final Harvest</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"Everyone pays eventually."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'5"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">265 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Death Valley, CA</span></div>
+      </div>
+      <div class="nickname-line">"Your time is up"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">2</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">3</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">4</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">ECLIPSE</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">Total Eclipse</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"After me, there is nothing."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'1"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">219 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Tokyo, Japan</span></div>
+      </div>
+      <div class="nickname-line">"Everything goes dark"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">2</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="axis-cell">3</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">4</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">5</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="axis-cell">6</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">THE PLAGUE</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">Ground Zero</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"Wash your hands. It won't help."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'3"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">244 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Unknown</span></div>
+      </div>
+      <div class="nickname-line">"You cannot contain what is coming"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">2</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="axis-cell">3</div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">5</div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="card-page"><div class="card">
+  <div class="banner">
+    <div class="banner-name" style="background:#1a0000;">RUTHLESS</div>
+    <div class="banner-info" style="background:#8b0000;">
+      <div class="banner-tier" style="color:#ff4466;">MAIN EVENT</div>
+      <div class="banner-finisher">No Mercy</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="left-col">
+      <div class="quote">"I don't have a soft side."</div>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">HT</span><span class="stat-val">6'4"</span></div>
+        <div class="stat-row"><span class="stat-label">WT</span><span class="stat-val">257 lbs</span></div>
+        <div class="stat-row"><span class="stat-label">FROM</span><span class="stat-val">Houston, TX</span></div>
+      </div>
+      <div class="nickname-line">"The name says everything"</div>
+      <div class="momentum">
+        <span class="mom-label">MOMENTUM</span>
+        <div class="mom-boxes">
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box" style="border-color:#cc2233;"></div>
+          <div class="mom-box mom-pin"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="dice-grid">
+        <div class="axis-blank"></div>
+        <div class="axis-cell">1</div><div class="axis-cell">2</div><div class="axis-cell">3</div>
+        <div class="axis-cell">4</div><div class="axis-cell">5</div><div class="axis-cell">6</div>
+<div class="axis-cell">1</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">2</div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">3</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="axis-cell">4</div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">5</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell BLOCK" title="BLOCK"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell STUN" title="STUN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="axis-cell">6</div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell PIN" title="PIN"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell GRAPPLE" title="GRAPPLE"></div>
+<div class="cell HIT" title="HIT"></div>
+<div class="cell HIT" title="HIT"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot PIN"></div><span>PIN</span></div>
+        <div class="legend-item"><div class="legend-dot HIT"></div><span>HIT</span></div>
+        <div class="legend-item"><div class="legend-dot STUN"></div><span>STUN</span></div>
+        <div class="legend-item"><div class="legend-dot BLOCK"></div><span>BLOCK</span></div>
+        <div class="legend-item"><div class="legend-dot GRAPPLE"></div><span>GRAPPLE</span></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+</body>
+</html>

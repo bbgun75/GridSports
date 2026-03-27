@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Grid NASCAR 2025 – Track Cards</title>
+<style>
+  @page { size: 5in 3in; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Arial Narrow', Arial, sans-serif; background: #fff; }
+
+  .card {
+    width: 5in;
+    height: 3in;
+    page-break-after: always;
+    display: grid;
+    grid-template-columns: 1.3in 1fr;
+    border: 2px solid #111;
+    overflow: hidden;
+  }
+
+  /* ── LEFT PANEL ── */
+  .left {
+    background: #1a1a1a;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.1in 0.09in;
+    border-right: 2px solid #111;
+  }
+  .circuit-num  { font-size: 6.5pt; font-weight: bold; letter-spacing: 2px; opacity: 0.75; text-transform: uppercase; }
+  .circuit-name { font-size: 14pt; font-weight: 900; line-height: 1.05; text-transform: uppercase; margin-top: 2px; }
+  .circuit-loc  { font-size: 6.5pt; opacity: 0.82; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .circuit-meta { font-size: 6pt; line-height: 1.8; opacity: 0.9; margin-top: 5px; }
+  .circuit-note { font-size: 5.5pt; opacity: 0.78; font-style: italic; margin-top: 3px; line-height: 1.4; }
+  .diff-label   { font-size: 5.5pt; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+  .diff-pips    { display: flex; gap: 2px; }
+  .pip          { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); }
+  .pip.on       { background: #e8c800; }
+
+  /* ── RIGHT PANEL ── */
+  .right { display: flex; flex-direction: column; background: #fff; }
+
+  .how {
+    background: #111;
+    color: #fff;
+    padding: 0.035in 0.09in;
+    font-size: 5.4pt;
+    line-height: 1.6;
+  }
+  .hl  { color: #e8c800; font-weight: bold; }
+  .hls { color: #4ade80; font-weight: bold; }
+  .hob { color: #fb923c; font-weight: bold; }
+  .hbn { color: #60a5fa; font-weight: bold; }
+  .hch { color: #f87171; font-weight: bold; }
+
+  .lap-area { flex: 1; padding: 0.05in 0.09in 0.02in; }
+  .lap-title { font-size: 5.5pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 3px; }
+
+  .seg-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 2px;
+    width: 100%;
+    height: 1.35in;
+  }
+  .seg-cell { border-radius: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border: 1.5px solid; }
+  .seg-cell.LS { border-color: #15803d; background: #f0fdf4; }
+  .seg-cell.LS .seg-letter { color: #15803d; }
+  .seg-cell.OB { border-color: #c2410c; background: #fff7ed; }
+  .seg-cell.OB .seg-letter { color: #c2410c; }
+  .seg-cell.BN { border-color: #1d4ed8; background: #eff6ff; }
+  .seg-cell.BN .seg-letter { color: #1d4ed8; }
+  .seg-cell.TC { border-color: #b91c1c; background: #fef2f2; }
+  .seg-cell.TC .seg-letter { color: #b91c1c; }
+  .seg-letter { font-size: 7pt; font-weight: 900; line-height: 1; }
+  .seg-num    { font-size: 4pt; color: #ccc; line-height: 1; }
+  .seg-target { font-size: 4pt; line-height: 1; font-weight: bold; }
+  .seg-cell.LS .seg-target { color: #15803d; }
+  .seg-cell.OB .seg-target { color: #c2410c; }
+  .seg-cell.BN .seg-target { color: #1d4ed8; }
+  .seg-cell.TC .seg-target { color: #b91c1c; }
+
+  /* ── RESULT ROW — 7 tiers ── */
+  .bottom-bar {
+    display: flex;
+    gap: 3px;
+    align-items: stretch;
+    padding: 0.022in 0.09in;
+    border-top: 1px solid #eee;
+  }
+  .result-row { display: flex; gap: 2px; align-items: center; flex: 1; }
+  .result-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    border-radius: 2px;
+    padding: 2px 1px;
+  }
+  .result-item.p1   { background: #FFD700; }
+  .result-item.p2   { background: #C0C0C0; }
+  .result-item.p3   { background: #cd7f32; }
+  .result-item.p410 { background: #d4edda; }
+  .result-item.p1115{ background: #cce5ff; }
+  .result-item.p1620{ background: #fff3cd; }
+  .result-item.p21  { background: #f0f0f0; }
+  .result-item.dnf  { background: #f8d7da; }
+  .res-label { font-size: 5.5pt; font-weight: 900; color: #111; line-height: 1; }
+  .res-score { font-size: 4.5pt; color: #333; line-height: 1.3; }
+  .res-pts   { font-size: 4.5pt; font-weight: bold; color: #555; line-height: 1; }
+
+  .divider { width: 1px; background: #eee; margin: 0 1px; }
+  .total-group { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  .total-label { font-size: 5pt; text-transform: uppercase; letter-spacing: 1px; color: #999; font-weight: bold; }
+  .total-box   { width: 26px; height: 16px; border: 1.5px solid #aaa; border-radius: 2px; margin-top: 2px; }
+  .run-group   { display: flex; flex-direction: column; justify-content: center; }
+  .run-label   { font-size: 5pt; text-transform: uppercase; letter-spacing: 1px; color: #999; font-weight: bold; margin-bottom: 2px; }
+  .run-boxes   { display: flex; gap: 2px; }
+  .run-entry   { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+  .run-num     { font-size: 4pt; color: #bbb; }
+  .run-box     { width: 20px; height: 16px; border: 1.5px solid #bbb; border-radius: 2px; }
+
+  /* ── KEY ── */
+  .key {
+    background: #f5f5f5;
+    padding: 0.018in 0.09in;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    flex-wrap: wrap;
+  }
+  .key-item { font-size: 5.2pt; display: flex; align-items: center; gap: 2px; color: #444; }
+  .kdot { width: 7px; height: 7px; border-radius: 1px; flex-shrink: 0; }
+  .kdot.ls { background: #15803d; }
+  .kdot.ob { background: #c2410c; }
+  .kdot.bn { background: #1d4ed8; }
+  .kdot.ch { background: #b91c1c; }
+  .key-crash { font-size: 5pt; color: #b91c1c; font-weight: bold; margin-left: auto; }
+
+  /* ── INSTRUCTIONS PAGE ── */
+  .instructions {
+    width: 5in; height: 3in; page-break-after: always;
+    display: grid; grid-template-columns: 1.3in 1fr;
+    border: 2px solid #111; overflow: hidden;
+  }
+  .inst-left {
+    background: #1a1a1a; color: #fff;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 0.12in 0.1in; border-right: 2px solid #111;
+  }
+  .inst-title    { font-size: 18pt; font-weight: 900; text-transform: uppercase; line-height: 1; letter-spacing: 1px; }
+  .inst-subtitle { font-size: 7pt; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; margin-top: 4px; }
+  .inst-tagline  { font-size: 6pt; opacity: 0.75; font-style: italic; line-height: 1.5; }
+  .inst-season   { font-size: 8pt; font-weight: bold; letter-spacing: 3px; opacity: 0.9; text-transform: uppercase; }
+  .inst-right {
+    display: flex; flex-direction: column; background: #fff;
+    padding: 0.09in 0.1in 0.07in; gap: 0.04in;
+  }
+  .inst-section-title { font-size: 6pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #cc3300; margin-bottom: 2px; }
+  .inst-step { display: flex; gap: 5px; align-items: flex-start; font-size: 5.8pt; line-height: 1.5; color: #222; }
+  .inst-step-num {
+    background: #111; color: #fff; font-size: 5.5pt; font-weight: bold;
+    width: 12px; height: 12px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .inst-divider { height: 1px; background: #eee; }
+  .inst-seg-key { display: flex; gap: 5px; flex-wrap: wrap; }
+  .inst-seg-item { display: flex; align-items: center; gap: 3px; font-size: 5.8pt; }
+  .inst-seg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 5pt; font-weight: bold; color: #fff; }
+  .inst-scoring { display: flex; gap: 2px; }
+  .inst-score-item { display: flex; flex-direction: column; align-items: center; flex: 1; border-radius: 2px; padding: 2px 1px; }
+  .inst-score-item.p1   { background: #FFD700; }
+  .inst-score-item.p2   { background: #C0C0C0; }
+  .inst-score-item.p3   { background: #cd7f32; }
+  .inst-score-item.p410 { background: #d4edda; }
+  .inst-score-item.p1115{ background: #cce5ff; }
+  .inst-score-item.p1620{ background: #fff3cd; }
+  .inst-score-item.p21  { background: #f0f0f0; }
+  .inst-score-item.dnf  { background: #f8d7da; }
+  .inst-score-label { font-size: 5.5pt; font-weight: 900; color: #111; line-height: 1; }
+  .inst-score-pts   { font-size: 5pt; font-weight: bold; color: #555; }
+  .inst-footer { font-size: 5pt; color: #aaa; font-style: italic; margin-top: auto; }
+
+  /* ── TALLY PAGE ── */
+  .tally-page {
+    width: 5in; height: 3in; page-break-after: always;
+    display: flex; flex-direction: column;
+    border: 2px solid #111; overflow: hidden; background: #fff;
+  }
+  .tally-header {
+    background: #111; color: #fff;
+    padding: 0.045in 0.09in;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px solid #cc3300;
+  }
+  .tally-title-block { display: flex; flex-direction: column; gap: 1px; }
+  .tally-game   { font-size: 7.5pt; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: #e8c800; }
+  .tally-season { font-size: 6pt; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; }
+  .tally-col-heads { display: flex; align-items: center; gap: 4px; font-size: 5.5pt; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
+  .tally-body { flex: 1; overflow: hidden; display: flex; flex-direction: column; padding: 0.03in 0.09in; gap: 2px; }
+  .tally-row { display: flex; align-items: center; gap: 4px; height: 0.098in; }
+  .tally-num  { font-size: 5pt; color: #bbb; width: 0.14in; text-align: right; flex-shrink: 0; }
+  .tally-name { font-size: 6pt; font-weight: bold; color: #111; flex: 1.2; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; }
+  .tally-finish { display: flex; gap: 2px; width: 1.3in; flex-shrink: 0; }
+  .tally-box { flex: 1; height: 0.09in; border-radius: 1px; font-size: 4pt; font-weight: bold; display: flex; align-items: center; justify-content: center; color: #333; border: 1px solid rgba(0,0,0,0.1); }
+  .tp1   { background: #FFD700; }
+  .tp2   { background: #C0C0C0; }
+  .tp3   { background: #cd7f32; color: #fff; }
+  .tp410 { background: #d4edda; }
+  .tp1115{ background: #cce5ff; }
+  .tp1620{ background: #fff3cd; }
+  .tp21  { background: #f0f0f0; }
+  .tdnf  { background: #f8d7da; }
+  .tally-write { width: 0.28in; height: 0.09in; border-bottom: 1px solid #ccc; flex-shrink: 0; }
+  .tally-footer { background: #f5f5f5; border-top: 1px solid #ddd; padding: 0.04in 0.09in; display: flex; align-items: center; gap: 8px; }
+  .tally-total-label { font-size: 6pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #555; }
+  .tally-total-box   { width: 0.45in; height: 0.18in; border: 1.5px solid #cc3300; border-radius: 2px; flex-shrink: 0; }
+  .tally-total-note  { font-size: 5pt; color: #aaa; font-style: italic; margin-left: auto; }
+
+  @media print { body { margin: 0; } .card, .instructions, .tally-page { page-break-after: always; } }
+</style>
+</head>
+<body>
+<script>
+// Score = |roll − target|, lower = better. 4 consecutive 1s = CRASH (DNF)
+// LS = Long Straight  →6  OB = Open Banking →2  BN = Banked Corner →3  TC = Tight Corner →1
+
+const tracks = [
+  { num:"01", name:"Daytona",         loc:"Daytona Beach, FL",    miles:2.5,  type:"Superspeedway",  diff:3, par:66,
+    cuts:[52,56,59,65,69,74,79],
+    note:"The Great American Race. Drafting packs, wild last-lap wrecks.",
+    segs:"LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB" },
+  { num:"02", name:"Atlanta",         loc:"Hampton, GA",           miles:1.54, type:"Superspeedway",  diff:3, par:67,
+    cuts:[52,56,59,65,69,74,79],
+    note:"Repaved in 2022. Pack-racing superspeedway. Chaos guaranteed.",
+    segs:"LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB" },
+  { num:"03", name:"Las Vegas",       loc:"Las Vegas, NV",         miles:1.5,  type:"1.5-Mile Oval",  diff:2, par:57,
+    cuts:[46,49,52,57,61,64,69],
+    note:"Smooth, wide, fast. Three lanes. Typical 1.5-mile racing.",
+    segs:"LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN" },
+  { num:"04", name:"Phoenix",         loc:"Avondale, AZ",          miles:1.0,  type:"Short Track",    diff:4, par:53,
+    cuts:[42,45,48,53,56,59,63],
+    note:"Unique D-shaped oval. Flat corners. Restarts are brutal.",
+    segs:"BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC" },
+  { num:"05", name:"COTA",            loc:"Austin, TX",            miles:3.41, type:"Road Course",    diff:5, par:68,
+    cuts:[54,59,62,68,73,76,82],
+    note:"20 turns. Only road course on the calendar with big elevation.",
+    segs:"TC TC TC BN TC TC TC LS TC TC TC BN TC TC TC LS TC TC TC BN TC TC TC LS TC TC TC BN TC TC" },
+  { num:"06", name:"Talladega",       loc:"Talladega, AL",         miles:2.66, type:"Superspeedway",  diff:3, par:68,
+    cuts:[53,58,61,67,71,75,81],
+    note:"Biggest, longest, wildest. The Big One happens here every year.",
+    segs:"LS LS LS OB LS LS LS OB LS LS LS OB LS LS LS OB LS LS LS OB LS LS LS OB LS LS LS OB LS LS" },
+  { num:"07", name:"Dover",           loc:"Dover, DE",             miles:1.0,  type:"Short Track",    diff:4, par:53,
+    cuts:[42,45,48,52,55,59,63],
+    note:"The Monster Mile. Concrete oval. Incredibly fast and unforgiving.",
+    segs:"BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC" },
+  { num:"08", name:"Darlington",      loc:"Darlington, SC",        miles:1.37, type:"Historic Oval",  diff:5, par:56,
+    cuts:[43,46,49,53,57,60,65],
+    note:"Too Tough to Tame. Egg-shaped. The Darlington Stripe comes for you.",
+    segs:"BN TC BN BN TC BN OB TC BN BN TC BN BN TC BN OB TC BN BN TC BN BN TC BN OB TC BN BN TC BN" },
+  { num:"09", name:"Charlotte",       loc:"Concord, NC",           miles:1.5,  type:"1.5-Mile Oval",  diff:2, par:58,
+    cuts:[46,49,52,57,61,65,69],
+    note:"Home of NASCAR. Wide, smooth, three-groove racing all night.",
+    segs:"LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN" },
+  { num:"10", name:"Pocono",          loc:"Long Pond, PA",         miles:2.5,  type:"Tri-Oval",       diff:4, par:67,
+    cuts:[52,56,60,66,70,74,80],
+    note:"Three unique corners, three different speeds. No other track like it.",
+    segs:"LS LS OB TC LS LS BN TC LS LS OB TC LS LS BN TC LS LS OB TC LS LS BN TC LS LS OB TC LS LS" },
+  { num:"11", name:"Michigan",        loc:"Brooklyn, MI",          miles:2.0,  type:"2-Mile Oval",    diff:2, par:65,
+    cuts:[52,56,59,65,69,73,78],
+    note:"Big, fast, wide. Great racing. High speeds and massive drafts.",
+    segs:"LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB" },
+  { num:"12", name:"New Hampshire",   loc:"Loudon, NH",            miles:1.058,type:"Short Track",    diff:3, par:53,
+    cuts:[40,43,45,50,53,56,59],
+    note:"The Magic Mile. Flat oval. Track position is everything here.",
+    segs:"BN BN BN TC BN BN BN TC BN BN BN TC BN BN BN TC BN BN BN TC BN BN BN TC BN BN BN TC BN BN" },
+  { num:"13", name:"Nashville",       loc:"Nashville, TN",         miles:1.33, type:"Historic Oval",  diff:3, par:53,
+    cuts:[42,45,48,53,56,60,64],
+    note:"Steep banking. Fast and physical. Great night race atmosphere.",
+    segs:"LS BN BN OB LS BN BN OB LS BN BN OB LS BN BN OB LS BN BN OB LS BN BN OB LS BN BN OB LS BN" },
+  { num:"14", name:"Watkins Glen",    loc:"Watkins Glen, NY",      miles:2.45, type:"Road Course",    diff:4, par:65,
+    cuts:[52,56,59,65,69,73,79],
+    note:"Classic road course. The Bus Stop chicane sorts the field fast.",
+    segs:"LS TC BN TC TC LS BN TC TC LS BN TC TC LS BN TC TC LS BN TC TC LS BN TC TC LS BN TC TC LS" },
+  { num:"15", name:"Indianapolis",    loc:"Indianapolis, IN",      miles:2.5,  type:"Road Course",    diff:3, par:60,
+    cuts:[47,51,54,59,63,67,71],
+    note:"Runs on the infield road course. Mix of flat and banked sections.",
+    segs:"LS BN TC LS BN TC BN LS BN TC LS BN TC BN LS BN TC LS BN TC BN LS BN TC LS BN TC BN LS BN" },
+  { num:"16", name:"Bristol",         loc:"Bristol, TN",           miles:0.533,type:"Short Track",    diff:5, par:57,
+    cuts:[46,49,52,56,60,63,68],
+    note:"Half-mile concrete bullring. 36-degree banking. Contact everywhere.",
+    segs:"BN BN TC TC BN BN TC TC BN BN TC TC BN BN TC TC BN BN TC TC BN BN TC TC BN BN TC TC BN BN" },
+  { num:"17", name:"Richmond",        loc:"Richmond, VA",          miles:0.75, type:"Short Track",    diff:4, par:53,
+    cuts:[42,45,48,52,56,59,63],
+    note:"Three-quarter-mile D-shaped oval. Old-school short track racing.",
+    segs:"BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN" },
+  { num:"18", name:"Homestead",       loc:"Homestead, FL",         miles:1.5,  type:"1.5-Mile Oval",  diff:2, par:57,
+    cuts:[46,49,52,57,61,64,68],
+    note:"Progressive banking. Wide, smooth. Former championship venue.",
+    segs:"LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN LS BN" },
+  { num:"19", name:"Martinsville",    loc:"Martinsville, VA",      miles:0.526,type:"Short Track",    diff:5, par:63,
+    cuts:[49,54,57,62,66,70,75],
+    note:"Paperclip oval. Flat and narrow. Bumping and banging all day long.",
+    segs:"TC TC BN TC TC BN TC TC BN TC TC BN TC TC BN TC TC BN TC TC BN TC TC BN TC TC BN TC TC BN" },
+  { num:"20", name:"Sonoma",          loc:"Sonoma, CA",            miles:1.99, type:"Road Course",    diff:4, par:63,
+    cuts:[49,54,57,62,66,70,75],
+    note:"Hilly, narrow California wine country road course. Patience required.",
+    segs:"TC BN TC TC BN LS TC BN TC TC BN LS TC BN TC TC BN LS TC BN TC TC BN LS TC BN TC TC BN LS" },
+  { num:"21", name:"New Atlanta",     loc:"Hampton, GA",           miles:1.54, type:"Superspeedway",  diff:3, par:67,
+    cuts:[52,56,59,65,69,73,78],
+    note:"Second Atlanta race. Same pack-racing chaos, different drafting angles.",
+    segs:"LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB LS LS OB" },
+  { num:"22", name:"Charlotte Roval", loc:"Concord, NC",           miles:2.28, type:"Road Course",    diff:5, par:62,
+    cuts:[49,52,55,61,65,69,73],
+    note:"Oval plus infield road section. Barriers appear out of nowhere.",
+    segs:"BN TC TC BN LS TC TC BN BN TC LS BN TC TC BN LS TC TC BN BN TC LS BN TC TC BN LS TC TC BN" },
+  { num:"23", name:"Talladega 2",     loc:"Talladega, AL",         miles:2.66, type:"Superspeedway",  diff:3, par:67,
+    cuts:[54,58,61,67,71,75,81],
+    note:"Second Dega race. Playoff pressure makes the wrecks worse. Always.",
+    segs:"LS LS LS OB LS LS LS OB LS LS LS OB LS LS LS OB LS LS LS OB LS LS LS OB LS LS LS OB LS LS" },
+  { num:"24", name:"Phoenix 2",       loc:"Avondale, AZ",          miles:1.0,  type:"Championship",   diff:4, par:53,
+    cuts:[42,45,48,52,56,59,63],
+    note:"Championship finale. One title. Four drivers. Everything on the line.",
+    segs:"BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC BN BN TC" },
+];
+
+const targetLabels = { LS:'→6', OB:'→2', BN:'→3', TC:'→1' };
+
+function pips(d) {
+  let h = '';
+  for (let i=1;i<=5;i++) h+=`<div class="pip${i<=d?' on':''}"></div>`;
+  return h;
+}
+
+function renderCard(c) {
+  const segArr = c.segs.split(' ').filter(s => ['LS','OB','BN','TC'].includes(s)).slice(0,30);
+  while (segArr.length < 30) segArr.push('BN');
+
+  let gridHTML = '<div class="seg-grid">';
+  segArr.forEach((t, i) => {
+    gridHTML += `<div class="seg-cell ${t}">
+      <div class="seg-num">${i+1}</div>
+      <div class="seg-letter">${t}</div>
+      <div class="seg-target">${targetLabels[t]}</div>
+    </div>`;
+  });
+  gridHTML += '</div>';
+
+  let runBoxes = '';
+  for (let r=1;r<=4;r++) {
+    runBoxes += `<div class="run-entry"><div class="run-num">R${r}</div><div class="run-box"></div></div>`;
+  }
+
+  const k = c.cuts;
+  return `
+  <div class="card">
+    <div class="left">
+      <div>
+        <div class="circuit-num">Race ${c.num} · 2025 NASCAR</div>
+        <div class="circuit-name">${c.name}</div>
+        <div class="circuit-loc">${c.loc}</div>
+      </div>
+      <div>
+        <div class="circuit-meta">📐 ${c.miles} mi &nbsp;·&nbsp; ${c.type}<br>Par: ${c.par}</div>
+        <div class="circuit-note">${c.note}</div>
+      </div>
+      <div>
+        <div class="diff-label">Track Difficulty</div>
+        <div class="diff-pips">${pips(c.diff)}</div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="how">
+        Score = <span class="hl">|roll − target|</span> per segment. Lower = faster. &nbsp;
+        <span class="hls">LS→6</span> &nbsp;<span class="hob">OB→2</span> &nbsp;<span class="hbn">BN→3</span> &nbsp;<span class="hch">TC→1</span> &nbsp;
+        Hit target exactly = 0. Add all 30.
+      </div>
+      <div class="lap-area">
+        <div class="lap-title">One Lap · 30 Segments · Roll Each in Order</div>
+        ${gridHTML}
+      </div>
+      <div class="bottom-bar">
+        <div class="result-row">
+          <div class="result-item p1">
+            <div class="res-label">P1</div>
+            <div class="res-score">≤${k[0]}</div>
+            <div class="res-pts">40pts</div>
+          </div>
+          <div class="result-item p2">
+            <div class="res-label">P2</div>
+            <div class="res-score">${k[0]+1}–${k[1]}</div>
+            <div class="res-pts">35pts</div>
+          </div>
+          <div class="result-item p3">
+            <div class="res-label">P3</div>
+            <div class="res-score">${k[1]+1}–${k[2]}</div>
+            <div class="res-pts">30pts</div>
+          </div>
+          <div class="result-item p410">
+            <div class="res-label">P4–10</div>
+            <div class="res-score">${k[2]+1}–${k[3]}</div>
+            <div class="res-pts">20pts</div>
+          </div>
+          <div class="result-item p1115">
+            <div class="res-label">P11–15</div>
+            <div class="res-score">${k[3]+1}–${k[4]}</div>
+            <div class="res-pts">12pts</div>
+          </div>
+          <div class="result-item p1620">
+            <div class="res-label">P16–20</div>
+            <div class="res-score">${k[4]+1}–${k[5]}</div>
+            <div class="res-pts">6pts</div>
+          </div>
+          <div class="result-item p21">
+            <div class="res-label">P21+</div>
+            <div class="res-score">${k[5]+1}–${k[6]}</div>
+            <div class="res-pts">2pts</div>
+          </div>
+          <div class="result-item dnf">
+            <div class="res-label">DNF</div>
+            <div class="res-score">${k[6]+1}+</div>
+            <div class="res-pts">0pts</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="total-group">
+          <div class="total-label">Score</div>
+          <div class="total-box"></div>
+        </div>
+        <div class="divider"></div>
+        <div class="run-group">
+          <div class="run-label">Season</div>
+          <div class="run-boxes">${runBoxes}</div>
+        </div>
+      </div>
+      <div class="key">
+        <div class="key-item"><div class="kdot ls"></div> LS: Long Straight</div>
+        <div class="key-item"><div class="kdot ob"></div> OB: Open Banking</div>
+        <div class="key-item"><div class="kdot bn"></div> BN: Banked Corner</div>
+        <div class="key-item"><div class="kdot ch"></div> TC: Tight Corner</div>
+        <div class="key-crash">4× ones = CRASH</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ── INSTRUCTIONS PAGE ─────────────────────────────────────────────────────
+  document.body.insertAdjacentHTML("beforeend", `
+  <div class="instructions">
+    <div class="inst-left">
+      <div>
+        <div class="inst-title">Grid<br>NASCAR</div>
+        <div class="inst-subtitle">Pen &amp; Paper Racing</div>
+      </div>
+      <div>
+        <div class="inst-tagline">One die. 30 segments.<br>24 tracks.<br>Build your championship.</div>
+      </div>
+      <div class="inst-season">2025 Season</div>
+    </div>
+    <div class="inst-right">
+      <div>
+        <div class="inst-section-title">How to Play</div>
+        <div class="inst-step"><div class="inst-step-num">1</div><div>Pick a track card. Roll your die once for each of the 30 numbered segments in order.</div></div>
+        <div class="inst-step"><div class="inst-step-num">2</div><div>Each segment has a <strong>target number</strong>. Your score = <strong>|roll − target|</strong>. Hit it exactly = 0.</div></div>
+        <div class="inst-step"><div class="inst-step-num">3</div><div>Add all 30 scores. <strong>Lower = faster.</strong> Check your finish on the card. Record your points.</div></div>
+        <div class="inst-step"><div class="inst-step-num">4</div><div><strong>Crash rule:</strong> roll four 1s in a row at any point = DNF. 0 points.</div></div>
+        <div class="inst-step"><div class="inst-step-num">5</div><div>Complete all 24 tracks to finish the season. Max score: 960 pts.</div></div>
+      </div>
+      <div class="inst-divider"></div>
+      <div>
+        <div class="inst-section-title">Segment Types</div>
+        <div class="inst-seg-key">
+          <div class="inst-seg-item"><div class="inst-seg-dot" style="background:#15803d">LS</div> Long Straight — target 6</div>
+          <div class="inst-seg-item"><div class="inst-seg-dot" style="background:#c2410c">OB</div> Open Banking — target 2</div>
+          <div class="inst-seg-item"><div class="inst-seg-dot" style="background:#1d4ed8">BN</div> Banked Corner — target 3</div>
+          <div class="inst-seg-item"><div class="inst-seg-dot" style="background:#b91c1c">TC</div> Tight Corner — target 1</div>
+        </div>
+      </div>
+      <div class="inst-divider"></div>
+      <div>
+        <div class="inst-section-title">Points</div>
+        <div class="inst-scoring">
+          <div class="inst-score-item p1"><div class="inst-score-label">P1</div><div class="inst-score-pts">40pts</div></div>
+          <div class="inst-score-item p2"><div class="inst-score-label">P2</div><div class="inst-score-pts">35pts</div></div>
+          <div class="inst-score-item p3"><div class="inst-score-label">P3</div><div class="inst-score-pts">30pts</div></div>
+          <div class="inst-score-item p410"><div class="inst-score-label">P4–10</div><div class="inst-score-pts">20pts</div></div>
+          <div class="inst-score-item p1115"><div class="inst-score-label">P11–15</div><div class="inst-score-pts">12pts</div></div>
+          <div class="inst-score-item p1620"><div class="inst-score-label">P16–20</div><div class="inst-score-pts">6pts</div></div>
+          <div class="inst-score-item p21"><div class="inst-score-label">P21+</div><div class="inst-score-pts">2pts</div></div>
+          <div class="inst-score-item dnf"><div class="inst-score-label">DNF</div><div class="inst-score-pts">0pts</div></div>
+        </div>
+      </div>
+      <div class="inst-footer">Max season score: 960 pts · 40pts × 24 tracks · Good luck.</div>
+    </div>
+  </div>`);
+
+  // ── TRACK CARDS ───────────────────────────────────────────────────────────
+  tracks.forEach(c => document.body.insertAdjacentHTML("beforeend", renderCard(c)));
+
+  // ── TALLY PAGE ────────────────────────────────────────────────────────────
+  const tallyRows = tracks.map(c => `
+    <div class="tally-row">
+      <div class="tally-num">${c.num}</div>
+      <div class="tally-name">${c.name}</div>
+      <div class="tally-finish">
+        <div class="tally-box tp1">P1</div>
+        <div class="tally-box tp2">P2</div>
+        <div class="tally-box tp3">P3</div>
+        <div class="tally-box tp410">4-10</div>
+        <div class="tally-box tp1115">11-15</div>
+        <div class="tally-box tp1620">16-20</div>
+        <div class="tally-box tp21">21+</div>
+        <div class="tally-box tdnf">DNF</div>
+      </div>
+      <div class="tally-write"></div>
+      <div class="tally-write"></div>
+    </div>`).join('');
+
+  document.body.insertAdjacentHTML("beforeend", `
+  <div class="tally-page">
+    <div class="tally-header">
+      <div class="tally-title-block">
+        <span class="tally-game">Grid NASCAR &nbsp;·&nbsp; 2025</span>
+        <span class="tally-season">Season Championship</span>
+      </div>
+      <div class="tally-col-heads">
+        <span style="flex:1.2">Track</span>
+        <span style="width:1.3in;text-align:center">Finish</span>
+        <span style="width:0.28in;text-align:center">Score</span>
+        <span style="width:0.28in;text-align:center">Pts</span>
+      </div>
+    </div>
+    <div class="tally-body">${tallyRows}</div>
+    <div class="tally-footer">
+      <div class="tally-total-label">Season Total Championship Points</div>
+      <div class="tally-total-box"></div>
+      <div class="tally-total-note">Max 960 pts · 40 × 24 tracks · Good luck.</div>
+    </div>
+  </div>`);
+});
+</script>
+</body>
+</html>

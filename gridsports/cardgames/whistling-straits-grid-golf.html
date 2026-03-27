@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whistling Straits — Grid Golf · 18 Hole Cards</title>
+<style>
+    @page { size: 3in 5in; margin: 0; }
+
+    @media print {
+        .no-print { display: none !important; }
+        body { margin: 0; padding: 0; background: white; }
+        .card { page-break-after: always; margin: 0; box-shadow: none; }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        font-family: Georgia, serif;
+        background: #d6e4f0;
+        padding: 20px;
+    }
+
+    /* ── CONTROLS ── */
+    .controls {
+        max-width: 720px;
+        margin: 0 auto 24px auto;
+        background: #fff;
+        border: 3px solid #1a3a5c;
+        padding: 18px 24px;
+        text-align: center;
+    }
+    .controls h2 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #1a3a5c;
+        margin-bottom: 6px;
+        letter-spacing: 1px;
+        font-family: Georgia, serif;
+    }
+    .controls p { font-size: 11px; color: #555; margin-bottom: 12px; font-family: Arial, sans-serif; }
+    .controls button {
+        padding: 10px 20px;
+        margin: 4px;
+        font-size: 13px;
+        font-weight: bold;
+        cursor: pointer;
+        border: 2px solid #1a3a5c;
+        background: #fff;
+        color: #1a3a5c;
+        font-family: Arial, sans-serif;
+    }
+    .controls button:hover { background: #1a3a5c; color: #fff; }
+    .rules-box {
+        text-align: left;
+        font-size: 10px;
+        line-height: 1.7;
+        background: #f0f5fa;
+        border: 1px solid #b0c8e0;
+        padding: 8px 12px;
+        margin-top: 10px;
+        display: inline-block;
+        width: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+    /* ── CARD WRAPPER ── */
+    .cards-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* ── CARD ── */
+    .card {
+        width: 3in;
+        height: 5in;
+        background: white;
+        border: 2px solid #000;
+        padding: 7px 7px 5px 7px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex-shrink: 0;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+        font-size: 9px;
+        font-family: Arial, sans-serif;
+    }
+
+    /* ── HEADER ── */
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #1a3a5c;
+        padding-bottom: 3px;
+    }
+    .card-title {
+        font-size: 10px;
+        font-weight: bold;
+        color: #1a3a5c;
+        letter-spacing: 0.5px;
+        font-family: Georgia, serif;
+    }
+    .card-badge {
+        font-size: 8px;
+        font-weight: bold;
+        background: #1a3a5c;
+        color: white;
+        padding: 2px 6px;
+        letter-spacing: 0.5px;
+    }
+
+    /* ── HOLE INFO BAR ── */
+    .hole-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #e8f0f8;
+        border: 1px solid #9ab8d8;
+        padding: 3px 6px;
+    }
+    .hole-name {
+        font-weight: bold;
+        font-size: 10px;
+        color: #0d2640;
+        font-family: Georgia, serif;
+    }
+    .hole-stats {
+        font-size: 8px;
+        color: #444;
+        text-align: right;
+    }
+
+    /* ── WIND INDICATOR ── */
+    .wind-strip {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #f7f9fc;
+        border: 1px solid #c8d8e8;
+        padding: 2px 5px;
+        font-size: 6.5px;
+        color: #1a3a5c;
+        font-weight: bold;
+        letter-spacing: 0.3px;
+    }
+    .wind-boxes {
+        display: flex;
+        gap: 3px;
+    }
+    .wind-box {
+        width: 22px;
+        height: 10px;
+        border: 1px solid #9ab8d8;
+        background: #e8f0f8;
+        font-size: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1a3a5c;
+        font-weight: bold;
+    }
+
+    /* ── GRID ── */
+    .grid-section { flex: 1; display: flex; flex-direction: column; }
+
+    .grid-label-row {
+        display: grid;
+        grid-template-columns: 12px repeat(6, 1fr);
+        margin-bottom: 1px;
+    }
+    .grid-label-row span {
+        text-align: center;
+        font-size: 7px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .grid-row {
+        display: grid;
+        grid-template-columns: 12px repeat(6, 1fr);
+        gap: 1px;
+        margin-bottom: 1px;
+    }
+    .row-lbl {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 7px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .cell {
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 6.5px;
+        font-weight: bold;
+        border: 1px solid #ccc;
+        line-height: 1;
+    }
+
+    /* Zone colors — Lake Michigan / links palette */
+    .cell.fairway { background: #c8e6c9; color: #1b5e20; }
+    .cell.rough   { background: #dcedc8; color: #33691e; }
+    .cell.sand    { background: #fff9c4; color: #827717; }
+    .cell.water   { background: #b3e5fc; color: #01579b; }
+    .cell.ob      { background: #e0e0e0; color: #424242; }
+    .cell.birdie  { background: #f8bbd0; color: #880e4f; }
+    .cell.eagle   { background: #ffccbc; color: #bf360c; }
+    .cell.dune    { background: #ffe0b2; color: #e65100; }
+    .cell.wind    { background: #e1f5fe; color: #0277bd; }
+
+    /* ── LEGEND ── */
+    .legend {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px 6px;
+        border: 1px solid #ccc;
+        padding: 3px 5px;
+        background: #fafafa;
+    }
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 6.5px;
+        color: #333;
+    }
+    .legend-sw {
+        width: 10px;
+        height: 10px;
+        border: 1px solid #aaa;
+        flex-shrink: 0;
+    }
+
+    /* ── SCORING ── */
+    .scoring {
+        border: 1px solid #000;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .scoring th, .scoring td {
+        border: 1px solid #999;
+        text-align: center;
+        padding: 2px 1px;
+        font-size: 7px;
+    }
+    .scoring th { background: #1a3a5c; color: white; font-size: 6.5px; }
+    .scoring .score-cell { width: 30px; height: 14px; }
+
+    /* ── INSTRUCTIONS ── */
+    .instructions {
+        font-size: 6px;
+        color: #555;
+        line-height: 1.5;
+        border-top: 1px solid #ddd;
+        padding-top: 3px;
+    }
+
+    /* ── FOOTER ── */
+    .card-footer {
+        text-align: center;
+        font-size: 6px;
+        color: #999;
+        border-top: 1px solid #eee;
+        padding-top: 2px;
+    }
+</style>
+</head>
+<body>
+
+<div class="controls no-print">
+    <h2>🌊 WHISTLING STRAITS — GRID GOLF</h2>
+    <p>18 individual hole cards · Roll 2d6 each shot · Die 1 = Row · Die 2 = Column · Wind penalty applies when marked!</p>
+    <button onclick="window.print()">🖨️ Print All 18 Cards</button>
+    <button onclick="scrollTo(0,0)">↑ Back to Top</button>
+    <div class="rules-box">
+        <strong>HOW TO PLAY — 2 ROLLS PER HOLE:</strong><br>
+        <strong>Roll 1 — TEE SHOT:</strong> Sets your position. Fairway/Rough = no penalty. Sand/Dune = +1. Water/OB = +2. Birdie Zone = −1.<br>
+        <strong>Roll 2 — APPROACH:</strong> Seals the score. Rough/Sand/Dune = +1. Water/OB = +2. Birdie = −1. Eagle = −2.<br>
+        <strong>WIND RULE (optional):</strong> Before each hole, roll 1d6. On a 5 or 6, wind is in off Lake Michigan — all penalties increase by +1 this hole.<br><br>
+        Add both adjustments to Par for your final score. Write it on the card!<br><br>
+        <strong>EXAMPLE:</strong> Par 4 · Tee = Dune (+1) · Approach = Birdie Zone (−1) → Score = 4 (Par)<br>
+        <strong>EXAMPLE:</strong> Par 3 · Tee = OB (+2) · Approach = Fairway (0) → Score = 5 ++ DOUBLE BOGEY
+    </div>
+</div>
+
+<div class="cards-grid" id="cards"></div>
+
+<script>
+// Whistling Straits — Straits Course
+// All 18 holes with authentic names, par, yardage, and terrain-accurate 6x6 grids
+// Links-style: heavy bunkers (sand/dunes), Lake Michigan water, fescue rough, minimal trees
+const holes = [
+  {
+    num: 1, name: "Outward Bound", par: 4, yards: 364,
+    notes: "Dogleg left opener to Lake Michigan. Bunkers guard left, deep bunkers short-left of green.",
+    grid: [
+      ['rough',   'fairway', 'fairway', 'birdie',  'rough',   'dune'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'sand',    'rough'],
+      ['sand',    'fairway', 'fairway', 'fairway', 'sand',    'dune'],
+      ['dune',    'sand',    'rough',   'rough',   'dune',    'ob'],
+    ]
+  },
+  {
+    num: 2, name: "Cross Country", par: 5, yards: 593,
+    notes: "Going left makes approach blind. Deep pot bunker 35 yds short of narrow green.",
+    grid: [
+      ['rough',   'fairway', 'birdie',  'fairway', 'rough',   'dune'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'fairway'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['dune',    'rough',   'fairway', 'fairway', 'sand',    'rough'],
+      ['ob',      'dune',    'sand',    'sand',    'dune',    'ob'],
+    ]
+  },
+  {
+    num: 3, name: "O'Man", par: 3, yards: 188,
+    notes: "Perched among dunes, Lake Michigan left. Huge undulating green — finding it isn't enough.",
+    grid: [
+      ['ob',      'dune',    'rough',   'rough',   'dune',    'ob'],
+      ['rough',   'rough',   'fairway', 'fairway', 'rough',   'rough'],
+      ['water',   'fairway', 'birdie',  'birdie',  'fairway', 'rough'],
+      ['water',   'fairway', 'fairway', 'fairway', 'fairway', 'dune'],
+      ['water',   'dune',    'sand',    'sand',    'dune',    'ob'],
+      ['ob',      'ob',      'water',   'water',   'ob',      'ob'],
+    ]
+  },
+  {
+    num: 4, name: "Glory", par: 4, yards: 489,
+    notes: "Hardest par 4. Bunkers drop toward lake left and right. Elevated green.",
+    grid: [
+      ['dune',    'rough',   'fairway', 'fairway', 'rough',   'ob'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['rough',   'fairway', 'birdie',  'fairway', 'sand',    'rough'],
+      ['sand',    'rough',   'fairway', 'fairway', 'rough',   'sand'],
+      ['ob',      'dune',    'rough',   'rough',   'dune',    'ob'],
+    ]
+  },
+  {
+    num: 5, name: "Snake", par: 5, yards: 603,
+    notes: "Water either side of fairway. Winding layout demands accuracy. Shallow green.",
+    grid: [
+      ['water',   'rough',   'fairway', 'fairway', 'rough',   'water'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'fairway'],
+      ['rough',   'fairway', 'birdie',  'fairway', 'fairway', 'rough'],
+      ['water',   'rough',   'fairway', 'fairway', 'rough',   'water'],
+      ['water',   'water',   'sand',    'sand',    'water',   'water'],
+    ]
+  },
+  {
+    num: 6, name: "Gremlin's Ear", par: 4, yards: 355,
+    notes: "Shortest par 4. Deep sod-wall bunker swallows anything short of narrow green.",
+    grid: [
+      ['rough',   'birdie',  'birdie',  'fairway', 'rough',   'dune'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'rough',   'sand'],
+      ['sand',    'sand',    'fairway', 'rough',   'sand',    'dune'],
+      ['ob',      'dune',    'rough',   'rough',   'dune',    'ob'],
+    ]
+  },
+  {
+    num: 7, name: "Shipwreck", par: 3, yards: 221,
+    notes: "Lake Michigan right. Large hillside bunkers left. Spectacular and severe.",
+    grid: [
+      ['ob',      'dune',    'rough',   'rough',   'dune',    'ob'],
+      ['rough',   'rough',   'fairway', 'fairway', 'rough',   'water'],
+      ['dune',    'fairway', 'birdie',  'birdie',  'fairway', 'water'],
+      ['dune',    'fairway', 'fairway', 'fairway', 'fairway', 'water'],
+      ['sand',    'dune',    'sand',    'sand',    'rough',   'water'],
+      ['ob',      'ob',      'dune',    'dune',    'ob',      'ob'],
+    ]
+  },
+  {
+    num: 8, name: "On The Rocks", par: 4, yards: 507,
+    notes: "Blind drive over dunes. Lake Michigan backdrop. Over 100 bunkers in play.",
+    grid: [
+      ['dune',    'rough',   'fairway', 'fairway', 'dune',    'ob'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['rough',   'fairway', 'birdie',  'fairway', 'sand',    'rough'],
+      ['sand',    'rough',   'fairway', 'fairway', 'rough',   'water'],
+      ['ob',      'dune',    'sand',    'rough',   'water',   'ob'],
+    ]
+  },
+  {
+    num: 9, name: "Wishing Well", par: 4, yards: 460,
+    notes: "Views back to clubhouse. Funnel effect toward small green. Blocked right by large mound.",
+    grid: [
+      ['rough',   'rough',   'fairway', 'birdie',  'dune',    'ob'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['sand',    'rough',   'fairway', 'fairway', 'rough',   'sand'],
+      ['dune',    'dune',    'sand',    'sand',    'dune',    'ob'],
+    ]
+  },
+  {
+    num: 10, name: "Stark Raving", par: 4, yards: 391,
+    notes: "Legitimate birdie chance. Short par 4, drivable for big hitters. Subtle breaking green.",
+    grid: [
+      ['rough',   'fairway', 'birdie',  'birdie',  'rough',   'dune'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['sand',    'rough',   'fairway', 'fairway', 'rough',   'sand'],
+      ['ob',      'dune',    'rough',   'rough',   'dune',    'ob'],
+    ]
+  },
+  {
+    num: 11, name: "Long Odds", par: 5, yards: 618,
+    notes: "Monster par 5. Bunker mounds dwarf the fairway. Lay up to 100 yds or face the giant coffin bunker.",
+    grid: [
+      ['dune',    'rough',   'fairway', 'fairway', 'dune',    'rough'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'fairway'],
+      ['rough',   'fairway', 'birdie',  'fairway', 'fairway', 'rough'],
+      ['sand',    'rough',   'fairway', 'fairway', 'rough',   'sand'],
+      ['ob',      'dune',    'rough',   'rough',   'dune',    'ob'],
+    ]
+  },
+  {
+    num: 12, name: "Pop Up", par: 3, yards: 163,
+    notes: "Toughest green on course. Plays downhill with big fall to dunes and lake short or right.",
+    grid: [
+      ['ob',      'ob',      'dune',    'dune',    'ob',      'ob'],
+      ['dune',    'rough',   'rough',   'rough',   'rough',   'dune'],
+      ['rough',   'fairway', 'birdie',  'birdie',  'fairway', 'rough'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'dune'],
+      ['dune',    'dune',    'sand',    'sand',    'water',   'ob'],
+      ['ob',      'ob',      'water',   'water',   'ob',      'ob'],
+    ]
+  },
+  {
+    num: 13, name: "Cliff Hanger", par: 4, yards: 404,
+    notes: "Green sits on cliff edge of Lake Michigan. Trouble right of fairway. Approach is truly dangerous.",
+    grid: [
+      ['dune',    'rough',   'fairway', 'fairway', 'rough',   'ob'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['rough',   'fairway', 'birdie',  'fairway', 'rough',   'water'],
+      ['sand',    'rough',   'fairway', 'fairway', 'water',   'water'],
+      ['ob',      'dune',    'sand',    'rough',   'water',   'ob'],
+    ]
+  },
+  {
+    num: 14, name: "Widow's Watch", par: 4, yards: 401,
+    notes: "Going left is blind. Deep sand bunkers surround the green on all sides.",
+    grid: [
+      ['rough',   'fairway', 'birdie',  'fairway', 'rough',   'ob'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'sand'],
+      ['dune',    'rough',   'fairway', 'fairway', 'sand',    'dune'],
+      ['ob',      'ob',      'rough',   'rough',   'ob',      'ob'],
+    ]
+  },
+  {
+    num: 15, name: "Grand Strand", par: 4, yards: 518,
+    notes: "Brutal long par 4. Drive avoids sunken dunes right. Approach carries even more dunes. Strap in.",
+    grid: [
+      ['dune',    'rough',   'fairway', 'fairway', 'dune',    'ob'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['rough',   'fairway', 'birdie',  'fairway', 'sand',    'rough'],
+      ['dune',    'rough',   'fairway', 'fairway', 'rough',   'dune'],
+      ['ob',      'dune',    'sand',    'sand',    'dune',    'ob'],
+    ]
+  },
+  {
+    num: 16, name: "Endless Bite", par: 5, yards: 552,
+    notes: "Shortest par 5. Lake Michigan left. Tempting to go for it in 2, but carries dunes and bunkers.",
+    grid: [
+      ['rough',   'fairway', 'eagle',   'birdie',  'rough',   'rough'],
+      ['fairway', 'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['water',   'fairway', 'fairway', 'fairway', 'fairway', 'fairway'],
+      ['water',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['water',   'rough',   'fairway', 'fairway', 'sand',    'dune'],
+      ['water',   'water',   'sand',    'rough',   'dune',    'ob'],
+    ]
+  },
+  {
+    num: 17, name: "Pinched Nerve", par: 3, yards: 223,
+    notes: "Dunes and bunkers drop 20 ft below left. Lake Michigan beyond. Among most treacherous par 3s in golf.",
+    grid: [
+      ['ob',      'ob',      'dune',    'dune',    'ob',      'ob'],
+      ['dune',    'rough',   'rough',   'rough',   'rough',   'dune'],
+      ['dune',    'fairway', 'birdie',  'birdie',  'fairway', 'rough'],
+      ['sand',    'fairway', 'fairway', 'fairway', 'fairway', 'sand'],
+      ['dune',    'dune',    'sand',    'sand',    'dune',    'ob'],
+      ['ob',      'ob',      'ob',      'ob',      'ob',      'ob'],
+    ]
+  },
+  {
+    num: 18, name: "Dyeabolical", par: 4, yards: 520,
+    notes: "Named after Pete Dye. Approach crosses Seven Mile Creek. Par is glory. One of golf's greatest finishers.",
+    grid: [
+      ['rough',   'rough',   'fairway', 'fairway', 'dune',    'rough'],
+      ['rough',   'fairway', 'fairway', 'fairway', 'fairway', 'rough'],
+      ['sand',    'fairway', 'fairway', 'fairway', 'fairway', 'sand'],
+      ['rough',   'fairway', 'birdie',  'fairway', 'fairway', 'rough'],
+      ['water',   'rough',   'fairway', 'fairway', 'rough',   'water'],
+      ['water',   'water',   'sand',    'sand',    'water',   'water'],
+    ]
+  },
+];
+
+const ZONE_LABEL = {
+  fairway: 'FWY', rough: 'RGH', sand: 'BNK',
+  water: 'H2O', ob: 'O.B.', birdie: 'BRD',
+  eagle: 'EGL', dune: 'DUN'
+};
+
+function renderCard(h) {
+  let gridHTML = `
+    <div class="grid-label-row">
+      <span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+    </div>`;
+
+  for (let r = 0; r < 6; r++) {
+    gridHTML += `<div class="grid-row"><div class="row-lbl">${r+1}</div>`;
+    for (let c = 0; c < 6; c++) {
+      const z = h.grid[r][c];
+      gridHTML += `<div class="cell ${z}">${ZONE_LABEL[z]||z}</div>`;
+    }
+    gridHTML += `</div>`;
+  }
+
+  return `
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">🌊 WHISTLING STRAITS</div>
+    <div class="card-badge">GRID GOLF</div>
+  </div>
+
+  <div class="hole-bar">
+    <div class="hole-name">HOLE ${h.num} — ${h.name.toUpperCase()}</div>
+    <div class="hole-stats">Par ${h.par} &nbsp;|&nbsp; ${h.yards} yds</div>
+  </div>
+
+  <div style="font-size:6.5px;color:#555;font-style:italic;padding:1px 2px;">${h.notes}</div>
+
+  <div class="wind-strip">
+    <span>⛳ WIND ROLL (d6): 5–6 = all penalties +1</span>
+    <div class="wind-boxes">
+      <div class="wind-box">P1</div>
+      <div class="wind-box">P2</div>
+    </div>
+  </div>
+
+  <div class="grid-section">${gridHTML}</div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-sw" style="background:#c8e6c9"></div>FWY – Fairway (0)</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#dcedc8"></div>RGH – Rough (+1)</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#fff9c4"></div>BNK – Bunker (+1)</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#ffe0b2"></div>DUN – Dune (+1)</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#b3e5fc"></div>H2O – Water (+2)</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#e0e0e0"></div>O.B. – Out of Bounds (+2)</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#f8bbd0"></div>BRD – Birdie Zone (−1)</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#ffccbc"></div>EGL – Eagle Zone (−2)</div>
+  </div>
+
+  <table class="scoring">
+    <tr>
+      <th>PLAYER</th><th>TEE</th><th>APPROACH</th><th>SCORE</th><th>+/−</th>
+    </tr>
+    <tr>
+      <td class="score-cell"></td>
+      <td class="score-cell"></td>
+      <td class="score-cell"></td>
+      <td style="font-weight:bold;text-align:center">${h.par}</td>
+      <td class="score-cell"></td>
+    </tr>
+    <tr>
+      <td class="score-cell"></td>
+      <td class="score-cell"></td>
+      <td class="score-cell"></td>
+      <td style="font-weight:bold;text-align:center">${h.par}</td>
+      <td class="score-cell"></td>
+    </tr>
+  </table>
+
+  <div class="instructions">
+    TEE: FWY=0 · RGH=0 · BNK/DUN=+1 · H2O/OB=+2 · BRD=−1 &nbsp;|&nbsp; APPROACH: RGH/BNK/DUN=+1 · H2O/OB=+2 · BRD=−1 · EGL=−2
+  </div>
+
+  <div class="card-footer">Whistling Straits · Straits Course · Kohler, Wisconsin · Pete Dye Design</div>
+</div>`;
+}
+
+const container = document.getElementById('cards');
+holes.forEach(h => { container.innerHTML += renderCard(h); });
+
+// ── SCORECARD SUMMARY CARD (Card 19) ──
+const pars = [4,5,3,4,5,4,3,4,4, 4,5,3,4,4,4,5,3,4];
+const names = ['Outward Bound','Cross Country',"O'Man",'Glory','Snake',"Gremlin's Ear",'Shipwreck','On The Rocks','Wishing Well','Stark Raving','Long Odds','Pop Up','Cliff Hanger',"Widow's Watch",'Grand Strand','Endless Bite','Pinched Nerve','Dyeabolical'];
+
+const frontPar = pars.slice(0,9).reduce((a,b)=>a+b,0);
+const backPar  = pars.slice(9).reduce((a,b)=>a+b,0);
+
+let frontRows = '', backRows = '';
+for (let i = 0; i < 9; i++) {
+  frontRows += `<tr>
+    <td style="text-align:left;padding-left:3px;font-size:6px;color:#444">${i+1}. ${names[i]}</td>
+    <td style="font-weight:bold">${pars[i]}</td>
+    <td class="write-box"></td>
+    <td class="write-box"></td>
+    <td class="write-box"></td>
+    <td class="write-box"></td>
+  </tr>`;
+}
+for (let i = 9; i < 18; i++) {
+  backRows += `<tr>
+    <td style="text-align:left;padding-left:3px;font-size:6px;color:#444">${i+1}. ${names[i]}</td>
+    <td style="font-weight:bold">${pars[i]}</td>
+    <td class="write-box"></td>
+    <td class="write-box"></td>
+    <td class="write-box"></td>
+    <td class="write-box"></td>
+  </tr>`;
+}
+
+container.innerHTML += `
+<div class="card" style="padding:6px;">
+  <div class="card-header">
+    <div class="card-title">🌊 WHISTLING STRAITS</div>
+    <div class="card-badge">SCORECARD</div>
+  </div>
+
+  <div class="hole-bar" style="justify-content:center;">
+    <div class="hole-name" style="font-size:9px;letter-spacing:1px;">GRID GOLF · OFFICIAL SCORECARD</div>
+  </div>
+
+  <div style="font-size:6.5px;color:#555;padding:2px 2px 1px 2px;display:flex;justify-content:space-between;font-family:Arial,sans-serif;">
+    <span>Player 1: ___________________</span>
+    <span>Player 2: ___________________</span>
+  </div>
+
+  <table style="width:100%;border-collapse:collapse;font-size:7px;margin-bottom:3px;font-family:Arial,sans-serif;">
+    <thead>
+      <tr style="background:#1a3a5c;color:white;">
+        <th style="padding:2px 3px;text-align:left;font-size:6px;">HOLE (FRONT 9)</th>
+        <th style="padding:2px;">PAR</th>
+        <th style="padding:2px;">P1</th>
+        <th style="padding:2px;">+/−</th>
+        <th style="padding:2px;">P2</th>
+        <th style="padding:2px;">+/−</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${frontRows}
+      <tr style="background:#e8f0f8;font-weight:bold;">
+        <td style="padding:2px 3px;font-size:7px;">OUT TOTAL</td>
+        <td>${frontPar}</td>
+        <td class="write-box"></td>
+        <td class="write-box"></td>
+        <td class="write-box"></td>
+        <td class="write-box"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table style="width:100%;border-collapse:collapse;font-size:7px;margin-bottom:3px;font-family:Arial,sans-serif;">
+    <thead>
+      <tr style="background:#1a3a5c;color:white;">
+        <th style="padding:2px 3px;text-align:left;font-size:6px;">HOLE (BACK 9)</th>
+        <th style="padding:2px;">PAR</th>
+        <th style="padding:2px;">P1</th>
+        <th style="padding:2px;">+/−</th>
+        <th style="padding:2px;">P2</th>
+        <th style="padding:2px;">+/−</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${backRows}
+      <tr style="background:#e8f0f8;font-weight:bold;">
+        <td style="padding:2px 3px;font-size:7px;">IN TOTAL</td>
+        <td>${backPar}</td>
+        <td class="write-box"></td>
+        <td class="write-box"></td>
+        <td class="write-box"></td>
+        <td class="write-box"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table style="width:100%;border-collapse:collapse;font-size:7px;font-family:Arial,sans-serif;">
+    <tr style="background:#1a3a5c;color:white;">
+      <th style="padding:3px;">GRAND TOTAL</th>
+      <th style="padding:3px;">${frontPar + backPar}</th>
+      <th style="padding:3px;width:40px;"></th>
+      <th style="padding:3px;width:30px;"></th>
+      <th style="padding:3px;width:40px;"></th>
+      <th style="padding:3px;width:30px;"></th>
+    </tr>
+  </table>
+
+  <div style="font-size:5.5px;color:#777;text-align:center;margin-top:4px;border-top:1px solid #ddd;padding-top:3px;font-family:Arial,sans-serif;">
+    WIND RULE: Roll d6 before each hole. 5–6 = Lake Michigan wind · All penalties +1 this hole<br>
+    Whistling Straits · Straits Course · Kohler, WI · Pete Dye · 2021 Ryder Cup Venue
+  </div>
+</div>`;
+
+// Add write-box style dynamically
+const style = document.createElement('style');
+style.textContent = '.write-box { border: 1px solid #bbb; min-width: 22px; height: 13px; }';
+document.head.appendChild(style);
+</script>
+</body>
+</html>

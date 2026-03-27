@@ -3,233 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dice Roller - Red & Blue</title>
+    <title>Dice Roller — Grid Sports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --red: #e8292e;
+            --blue: #1a4e8c;
+            --bg: #0d0d0d;
+            --surface: #141414;
+            --text: #f5f0e8;
+            --muted: #666;
+            --accent: #f5c518;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Barlow Condensed', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background: #f0f0f0;
+            gap: 40px;
+            padding: 30px;
         }
-        
+
+        /* Grid background to match site */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(245,197,24,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245,197,24,0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Nav bar */
+        .site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--accent);
+            background: var(--bg);
+        }
+        .site-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .site-logo span { color: var(--text); }
+        .site-back {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(245,240,232,0.5);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .site-back:hover { color: var(--accent); }
+
+        /* Main content pushed below nav */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding-top: 80px;
+            width: 100%;
+        }
+
         h1 {
-            margin-bottom: 40px;
-            color: #333;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: 0.1em;
+            color: var(--text);
+            text-shadow: none;
         }
-        
+
+        .h1-sub {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: -1rem;
+        }
+
+        /* Dice count selector */
+        .selector {
+            display: flex;
+            gap: 0;
+            border: 2px solid rgba(245,240,232,0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .selector-btn {
+            padding: 12px 32px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            background: transparent;
+            color: rgba(245,240,232,0.4);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .selector-btn + .selector-btn {
+            border-left: 2px solid rgba(245,240,232,0.2);
+        }
+
+        .selector-btn.active {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .selector-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+        }
+
+        /* Dice area */
         .dice-container {
             display: flex;
-            gap: 60px;
-            margin-bottom: 40px;
+            gap: 40px;
+            align-items: center;
+            min-height: 200px;
         }
-        
-        .die {
-            width: 150px;
-            height: 150px;
-            border: 4px solid #000;
-            border-radius: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 8px;
-            padding: 15px;
-            cursor: pointer;
-            transition: transform 0.1s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        
-        .die:hover {
-            transform: scale(1.05);
-        }
-        
-        .die:active {
-            transform: scale(0.95);
-        }
-        
-        .red-die {
-            background: #dc143c;
-        }
-        
-        .blue-die {
-            background: #1e90ff;
-        }
-        
-        .dot {
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            margin: auto;
-        }
-        
-        .empty {
-            visibility: hidden;
-        }
-        
-        .label {
-            text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        
-        .red-label {
-            color: #dc143c;
-        }
-        
-        .blue-label {
-            color: #1e90ff;
-        }
-        
+
         .dice-group {
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 12px;
+            transition: opacity 0.3s, transform 0.3s;
         }
-        
-        .buttons {
+
+        .dice-group.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .die {
+            width: 160px;
+            height: 160px;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+            padding: 18px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        .red-die { background: var(--red); border: 2px solid rgba(255,255,255,0.1); }
+        .blue-die { background: var(--blue); border: 2px solid rgba(255,255,255,0.1); }
+
+        .dot {
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            margin: auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .empty { visibility: hidden; }
+
+        .label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 4px;
+        }
+
+        .red-label { color: var(--red); }
+        .blue-label { color: var(--blue); }
+
+        /* Roll controls */
+        .controls {
             display: flex;
-            gap: 20px;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
         }
-        
-        button {
-            padding: 15px 40px;
-            font-size: 20px;
-            font-weight: bold;
-            border: 3px solid #000;
-            border-radius: 10px;
+
+        .roll-btn {
+            padding: 18px 60px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            background: var(--accent);
+            color: var(--bg);
+            border: 2px solid var(--accent);
+            border-radius: 2px;
             cursor: pointer;
-            background: #fff;
-            transition: all 0.2s;
+            box-shadow: 0 6px 0 #b5961a, 0 8px 20px rgba(0,0,0,0.4);
+            transition: all 0.1s;
+            user-select: none;
         }
-        
-        button:hover {
-            background: #333;
-            color: white;
+
+        .roll-btn:hover { background: transparent; color: var(--accent); box-shadow: none; }
+
+        .roll-btn:active,
+        .roll-btn.pressed {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #b5961a, 0 4px 10px rgba(0,0,0,0.3);
         }
-        
-        @keyframes roll {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(90deg); }
-            50% { transform: rotate(180deg); }
-            75% { transform: rotate(270deg); }
+
+        .hint {
+            font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Barlow Condensed', sans-serif;
         }
-        
-        .rolling {
-            animation: roll 0.5s ease-in-out;
+
+        /* Total display */
+        .total {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+            color: var(--muted);
+            min-height: 2rem;
+            transition: opacity 0.3s;
         }
+
+        .total span {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        /* Footer */
+        .site-footer {
+            position: relative;
+            z-index: 1;
+            margin-top: 1rem;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(245,240,232,0.2);
+        }
+
+        /* Rolling animation */
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            20% { transform: rotate(-8deg) scale(0.95); }
+            40% { transform: rotate(8deg) scale(0.95); }
+            60% { transform: rotate(-5deg) scale(0.97); }
+            80% { transform: rotate(5deg) scale(0.97); }
+        }
+
+        .rolling { animation: shake 0.35s ease-in-out; }
+
+
     </style>
 </head>
 <body>
-    <h1>Roll the Dice</h1>
-    
-    <div class="dice-container">
-        <div class="dice-group">
-            <div class="die red-die" id="redDie" onclick="rollRed()">
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-            </div>
-            <div class="label red-label">RED</div>
+
+    <!-- NAV -->
+    <nav class="site-nav">
+        <a href="https://gridsports.net" class="site-logo">GRID<span>SPORTS</span></a>
+        <a href="https://gridsports.net" class="site-back">← Back to Games</a>
+    </nav>
+
+    <div class="main-content">
+
+    <p class="h1-sub">Grid Sports</p>
+    <h1>Dice Roller</h1>
+
+    <div class="selector">
+        <button class="selector-btn active" id="btn1" onclick="setDiceCount(1)">1 DIE</button>
+        <button class="selector-btn" id="btn2" onclick="setDiceCount(2)">2 DICE</button>
+    </div>
+
+    <div class="dice-container" id="diceContainer">
+        <div class="dice-group" id="redGroup">
+            <div class="die red-die" id="redDie"></div>
+            <div class="label red-label">RED · COLUMN</div>
         </div>
-        
-        <div class="dice-group">
-            <div class="die blue-die" id="blueDie" onclick="rollBlue()">
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-                <div class="dot empty"></div>
-            </div>
-            <div class="label blue-label">BLUE</div>
+        <div class="dice-group hidden" id="blueGroup">
+            <div class="die blue-die" id="blueDie"></div>
+            <div class="label blue-label">BLUE · ROW</div>
         </div>
     </div>
-    
-    <div class="buttons">
-        <button onclick="rollBoth()">ROLL BOTH</button>
+
+    <div class="total" id="total"></div>
+
+    <div class="controls">
+        <button class="roll-btn" id="rollBtn" onclick="roll()">ROLL</button>
+        <div class="hint">Space or click to roll</div>
+    </div>
+
+    <div class="site-footer">gridsports.net · Pen · Paper · Dice</div>
+
     </div>
 
     <script>
-        function rollDie() {
-            return Math.floor(Math.random() * 6) + 1;
+        let diceCount = 1;
+        let lastValues = [null, null];
+
+        const patterns = {
+            1: [0,0,0, 0,1,0, 0,0,0],
+            2: [1,0,0, 0,0,0, 0,0,1],
+            3: [1,0,0, 0,1,0, 0,0,1],
+            4: [1,0,1, 0,0,0, 1,0,1],
+            5: [1,0,1, 0,1,0, 1,0,1],
+            6: [1,0,1, 1,0,1, 1,0,1],
+        };
+
+        function renderDie(el, value) {
+            el.innerHTML = '';
+            patterns[value].forEach(show => {
+                const d = document.createElement('div');
+                d.className = 'dot' + (show ? '' : ' empty');
+                el.appendChild(d);
+            });
         }
-        
-        function renderDots(value) {
-            // Patterns for each die face (which dots are visible in 3x3 grid)
-            const patterns = {
-                1: [false, false, false, false, true, false, false, false, false],
-                2: [true, false, false, false, false, false, false, false, true],
-                3: [true, false, false, false, true, false, false, false, true],
-                4: [true, false, true, false, false, false, true, false, true],
-                5: [true, false, true, false, true, false, true, false, true],
-                6: [true, false, true, true, false, true, true, false, true]
-            };
-            
-            const pattern = patterns[value];
-            let html = '';
-            
-            for (let i = 0; i < 9; i++) {
-                if (pattern[i]) {
-                    html += '<div class="dot"></div>';
-                } else {
-                    html += '<div class="dot empty"></div>';
-                }
-            }
-            
-            return html;
-        }
-        
-        function rollRed() {
-            const die = document.getElementById('redDie');
-            die.classList.add('rolling');
-            
-            setTimeout(() => {
-                const value = rollDie();
-                die.innerHTML = renderDots(value);
-                die.classList.remove('rolling');
-            }, 500);
-        }
-        
-        function rollBlue() {
-            const die = document.getElementById('blueDie');
-            die.classList.add('rolling');
-            
-            setTimeout(() => {
-                const value = rollDie();
-                die.innerHTML = renderDots(value);
-                die.classList.remove('rolling');
-            }, 500);
-        }
-        
-        function rollBoth() {
+
+        function randDie() { return Math.floor(Math.random() * 6) + 1; }
+
+        function roll() {
             const redDie = document.getElementById('redDie');
             const blueDie = document.getElementById('blueDie');
-            
+            const btn = document.getElementById('rollBtn');
+
+            // Button press effect
+            btn.classList.add('pressed');
+            setTimeout(() => btn.classList.remove('pressed'), 150);
+
+            redDie.classList.remove('rolling');
+            void redDie.offsetWidth;
             redDie.classList.add('rolling');
-            blueDie.classList.add('rolling');
-            
-            setTimeout(() => {
-                redDie.innerHTML = renderDots(rollDie());
-                blueDie.innerHTML = renderDots(rollDie());
-                
-                redDie.classList.remove('rolling');
+
+            const v1 = randDie();
+            lastValues[0] = v1;
+
+            if (diceCount === 2) {
                 blueDie.classList.remove('rolling');
-            }, 500);
+                void blueDie.offsetWidth;
+                blueDie.classList.add('rolling');
+                const v2 = randDie();
+                lastValues[1] = v2;
+
+                setTimeout(() => {
+                    renderDie(redDie, v1);
+                    renderDie(blueDie, v2);
+                    redDie.classList.remove('rolling');
+                    blueDie.classList.remove('rolling');
+                    updateTotal();
+                }, 350);
+            } else {
+                lastValues[1] = null;
+                setTimeout(() => {
+                    renderDie(redDie, v1);
+                    redDie.classList.remove('rolling');
+                    updateTotal();
+                }, 350);
+            }
         }
+
+        function updateTotal() {
+            const el = document.getElementById('total');
+            if (diceCount === 1) {
+                el.innerHTML = '';
+            } else if (lastValues[0] && lastValues[1]) {
+                el.innerHTML = `TOTAL: <span>${lastValues[0] + lastValues[1]}</span>`;
+            }
+        }
+
+        function setDiceCount(n) {
+            diceCount = n;
+            document.getElementById('btn1').classList.toggle('active', n === 1);
+            document.getElementById('btn2').classList.toggle('active', n === 2);
+            document.getElementById('blueGroup').classList.toggle('hidden', n === 1);
+            document.getElementById('total').innerHTML = '';
+            lastValues = [null, null];
+            roll();
+        }
+
+
+        document.addEventListener('keydown', e => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                roll();
+            }
+        });
+
+        // Init
+        renderDie(document.getElementById('redDie'), randDie());
+        renderDie(document.getElementById('blueDie'), randDie());
     </script>
 </body>
 </html>

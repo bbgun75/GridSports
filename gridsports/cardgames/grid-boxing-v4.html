@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GRID BOXING</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --gold:#c9a030;
+  --dark:#0a0a0a;
+  --canvas:#f5f0e8;
+  --red:#cc2200;
+  --blue:#003399;
+}
+body { background:#1a1a1a; font-family:'Barlow Condensed',sans-serif; display:flex; flex-direction:column; align-items:center; }
+
+.no-print { padding:2rem; text-align:center; }
+.no-print h1 { font-family:'Bebas Neue',sans-serif; font-size:3.8rem; letter-spacing:8px; color:var(--gold); }
+.no-print p  { font-size:.85rem; letter-spacing:3px; text-transform:uppercase; color:#666; margin:.4rem 0 1.2rem; }
+.btn { background:var(--gold); color:#000; border:none; padding:.6rem 2.2rem; font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:3px; cursor:pointer; }
+.preview-wrap { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; padding:1rem 2rem 3rem; }
+
+/* ── FIGHTER CARD ── */
+.card {
+  width:5in; height:3in;
+  background:var(--canvas);
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column;
+  page-break-inside:avoid; border:1px solid #bbb;
+}
+/* Corner colour themes */
+.card.power   .card-hd { background:#5a0000; } .card.power   .ctag { background:#cc2200; }
+.card.boxer   .card-hd { background:#00154a; } .card.boxer   .ctag { background:#003399; }
+.card.brawler .card-hd { background:#1a1200; } .card.brawler .ctag { background:#7a5500; }
+.card.swarmer .card-hd { background:#002a1a; } .card.swarmer .ctag { background:#005533; }
+.card.slick   .card-hd { background:#1a001a; } .card.slick   .ctag { background:#660066; }
+.card.puncher .card-hd { background:#1a0a00; } .card.puncher .ctag { background:#884400; }
+
+.card::after {
+  content:''; position:absolute; top:0; right:0;
+  width:1.1in; height:100%;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 5px,rgba(0,0,0,.03) 5px,rgba(0,0,0,.03) 6px);
+  pointer-events:none;
+}
+
+.card-hd {
+  padding:.09in .13in .07in;
+  display:flex; align-items:flex-start; gap:7px; flex-shrink:0;
+}
+.fn    { font-family:'Bebas Neue',sans-serif; font-size:20pt; color:rgba(255,255,255,.2); line-height:1; min-width:.28in; }
+.fm    { flex:1; }
+.fname { font-family:'Bebas Neue',sans-serif; font-size:19pt; color:#fff; letter-spacing:2px; line-height:1; }
+.frec  { font-size:5.5pt; color:rgba(255,255,255,.5); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+.fsty  { font-size:5pt; color:rgba(255,255,255,.3); letter-spacing:1.5px; text-transform:uppercase; margin-top:1px; }
+.ctag  { font-family:'Bebas Neue',sans-serif; font-size:6pt; letter-spacing:2px; color:#fff; padding:2px 5px; align-self:flex-start; white-space:nowrap; }
+.stats { display:flex; flex-direction:column; gap:2px; }
+.sr    { display:flex; align-items:center; gap:3px; }
+.sl    { font-size:4.5pt; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,.4); width:.18in; text-align:right; }
+.pips  { display:flex; gap:2px; }
+.pip   { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.12); }
+.pip.on{ background:var(--gold); }
+
+.card-body { flex:1; display:flex; gap:0; padding:.05in .11in .04in; }
+
+.grid-section { display:flex; flex-direction:column; gap:2px; flex-shrink:0; }
+.grid-lbl { font-size:5pt; letter-spacing:2px; text-transform:uppercase; color:#999; }
+.dice-grid {
+  display:grid; grid-template-columns:repeat(6,1fr);
+  gap:2px; width:1.58in;
+}
+.cell {
+  aspect-ratio:1;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Barlow Condensed',sans-serif; font-size:6.2pt; font-weight:700;
+  border-radius:1px; line-height:1; text-align:center;
+}
+.cell.t5 { background:#1a6e1a; color:#fff; }
+.cell.t4 { background:#4caf50; color:#fff; }
+.cell.t3 { background:#a5d6a7; color:#222; }
+.cell.t2 { background:#fff9c4; color:#555; }
+.cell.t1 { background:#ffe0b2; color:#555; }
+.cell.t0 { background:#ef9a9a; color:#c62828; font-size:5pt; }
+
+.log-section { flex:1; padding-left:.09in; display:flex; flex-direction:column; gap:2px; }
+.log-lbl { font-size:5pt; letter-spacing:2px; text-transform:uppercase; color:#999; }
+.rounds-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; flex:1; align-content:start; }
+.rnd { display:flex; flex-direction:column; align-items:center; border:1px solid #ddd; background:#fff; padding:2px 1px; }
+.rn  { font-family:'Bebas Neue',sans-serif; font-size:5.5pt; color:#ccc; line-height:1; }
+.rb  { width:90%; height:.16in; border-bottom:1px solid #ebebeb; margin-top:1px; }
+.rp  { font-size:3.8pt; color:#ccc; letter-spacing:.3px; margin-top:1px; }
+
+.res-strip {
+  background:#111; padding:.04in .11in;
+  display:flex; align-items:center; gap:5px; flex-shrink:0;
+}
+.ri  { display:flex; flex-direction:column; align-items:center; gap:1px; }
+.rl  { font-size:4.2pt; color:#666; letter-spacing:1.5px; text-transform:uppercase; }
+.rb2 { height:.15in; border:1px solid #333; background:#0a0a0a; }
+.rb2.rw { width:.34in; border-color:#4caf50; }
+.rb2.ko { width:.24in; border-color:var(--gold); }
+.rb2.sc { width:.42in; border-color:var(--gold); }
+.rdiv{ width:1px; height:.17in; background:#2a2a2a; }
+.kstrip { flex:1; display:flex; gap:2px; justify-content:flex-end; align-items:center; flex-wrap:wrap; }
+.ks { font-size:4.2pt; padding:1px 3px; border-radius:1px; font-weight:700; letter-spacing:.3px; white-space:nowrap; }
+.ks.k5{background:#1a6e1a;color:#fff;} .ks.k4{background:#4caf50;color:#fff;}
+.ks.k3{background:#a5d6a7;color:#222;} .ks.k2{background:#fff9c4;color:#555;}
+.ks.k1{background:#ffe0b2;color:#555;} .ks.k0{background:#ef9a9a;color:#c62828;}
+
+/* ── SCORECARD ── */
+.scorecard {
+  width:5in; height:3in; background:#fff;
+  display:flex; flex-direction:column;
+  page-break-inside:avoid; border:1px solid #bbb;
+}
+.sc-hd { background:var(--dark); padding:.07in .13in; display:flex; align-items:center; gap:10px; }
+.sc-title { font-family:'Bebas Neue',sans-serif; font-size:15pt; color:var(--gold); letter-spacing:3px; }
+.sc-sub   { font-size:5.5pt; letter-spacing:2px; text-transform:uppercase; color:#555; }
+.sc-body  { flex:1; display:flex; flex-direction:column; padding:.06in .11in .04in; gap:5px; }
+.sc-names { display:flex; align-items:center; gap:5px; }
+.sc-nr    { display:flex; align-items:center; gap:4px; flex:1; }
+.cdot     { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.cdot.r   { background:var(--red); }
+.cdot.b   { background:var(--blue); }
+.nf       { flex:1; height:.17in; border-bottom:1.5px solid #bbb; }
+.vs-txt   { font-family:'Bebas Neue',sans-serif; font-size:13pt; color:#ccc; }
+.sc-table { display:flex; flex-direction:column; gap:2px; }
+.sc-row   { display:grid; grid-template-columns:.4in repeat(12,1fr) .4in; gap:2px; align-items:center; }
+.sc-rlbl  { font-size:5.5pt; letter-spacing:1px; text-transform:uppercase; font-weight:700; }
+.sc-rlbl.r{ color:var(--red); } .sc-rlbl.b{ color:var(--blue); }
+.sc-rbox  { height:.19in; border:1px solid; }
+.sc-rbox.r{ border-color:rgba(204,34,0,.25); background:#fff8f8; }
+.sc-rbox.b{ border-color:rgba(0,51,153,.25); background:#f8f8ff; }
+.sc-tot   { height:.19in; border:1.5px solid; margin-left:2px; }
+.sc-tot.r { border-color:var(--red); background:#fff5f5; }
+.sc-tot.b { border-color:var(--blue); background:#f5f5ff; }
+.sc-nums  { display:grid; grid-template-columns:.4in repeat(12,1fr) .4in; gap:2px; }
+.sc-nh    { font-family:'Bebas Neue',sans-serif; font-size:5.5pt; color:#ccc; text-align:center; }
+.sc-note  { font-size:4.8pt; color:#aaa; letter-spacing:.8px; text-transform:uppercase; }
+.sc-ft    { background:var(--dark); padding:.05in .11in; display:flex; align-items:center; gap:5px; }
+.sc-fl    { font-size:4.8pt; letter-spacing:1.5px; text-transform:uppercase; color:#555; }
+.sc-fb    { height:.19in; border:1.5px solid var(--gold); background:#0a0a0a; }
+.sc-fb.wi { width:1.25in; } .sc-fb.me { width:.7in; } .sc-fb.rd { width:.28in; }
+.sc-methods{ flex:1; display:flex; gap:3px; justify-content:flex-end; }
+.sm { font-size:4.5pt; padding:1px 3px; font-weight:700; }
+.sm.ko{background:#1a6e1a;color:#fff;} .sm.ud{background:#4caf50;color:#fff;}
+.sm.sd{background:#a5d6a7;color:#222;} .sm.md{background:#fff9c4;color:#555;}
+
+/* ── COVER ── */
+.cover {
+  width:5in; height:3in; background:var(--dark);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  page-break-inside:avoid; border:1px solid #222; position:relative; overflow:hidden;
+}
+.cover-ropes { position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around;padding:.2in 0;pointer-events:none; }
+.rope   { height:3px; }
+.rope.r { background:linear-gradient(90deg,transparent,rgba(204,34,0,.35),transparent); }
+.rope.b { background:linear-gradient(90deg,transparent,rgba(0,51,153,.35),transparent); }
+.cover-title { font-family:'Bebas Neue',sans-serif; font-size:62pt; letter-spacing:8px; color:var(--gold); line-height:1; position:relative; z-index:2; }
+.cover-bar   { width:2.2in; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:.08in 0; position:relative; z-index:2; }
+.cover-sub   { font-size:7.5pt; letter-spacing:5px; text-transform:uppercase; color:rgba(255,255,255,.3); position:relative; z-index:2; }
+.cover-info  { font-size:6pt; letter-spacing:2px; color:rgba(255,255,255,.18); margin-top:.1in; position:relative; z-index:2; }
+
+/* ── INSTRUCTIONS ── */
+.inst { width:5in; height:3in; background:#fff; display:flex; flex-direction:column; page-break-inside:avoid; border:1px solid #bbb; }
+.inst-hd { background:var(--dark); padding:.08in .13in; }
+.inst-title { font-family:'Bebas Neue',sans-serif; font-size:15pt; color:var(--gold); letter-spacing:3px; }
+.inst-body { flex:1; display:grid; grid-template-columns:1fr 1fr; padding:.07in .1in; }
+.icol { display:flex; flex-direction:column; gap:4px; padding-right:.08in; }
+.icol:last-child { padding-left:.08in; padding-right:0; border-left:1px solid #eee; }
+.istep { display:flex; gap:4px; }
+.sn { font-family:'Bebas Neue',sans-serif; font-size:11pt; color:var(--gold); line-height:1.1; min-width:.14in; }
+.st { font-size:6.2pt; line-height:1.4; color:#333; }
+.st strong { color:#111; }
+.inst-ft { background:#f5f0e8; padding:.05in .1in; border-top:1px solid #ddd; }
+.ikey { display:flex; gap:5px; align-items:center; flex-wrap:wrap; }
+.ki  { display:flex; align-items:center; gap:3px; font-size:5.2pt; color:#555; }
+.kd  { width:9px; height:9px; border-radius:1px; flex-shrink:0; }
+.kd.t5{background:#1a6e1a;} .kd.t4{background:#4caf50;} .kd.t3{background:#a5d6a7;}
+.kd.t2{background:#fff9c4;border:1px solid #ddd;} .kd.t1{background:#ffe0b2;border:1px solid #ddd;} .kd.t0{background:#ef9a9a;}
+
+/* ── ROSTER ── */
+.roster {
+  width:5in; height:3in; background:#fff;
+  display:flex; flex-direction:column;
+  page-break-inside:avoid; border:1px solid #bbb;
+}
+.roster-hd { background:var(--dark); padding:.07in .13in; display:flex; align-items:center; gap:10px; }
+.roster-title { font-family:'Bebas Neue',sans-serif; font-size:15pt; color:var(--gold); letter-spacing:3px; }
+.roster-sub   { font-size:5.5pt; letter-spacing:2px; text-transform:uppercase; color:#555; }
+.roster-body  { flex:1; display:grid; grid-template-columns:1fr 1fr 1fr; padding:.05in .1in; gap:0; }
+.roster-col   { display:flex; flex-direction:column; gap:1.5px; border-right:1px solid #f0f0f0; padding:.02in .06in; }
+.roster-col:last-child { border-right:none; }
+.roster-row   { display:flex; align-items:center; gap:3px; border-bottom:1px solid #f8f8f8; padding-bottom:1.5px; }
+.rr-num  { font-family:'Bebas Neue',sans-serif; font-size:6pt; color:#ccc; width:.2in; }
+.rr-name { font-size:6pt; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:#222; flex:1; }
+.rr-style{ font-size:5pt; color:#999; letter-spacing:.5px; }
+.rr-rec  { font-size:5pt; color:#bbb; white-space:nowrap; }
+.roster-ft { background:var(--dark); padding:.05in .13in; display:flex; align-items:center; gap:8px; }
+.style-key { display:flex; gap:6px; flex-wrap:wrap; }
+.sk-item { display:flex; align-items:center; gap:3px; font-size:4.8pt; color:#666; }
+.sk-dot  { width:8px; height:8px; border-radius:1px; flex-shrink:0; }
+.sk-dot.power  {background:#5a0000;} .sk-dot.boxer  {background:#00154a;}
+.sk-dot.brawler{background:#1a1200;} .sk-dot.swarmer{background:#002a1a;}
+.sk-dot.slick  {background:#1a001a;} .sk-dot.puncher{background:#1a0a00;}
+
+@media print {
+  body { background:#fff; }
+  .no-print { display:none; }
+  .preview-wrap { padding:0; gap:0; }
+  .card,.scorecard,.cover,.inst,.roster { border:none; page-break-after:always; }
+}
+</style>
+</head>
+<body>
+<div class="no-print">
+  <h1>GRID BOXING</h1>
+  <p>Heavyweight Division · 30 Fighters · Pen &amp; Paper Dice Game</p>
+  <button class="btn" onclick="window.print()">PRINT NOTEBOOK</button>
+</div>
+<div class="preview-wrap" id="preview"></div>
+<script>
+function c(v,t){return{v,t};}
+
+// Grid distributions reflect fighter style:
+// Power Puncher  — high KO/W+, some HURT, few D/L
+// Technical Boxer — high W/W+, low KO, very few HURT
+// Brawler        — lots of W+/KO, many HURT (takes hits)
+// Swarmer        — lots of W, high volume, few KOs
+// Slick Mover    — high D/W, almost no HURT, rare KO
+// Big Puncher    — fewer KOs but W+ heavy, moderate HURT
+
+const fighters = [
+  // ── POWER PUNCHERS ──
+  { num:"01", name:"Iron Duke",      style:"power",   ctag:"Power Puncher",  rec:"38-2-0 · 32 KO",  sty:"Orthodox · Explosive · Fights to KO",
+    stats:{PWR:5,SPD:3,CHN:4,STM:4,BOX:3},
+    grid:[[c("KO","t5"),c("W+","t4"),c("W","t3"), c("D","t2"), c("L","t1"), c("HURT","t0")],
+          [c("W","t3"), c("KO","t5"),c("D","t2"), c("L","t1"), c("W+","t4"),c("D","t2")],
+          [c("HURT","t0"),c("W+","t4"),c("KO","t5"),c("W","t3"), c("D","t2"), c("L","t1")],
+          [c("L","t1"), c("D","t2"), c("W+","t4"),c("HURT","t0"),c("W","t3"), c("KO","t5")],
+          [c("W+","t4"),c("L","t1"), c("HURT","t0"),c("KO","t5"),c("L","t1"), c("W","t3")],
+          [c("D","t2"), c("W","t3"), c("L","t1"), c("W+","t4"),c("HURT","t0"),c("W+","t4")]],
+  },
+  { num:"02", name:"Sledge Malone",  style:"power",   ctag:"Power Puncher",  rec:"29-1-0 · 27 KO",  sty:"Orthodox · Right Hand · Body Shots",
+    stats:{PWR:5,SPD:2,CHN:3,STM:4,BOX:3},
+    grid:[[c("KO","t5"),c("KO","t5"),c("W+","t4"),c("L","t1"), c("HURT","t0"),c("D","t2")],
+          [c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("D","t2"), c("L","t1"), c("W","t3")],
+          [c("D","t2"), c("W","t3"), c("HURT","t0"),c("KO","t5"),c("W+","t4"),c("L","t1")],
+          [c("HURT","t0"),c("L","t1"), c("W","t3"), c("W+","t4"),c("HURT","t0"),c("KO","t5")],
+          [c("L","t1"), c("KO","t5"),c("D","t2"), c("HURT","t0"),c("W","t3"), c("W+","t4")],
+          [c("W","t3"), c("D","t2"), c("L","t1"), c("HURT","t0"),c("KO","t5"),c("HURT","t0")]],
+  },
+  { num:"03", name:"The Wrecking Ball",style:"power", ctag:"Power Puncher",  rec:"22-3-1 · 19 KO",  sty:"Southpaw · Wild Swinger · Chin of Stone",
+    stats:{PWR:5,SPD:2,CHN:5,STM:3,BOX:2},
+    grid:[[c("KO","t5"),c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("D","t2"), c("L","t1")],
+          [c("L","t1"), c("KO","t5"),c("W","t3"), c("HURT","t0"),c("W+","t4"),c("KO","t5")],
+          [c("HURT","t0"),c("D","t2"), c("KO","t5"),c("W+","t4"),c("L","t1"), c("HURT","t0")],
+          [c("W+","t4"),c("HURT","t0"),c("L","t1"), c("KO","t5"),c("HURT","t0"),c("W","t3")],
+          [c("KO","t5"),c("L","t1"), c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("D","t2")],
+          [c("D","t2"), c("W","t3"), c("HURT","t0"),c("L","t1"), c("W+","t4"),c("KO","t5")]],
+  },
+  { num:"04", name:"Big Train Davis", style:"power",  ctag:"Power Puncher",  rec:"33-4-0 · 28 KO",  sty:"Orthodox · Pressure Fighter · Heavy Jab",
+    stats:{PWR:5,SPD:3,CHN:4,STM:5,BOX:3},
+    grid:[[c("W+","t4"),c("KO","t5"),c("W","t3"), c("HURT","t0"),c("D","t2"), c("L","t1")],
+          [c("KO","t5"),c("W+","t4"),c("HURT","t0"),c("W","t3"), c("L","t1"), c("D","t2")],
+          [c("D","t2"), c("HURT","t0"),c("W+","t4"),c("KO","t5"),c("W","t3"), c("L","t1")],
+          [c("L","t1"), c("W","t3"), c("KO","t5"),c("W+","t4"),c("HURT","t0"),c("W","t3")],
+          [c("HURT","t0"),c("D","t2"), c("L","t1"), c("W+","t4"),c("KO","t5"),c("W+","t4")],
+          [c("W","t3"), c("L","t1"), c("D","t2"), c("HURT","t0"),c("W+","t4"),c("KO","t5")]],
+  },
+  { num:"05", name:"Dynamite Wells",  style:"puncher", ctag:"Big Puncher",   rec:"27-6-2 · 20 KO",  sty:"Southpaw · Counter Puncher · Patient",
+    stats:{PWR:4,SPD:4,CHN:4,STM:4,BOX:4},
+    grid:[[c("W+","t4"),c("W","t3"), c("KO","t5"),c("D","t2"), c("W+","t4"),c("L","t1")],
+          [c("D","t2"), c("W+","t4"),c("W","t3"), c("HURT","t0"),c("W","t3"), c("W+","t4")],
+          [c("KO","t5"),c("D","t2"), c("W+","t4"),c("W","t3"), c("L","t1"), c("HURT","t0")],
+          [c("W","t3"), c("HURT","t0"),c("D","t2"), c("W+","t4"),c("KO","t5"),c("W","t3")],
+          [c("L","t1"), c("W","t3"), c("W+","t4"),c("KO","t5"),c("D","t2"), c("W+","t4")],
+          [c("HURT","t0"),c("W+","t4"),c("L","t1"), c("W","t3"), c("W+","t4"),c("D","t2")]],
+  },
+  // ── TECHNICAL BOXERS ──
+  { num:"06", name:"The Surgeon",     style:"boxer",   ctag:"Technical Boxer",rec:"45-1-1 · 18 KO",  sty:"Southpaw · Iron Chin · Points Machine",
+    stats:{PWR:3,SPD:5,CHN:5,STM:5,BOX:5},
+    grid:[[c("W+","t4"),c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3"), c("L","t1")],
+          [c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3"), c("W+","t4"),c("HURT","t0")],
+          [c("D","t2"), c("W","t3"), c("W+","t4"),c("KO","t5"),c("W","t3"), c("D","t2")],
+          [c("W+","t4"),c("D","t2"), c("W","t3"), c("W+","t4"),c("L","t1"), c("W","t3")],
+          [c("L","t1"), c("W","t3"), c("W+","t4"),c("D","t2"), c("KO","t5"),c("W+","t4")],
+          [c("KO","t5"),c("HURT","t0"),c("W","t3"), c("L","t1"), c("W+","t4"),c("W","t3")]],
+  },
+  { num:"07", name:"The Professor",   style:"boxer",   ctag:"Technical Boxer",rec:"38-2-2 · 12 KO",  sty:"Orthodox · Educated Jab · Ring General",
+    stats:{PWR:2,SPD:5,CHN:5,STM:5,BOX:5},
+    grid:[[c("W","t3"), c("W+","t4"),c("W","t3"), c("W","t3"), c("D","t2"), c("W+","t4")],
+          [c("W+","t4"),c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("D","t2")],
+          [c("D","t2"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W+","t4"),c("L","t1")],
+          [c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("L","t1"), c("W+","t4")],
+          [c("L","t1"), c("W","t3"), c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3")],
+          [c("HURT","t0"),c("W+","t4"),c("L","t1"), c("W","t3"), c("KO","t5"),c("D","t2")]],
+  },
+  { num:"08", name:"Cool Hand Luke",  style:"boxer",   ctag:"Technical Boxer",rec:"31-5-3 · 10 KO",  sty:"Orthodox · Slick · Never Gets Hurt",
+    stats:{PWR:2,SPD:5,CHN:5,STM:5,BOX:4},
+    grid:[[c("W","t3"), c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("D","t2")],
+          [c("D","t2"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4")],
+          [c("W+","t4"),c("D","t2"), c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3")],
+          [c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3"), c("W+","t4"),c("L","t1")],
+          [c("L","t1"), c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3"), c("W","t3")],
+          [c("KO","t5"),c("L","t1"), c("W","t3"), c("W","t3"), c("D","t2"), c("HURT","t0")]],
+  },
+  { num:"09", name:"Silk Gloves",     style:"slick",   ctag:"Slick Mover",   rec:"26-8-4 · 8 KO",   sty:"Southpaw · Elusive · Hard to Hit",
+    stats:{PWR:2,SPD:5,CHN:4,STM:4,BOX:5},
+    grid:[[c("D","t2"), c("W","t3"), c("D","t2"), c("W+","t4"),c("D","t2"), c("W","t3")],
+          [c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W+","t4")],
+          [c("W+","t4"),c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4"),c("D","t2")],
+          [c("D","t2"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4")],
+          [c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("L","t1"), c("D","t2")],
+          [c("L","t1"), c("W+","t4"),c("D","t2"), c("L","t1"), c("W","t3"), c("KO","t5")]],
+  },
+  { num:"10", name:"The Ghost",       style:"slick",   ctag:"Slick Mover",   rec:"34-3-2 · 9 KO",   sty:"Orthodox · Defensive Genius · Angles",
+    stats:{PWR:2,SPD:5,CHN:4,STM:5,BOX:5},
+    grid:[[c("W+","t4"),c("D","t2"), c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3")],
+          [c("D","t2"), c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3"), c("D","t2")],
+          [c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3"), c("D","t2"), c("W+","t4")],
+          [c("D","t2"), c("D","t2"), c("W","t3"), c("W+","t4"),c("W","t3"), c("D","t2")],
+          [c("W+","t4"),c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4"),c("L","t1")],
+          [c("L","t1"), c("W","t3"), c("D","t2"), c("W+","t4"),c("L","t1"), c("KO","t5")]],
+  },
+  // ── BRAWLERS ──
+  { num:"11", name:"Mad Dog Murphy",  style:"brawler", ctag:"Brawler",       rec:"24-8-1 · 18 KO",  sty:"Orthodox · Come Forward · War Machine",
+    stats:{PWR:4,SPD:2,CHN:4,STM:5,BOX:2},
+    grid:[[c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("W","t3"), c("HURT","t0")],
+          [c("KO","t5"),c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("L","t1"), c("W","t3")],
+          [c("W+","t4"),c("W","t3"), c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("KO","t5")],
+          [c("HURT","t0"),c("KO","t5"),c("W","t3"), c("HURT","t0"),c("W+","t4"),c("HURT","t0")],
+          [c("W","t3"), c("HURT","t0"),c("KO","t5"),c("W+","t4"),c("HURT","t0"),c("W","t3")],
+          [c("L","t1"), c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("W","t3"), c("HURT","t0")]],
+  },
+  { num:"12", name:"Knuckles O'Brien",style:"brawler", ctag:"Brawler",       rec:"19-11-2 · 15 KO", sty:"Orthodox · Tough as Nails · Never Stops",
+    stats:{PWR:4,SPD:2,CHN:5,STM:5,BOX:2},
+    grid:[[c("HURT","t0"),c("KO","t5"),c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("W","t3")],
+          [c("W+","t4"),c("HURT","t0"),c("W","t3"), c("HURT","t0"),c("KO","t5"),c("HURT","t0")],
+          [c("KO","t5"),c("W","t3"), c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("L","t1")],
+          [c("HURT","t0"),c("W+","t4"),c("KO","t5"),c("HURT","t0"),c("W","t3"), c("HURT","t0")],
+          [c("W","t3"), c("HURT","t0"),c("L","t1"), c("KO","t5"),c("HURT","t0"),c("W+","t4")],
+          [c("L","t1"), c("KO","t5"),c("HURT","t0"),c("W","t3"), c("W+","t4"),c("HURT","t0")]],
+  },
+  { num:"13", name:"The Tank",        style:"brawler", ctag:"Brawler",       rec:"21-9-0 · 16 KO",  sty:"Southpaw · Absorbs Punishment · Big Heart",
+    stats:{PWR:4,SPD:2,CHN:5,STM:5,BOX:2},
+    grid:[[c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("HURT","t0"),c("W","t3"), c("HURT","t0")],
+          [c("HURT","t0"),c("W","t3"), c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("KO","t5")],
+          [c("KO","t5"),c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("L","t1"), c("HURT","t0")],
+          [c("HURT","t0"),c("L","t1"), c("HURT","t0"),c("KO","t5"),c("W+","t4"),c("HURT","t0")],
+          [c("W","t3"), c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("W","t3")],
+          [c("HURT","t0"),c("KO","t5"),c("W","t3"), c("W+","t4"),c("HURT","t0"),c("L","t1")]],
+  },
+  { num:"14", name:"Rocky Fontaine",  style:"brawler", ctag:"Brawler",       rec:"28-7-1 · 22 KO",  sty:"Orthodox · Rough & Ready · Dangerous Late",
+    stats:{PWR:4,SPD:3,CHN:4,STM:5,BOX:3},
+    grid:[[c("W","t3"), c("HURT","t0"),c("W+","t4"),c("KO","t5"),c("HURT","t0"),c("D","t2")],
+          [c("KO","t5"),c("W","t3"), c("HURT","t0"),c("W+","t4"),c("D","t2"), c("HURT","t0")],
+          [c("HURT","t0"),c("KO","t5"),c("D","t2"), c("HURT","t0"),c("W+","t4"),c("W","t3")],
+          [c("D","t2"), c("W+","t4"),c("KO","t5"),c("D","t2"), c("HURT","t0"),c("KO","t5")],
+          [c("HURT","t0"),c("D","t2"), c("HURT","t0"),c("W","t3"), c("KO","t5"),c("W+","t4")],
+          [c("W+","t4"),c("HURT","t0"),c("W","t3"), c("HURT","t0"),c("W+","t4"),c("KO","t5")]],
+  },
+  // ── SWARMERS ──
+  { num:"15", name:"Hurricane Hayes",  style:"swarmer",ctag:"Swarmer",       rec:"31-5-0 · 14 KO",  sty:"Orthodox · High Volume · Never Stops",
+    stats:{PWR:3,SPD:5,CHN:4,STM:5,BOX:3},
+    grid:[[c("W","t3"), c("W","t3"), c("W+","t4"),c("W","t3"), c("D","t2"), c("L","t1")],
+          [c("W+","t4"),c("W","t3"), c("W","t3"), c("W+","t4"),c("W","t3"), c("D","t2")],
+          [c("D","t2"), c("W+","t4"),c("W","t3"), c("W","t3"), c("W+","t4"),c("W","t3")],
+          [c("W","t3"), c("W","t3"), c("D","t2"), c("W","t3"), c("W","t3"), c("W+","t4")],
+          [c("L","t1"), c("W","t3"), c("W","t3"), c("D","t2"), c("KO","t5"),c("W","t3")],
+          [c("W","t3"), c("L","t1"), c("W+","t4"),c("W","t3"), c("W","t3"), c("HURT","t0")]],
+  },
+  { num:"16", name:"Piston Pete",      style:"swarmer",ctag:"Swarmer",       rec:"25-8-2 · 11 KO",  sty:"Southpaw · Relentless · 500 Punches",
+    stats:{PWR:3,SPD:5,CHN:3,STM:5,BOX:3},
+    grid:[[c("W","t3"), c("W+","t4"),c("W","t3"), c("W","t3"), c("W+","t4"),c("HURT","t0")],
+          [c("W+","t4"),c("W","t3"), c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4")],
+          [c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("W","t3"), c("L","t1")],
+          [c("HURT","t0"),c("W","t3"), c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3")],
+          [c("D","t2"), c("W","t3"), c("L","t1"), c("W","t3"), c("W+","t4"),c("W","t3")],
+          [c("W","t3"), c("HURT","t0"),c("W","t3"), c("L","t1"), c("W","t3"), c("KO","t5")]],
+  },
+  { num:"17", name:"The Mongoose",     style:"swarmer",ctag:"Swarmer",       rec:"22-10-3 · 9 KO",  sty:"Orthodox · Fast Hands · Combo Artist",
+    stats:{PWR:3,SPD:5,CHN:3,STM:4,BOX:4},
+    grid:[[c("W+","t4"),c("W","t3"), c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3")],
+          [c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3"), c("W","t3"), c("W+","t4")],
+          [c("D","t2"), c("W","t3"), c("W+","t4"),c("W","t3"), c("W","t3"), c("D","t2")],
+          [c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4"),c("HURT","t0"),c("W","t3")],
+          [c("HURT","t0"),c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4"),c("L","t1")],
+          [c("L","t1"), c("HURT","t0"),c("W","t3"), c("D","t2"), c("W","t3"), c("KO","t5")]],
+  },
+  // ── BIG PUNCHERS / PUNCHER-BOXERS ──
+  { num:"18", name:"The Preacher",     style:"puncher", ctag:"Big Puncher",   rec:"36-3-0 · 25 KO",  sty:"Orthodox · One-Punch Power · Stalker",
+    stats:{PWR:5,SPD:3,CHN:4,STM:4,BOX:4},
+    grid:[[c("W+","t4"),c("KO","t5"),c("W","t3"), c("W+","t4"),c("HURT","t0"),c("D","t2")],
+          [c("KO","t5"),c("W+","t4"),c("D","t2"), c("HURT","t0"),c("W","t3"), c("W+","t4")],
+          [c("D","t2"), c("W","t3"), c("W+","t4"),c("KO","t5"),c("D","t2"), c("L","t1")],
+          [c("W","t3"), c("HURT","t0"),c("KO","t5"),c("W","t3"), c("W+","t4"),c("HURT","t0")],
+          [c("HURT","t0"),c("D","t2"), c("W","t3"), c("W+","t4"),c("KO","t5"),c("W","t3")],
+          [c("L","t1"), c("W+","t4"),c("HURT","t0"),c("D","t2"), c("W","t3"), c("KO","t5")]],
+  },
+  { num:"19", name:"The Ice Man",      style:"puncher", ctag:"Big Puncher",   rec:"41-2-1 · 30 KO",  sty:"Southpaw · Cold & Clinical · Late Finisher",
+    stats:{PWR:5,SPD:4,CHN:4,STM:5,BOX:4},
+    grid:[[c("W","t3"), c("W+","t4"),c("KO","t5"),c("W","t3"), c("D","t2"), c("W+","t4")],
+          [c("W+","t4"),c("HURT","t0"),c("W","t3"), c("KO","t5"),c("W+","t4"),c("D","t2")],
+          [c("KO","t5"),c("W","t3"), c("W+","t4"),c("D","t2"), c("HURT","t0"),c("W","t3")],
+          [c("D","t2"), c("KO","t5"),c("D","t2"), c("W+","t4"),c("W","t3"), c("KO","t5")],
+          [c("W+","t4"),c("D","t2"), c("HURT","t0"),c("W","t3"), c("W+","t4"),c("HURT","t0")],
+          [c("HURT","t0"),c("W","t3"), c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("L","t1")]],
+  },
+  { num:"20", name:"Stone Cold Reeves",style:"puncher", ctag:"Big Puncher",   rec:"30-5-2 · 23 KO",  sty:"Orthodox · Measured · Waits for Opening",
+    stats:{PWR:5,SPD:3,CHN:4,STM:4,BOX:4},
+    grid:[[c("D","t2"), c("W+","t4"),c("W","t3"), c("KO","t5"),c("D","t2"), c("W+","t4")],
+          [c("W+","t4"),c("D","t2"), c("KO","t5"),c("W+","t4"),c("W","t3"), c("HURT","t0")],
+          [c("W","t3"), c("KO","t5"),c("D","t2"), c("W","t3"), c("W+","t4"),c("D","t2")],
+          [c("KO","t5"),c("W","t3"), c("W+","t4"),c("D","t2"), c("HURT","t0"),c("W","t3")],
+          [c("HURT","t0"),c("W+","t4"),c("W","t3"), c("HURT","t0"),c("D","t2"), c("KO","t5")],
+          [c("L","t1"), c("HURT","t0"),c("KO","t5"),c("W","t3"), c("L","t1"), c("W+","t4")]],
+  },
+  { num:"21", name:"The Undertaker",   style:"puncher", ctag:"Big Puncher",   rec:"26-8-0 · 21 KO",  sty:"Orthodox · Slow Burn · Devastating Late",
+    stats:{PWR:5,SPD:2,CHN:5,STM:4,BOX:3},
+    grid:[[c("D","t2"), c("W","t3"), c("D","t2"), c("W+","t4"),c("HURT","t0"),c("W","t3")],
+          [c("W","t3"), c("D","t2"), c("W+","t4"),c("D","t2"), c("W","t3"), c("KO","t5")],
+          [c("W+","t4"),c("W","t3"), c("D","t2"), c("KO","t5"),c("D","t2"), c("W","t3")],
+          [c("KO","t5"),c("HURT","t0"),c("W","t3"), c("D","t2"), c("W+","t4"),c("D","t2")],
+          [c("HURT","t0"),c("W+","t4"),c("KO","t5"),c("W","t3"), c("D","t2"), c("HURT","t0")],
+          [c("L","t1"), c("KO","t5"),c("HURT","t0"),c("W+","t4"),c("W","t3"), c("L","t1")]],
+  },
+  { num:"22", name:"The Hammer",       style:"power",   ctag:"Power Puncher",  rec:"18-12-1 · 15 KO", sty:"Southpaw · Short & Stocky · Hooks",
+    stats:{PWR:5,SPD:3,CHN:3,STM:4,BOX:2},
+    grid:[[c("KO","t5"),c("W+","t4"),c("HURT","t0"),c("L","t1"), c("KO","t5"),c("HURT","t0")],
+          [c("HURT","t0"),c("KO","t5"),c("L","t1"), c("HURT","t0"),c("W+","t4"),c("KO","t5")],
+          [c("L","t1"), c("HURT","t0"),c("KO","t5"),c("W+","t4"),c("HURT","t0"),c("L","t1")],
+          [c("W+","t4"),c("L","t1"), c("HURT","t0"),c("KO","t5"),c("L","t1"), c("HURT","t0")],
+          [c("HURT","t0"),c("W+","t4"),c("KO","t5"),c("HURT","t0"),c("D","t2"), c("W+","t4")],
+          [c("D","t2"), c("HURT","t0"),c("W+","t4"),c("D","t2"), c("HURT","t0"),c("KO","t5")]],
+  },
+  { num:"23", name:"The Cobra",        style:"boxer",   ctag:"Technical Boxer",rec:"29-4-3 · 14 KO",  sty:"Southpaw · Sharp Counter · Rangey",
+    stats:{PWR:3,SPD:5,CHN:4,STM:4,BOX:5},
+    grid:[[c("W+","t4"),c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("D","t2")],
+          [c("W","t3"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W+","t4"),c("L","t1")],
+          [c("D","t2"), c("W","t3"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W+","t4")],
+          [c("W+","t4"),c("D","t2"), c("W","t3"), c("W+","t4"),c("HURT","t0"),c("W","t3")],
+          [c("L","t1"), c("HURT","t0"),c("D","t2"), c("W","t3"), c("W+","t4"),c("D","t2")],
+          [c("KO","t5"),c("W","t3"), c("HURT","t0"),c("L","t1"), c("W","t3"), c("KO","t5")]],
+  },
+  { num:"24", name:"Lightning Lopez",  style:"swarmer", ctag:"Swarmer",       rec:"23-9-1 · 10 KO",  sty:"Orthodox · Speed First · Combo Finish",
+    stats:{PWR:3,SPD:5,CHN:3,STM:5,BOX:4},
+    grid:[[c("W","t3"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4")],
+          [c("W+","t4"),c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("W","t3")],
+          [c("D","t2"), c("W","t3"), c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3")],
+          [c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("HURT","t0"),c("W+","t4")],
+          [c("HURT","t0"),c("W","t3"), c("W","t3"), c("W+","t4"),c("W","t3"), c("L","t1")],
+          [c("L","t1"), c("W+","t4"),c("HURT","t0"),c("W","t3"), c("D","t2"), c("KO","t5")]],
+  },
+  { num:"25", name:"Big Duke Caesar",  style:"puncher", ctag:"Big Puncher",   rec:"32-6-0 · 24 KO",  sty:"Orthodox · Late Bloomer · Power in Both",
+    stats:{PWR:5,SPD:3,CHN:5,STM:4,BOX:3},
+    grid:[[c("W","t3"), c("KO","t5"),c("W+","t4"),c("D","t2"), c("W","t3"), c("HURT","t0")],
+          [c("D","t2"), c("W+","t4"),c("W","t3"), c("KO","t5"),c("HURT","t0"),c("W+","t4")],
+          [c("KO","t5"),c("D","t2"), c("HURT","t0"),c("W+","t4"),c("W","t3"), c("D","t2")],
+          [c("W+","t4"),c("HURT","t0"),c("D","t2"), c("W","t3"), c("KO","t5"),c("W","t3")],
+          [c("HURT","t0"),c("W","t3"), c("KO","t5"),c("W+","t4"),c("D","t2"), c("HURT","t0")],
+          [c("L","t1"), c("W+","t4"),c("W","t3"), c("HURT","t0"),c("W+","t4"),c("KO","t5")]],
+  },
+  { num:"26", name:"The Matador",      style:"slick",   ctag:"Slick Mover",   rec:"27-6-5 · 7 KO",   sty:"Southpaw · Move & Counter · Draws a Lot",
+    stats:{PWR:2,SPD:5,CHN:4,STM:5,BOX:5},
+    grid:[[c("D","t2"), c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3"), c("D","t2")],
+          [c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4"),c("D","t2"), c("W","t3")],
+          [c("W+","t4"),c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4"),c("D","t2")],
+          [c("D","t2"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W","t3"), c("W+","t4")],
+          [c("W","t3"), c("D","t2"), c("D","t2"), c("W","t3"), c("D","t2"), c("L","t1")],
+          [c("L","t1"), c("W","t3"), c("D","t2"), c("W+","t4"),c("L","t1"), c("KO","t5")]],
+  },
+  { num:"27", name:"Iron Jaw Jones",   style:"brawler", ctag:"Brawler",       rec:"20-14-2 · 12 KO", sty:"Orthodox · Chin First · Eat-to-Land",
+    stats:{PWR:4,SPD:2,CHN:5,STM:5,BOX:2},
+    grid:[[c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("W","t3"), c("HURT","t0"),c("KO","t5")],
+          [c("W","t3"), c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("HURT","t0")],
+          [c("KO","t5"),c("W","t3"), c("HURT","t0"),c("W+","t4"),c("HURT","t0"),c("W","t3")],
+          [c("HURT","t0"),c("KO","t5"),c("W","t3"), c("HURT","t0"),c("W","t3"), c("W+","t4")],
+          [c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("W","t3"), c("HURT","t0"),c("D","t2")],
+          [c("D","t2"), c("W+","t4"),c("HURT","t0"),c("KO","t5"),c("W+","t4"),c("HURT","t0")]],
+  },
+  { num:"28", name:"The Dark Horse",   style:"boxer",   ctag:"Technical Boxer",rec:"16-8-4 · 8 KO",   sty:"Orthodox · Unorthodox Style · Unpredictable",
+    stats:{PWR:3,SPD:4,CHN:4,STM:4,BOX:4},
+    grid:[[c("W","t3"), c("D","t2"), c("KO","t5"),c("W+","t4"),c("D","t2"), c("W","t3")],
+          [c("D","t2"), c("W+","t4"),c("W","t3"), c("D","t2"), c("HURT","t0"),c("W+","t4")],
+          [c("HURT","t0"),c("W","t3"), c("D","t2"), c("KO","t5"),c("W+","t4"),c("D","t2")],
+          [c("W+","t4"),c("HURT","t0"),c("W+","t4"),c("W","t3"), c("D","t2"), c("W","t3")],
+          [c("W","t3"), c("W+","t4"),c("D","t2"), c("HURT","t0"),c("W","t3"), c("W+","t4")],
+          [c("D","t2"), c("W","t3"), c("W+","t4"),c("D","t2"), c("KO","t5"),c("L","t1")]],
+  },
+  { num:"29", name:"The Southside Kid",style:"boxer",   ctag:"Technical Boxer",rec:"24-5-2 · 15 KO",  sty:"Southpaw · Jab & Move · Accurate",
+    stats:{PWR:3,SPD:5,CHN:4,STM:4,BOX:5},
+    grid:[[c("W+","t4"),c("W","t3"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W","t3")],
+          [c("W","t3"), c("W+","t4"),c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3")],
+          [c("D","t2"), c("W","t3"), c("D","t2"), c("W+","t4"),c("W","t3"), c("HURT","t0")],
+          [c("W+","t4"),c("D","t2"), c("W+","t4"),c("W","t3"), c("HURT","t0"),c("W+","t4")],
+          [c("HURT","t0"),c("W+","t4"),c("W","t3"), c("W+","t4"),c("D","t2"), c("L","t1")],
+          [c("L","t1"), c("W","t3"), c("HURT","t0"),c("D","t2"), c("W+","t4"),c("KO","t5")]],
+  },
+  { num:"30", name:"The Legend",       style:"puncher", ctag:"Big Puncher",   rec:"50-3-1 · 38 KO",  sty:"Orthodox · All-Time Great · Complete Fighter",
+    stats:{PWR:5,SPD:5,CHN:5,STM:5,BOX:5},
+    grid:[[c("KO","t5"),c("W+","t4"),c("W","t3"), c("W+","t4"),c("KO","t5"),c("D","t2")],
+          [c("W+","t4"),c("KO","t5"),c("W+","t4"),c("W","t3"), c("W+","t4"),c("HURT","t0")],
+          [c("W","t3"), c("W+","t4"),c("KO","t5"),c("W+","t4"),c("W","t3"), c("W+","t4")],
+          [c("W+","t4"),c("W","t3"), c("W+","t4"),c("KO","t5"),c("W+","t4"),c("W","t3")],
+          [c("D","t2"), c("W+","t4"),c("W","t3"), c("W+","t4"),c("KO","t5"),c("W+","t4")],
+          [c("HURT","t0"),c("W","t3"), c("W+","t4"),c("W","t3"), c("W+","t4"),c("KO","t5")]],
+  },
+];
+
+function renderPips(val,max=5){
+  let h=''; for(let i=1;i<=max;i++) h+=`<div class="pip${i<=val?' on':''}"></div>`; return h;
+}
+function renderGrid(grid){
+  return grid.map(row=>row.map(cell=>`<div class="cell ${cell.t}">${cell.v}</div>`).join('')).join('');
+}
+
+function renderFighter(f){
+  const roundBoxes = Array.from({length:12},(_,i)=>`
+    <div class="rnd">
+      <div class="rn">R${i+1}</div>
+      <div class="rb"></div>
+      <div class="rp">pts</div>
+    </div>`).join('');
+  const statRows = Object.entries(f.stats).map(([k,v])=>`
+    <div class="sr"><div class="sl">${k}</div><div class="pips">${renderPips(v)}</div></div>`).join('');
+  return `
+  <div class="card ${f.style}">
+    <div class="card-hd">
+      <div class="fn">${f.num}</div>
+      <div class="fm">
+        <div class="fname">${f.name}</div>
+        <div class="frec">${f.rec}</div>
+        <div class="fsty">${f.sty}</div>
+      </div>
+      <div class="ctag">${f.ctag}</div>
+      <div class="stats">${statRows}</div>
+    </div>
+    <div class="card-body">
+      <div class="grid-section">
+        <div class="grid-lbl">Roll each round</div>
+        <div class="dice-grid">${renderGrid(f.grid)}</div>
+      </div>
+      <div class="log-section">
+        <div class="log-lbl">Round log</div>
+        <div class="rounds-grid">${roundBoxes}</div>
+      </div>
+    </div>
+    <div class="res-strip">
+      <div class="ri"><div class="rl">Rounds Won</div><div class="rb2 rw"></div></div>
+      <div class="ri"><div class="rl">KOs Landed</div><div class="rb2 ko"></div></div>
+      <div class="rdiv"></div>
+      <div class="ri"><div class="rl">Fight Score</div><div class="rb2 sc"></div></div>
+      <div class="kstrip">
+        <div class="ks k5">KO=stops fight*</div>
+        <div class="ks k4">W+=10-8 or 10-9</div>
+        <div class="ks k3">W=10-9</div>
+        <div class="ks k2">D=10-10</div>
+        <div class="ks k1">L=lose round</div>
+        <div class="ks k0">HURT=you're down</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderScorecard(){
+  const nums = `<div></div>`+Array.from({length:12},(_,i)=>`<div class="sc-nh">${i+1}</div>`).join('')+`<div></div>`;
+  const redRow = `<div class="sc-rlbl r">Red</div>`+Array.from({length:12},()=>`<div class="sc-rbox r"></div>`).join('')+`<div class="sc-tot r"></div>`;
+  const blueRow = `<div class="sc-rlbl b">Blue</div>`+Array.from({length:12},()=>`<div class="sc-rbox b"></div>`).join('')+`<div class="sc-tot b"></div>`;
+  return `
+  <div class="scorecard">
+    <div class="sc-hd">
+      <div class="sc-title">JUDGES SCORECARD</div>
+      <div class="sc-sub">Heavyweight · 12 Rounds · 1 Roll Each Per Round</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-names">
+        <div class="sc-nr"><div class="cdot r"></div><div style="font-size:5pt;letter-spacing:1px;text-transform:uppercase;color:var(--red);width:.38in">Red</div><div class="nf"></div></div>
+        <div class="vs-txt">VS</div>
+        <div class="sc-nr"><div class="cdot b"></div><div style="font-size:5pt;letter-spacing:1px;text-transform:uppercase;color:var(--blue);width:.38in">Blue</div><div class="nf"></div></div>
+      </div>
+      <div class="sc-table">
+        <div class="sc-nums">${nums}</div>
+        <div class="sc-row">${redRow}</div>
+        <div style="height:3px;"></div>
+        <div class="sc-row">${blueRow}</div>
+      </div>
+      <div class="sc-note">KO vs D/L/HURT = fight stops · KO vs W/W+ = knockdown only · W+ vs W = 10-9 · W+ vs D/L/HURT = 10-8 · HURT = you're down, opponent wins round · 2 knockdowns = TKO · HURT vs HURT = 10-10 no KD</div>
+    </div>
+    <div class="sc-ft">
+      <div class="sc-fl">Winner</div><div class="sc-fb wi"></div>
+      <div class="sc-fl">Method</div><div class="sc-fb me"></div>
+      <div class="sc-fl">Round</div><div class="sc-fb rd"></div>
+      <div class="sc-methods">
+        <span class="sm ko">KO · TKO</span>
+        <span class="sm ud">UD · Unanimous</span>
+        <span class="sm sd">SD · Split</span>
+        <span class="sm md">MD · Majority</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderRoster(){
+  const col1 = fighters.slice(0,10);
+  const col2 = fighters.slice(10,20);
+  const col3 = fighters.slice(20,30);
+  function rows(list){
+    return list.map(f=>`
+      <div class="roster-row">
+        <div class="rr-num">${f.num}</div>
+        <div class="rr-name">${f.name}</div>
+        <div class="rr-style">${f.ctag}</div>
+      </div>`).join('');
+  }
+  return `
+  <div class="roster">
+    <div class="roster-hd">
+      <div class="roster-title">FIGHTER ROSTER</div>
+      <div class="roster-sub">30 Heavyweights · Pick Any 2 · Assign Red & Blue Corner</div>
+    </div>
+    <div class="roster-body">
+      <div class="roster-col">${rows(col1)}</div>
+      <div class="roster-col">${rows(col2)}</div>
+      <div class="roster-col">${rows(col3)}</div>
+    </div>
+    <div class="roster-ft">
+      <div class="style-key">
+        <div class="sk-item"><div class="sk-dot power"></div>Power Puncher</div>
+        <div class="sk-item"><div class="sk-dot boxer"></div>Technical Boxer</div>
+        <div class="sk-item"><div class="sk-dot brawler"></div>Brawler</div>
+        <div class="sk-item"><div class="sk-dot swarmer"></div>Swarmer</div>
+        <div class="sk-item"><div class="sk-dot slick"></div>Slick Mover</div>
+        <div class="sk-item"><div class="sk-dot puncher"></div>Big Puncher</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCover(){
+  return `
+  <div class="cover">
+    <div class="cover-ropes">
+      <div class="rope r"></div><div class="rope b"></div>
+      <div class="rope r"></div><div class="rope b"></div>
+    </div>
+    <div class="cover-title">GRID BOXING</div>
+    <div class="cover-bar"></div>
+    <div class="cover-sub">Heavyweight Division · Pen &amp; Paper Dice Game</div>
+    <div class="cover-info">30 Fighters · Pick Any 2 · 1 Roll Each Per Round · KO or 12 Rounds</div>
+  </div>`;
+}
+
+function renderInst(){
+  return `
+  <div class="inst">
+    <div class="inst-hd"><div class="inst-title">HOW TO PLAY GRID BOXING</div></div>
+    <div class="inst-body">
+      <div class="icol">
+        <div class="istep"><div class="sn">1</div><div class="st"><strong>Pick any 2 fighters.</strong> Assign Red Corner and Blue Corner. Pull both cards and a scorecard.</div></div>
+        <div class="istep"><div class="sn">2</div><div class="st"><strong>Each round, both roll once</strong> on their own grid. Red die = row, Blue die = column. Then compare results head to head.</div></div>
+        <div class="istep"><div class="sn">3</div><div class="st"><strong>SCORING TABLE</strong><br>
+          KO vs KO → 10-10, no stoppage<br>
+          KO vs W+ or W → Knockdown, you win 10-9<br>
+          KO vs D, L, or HURT → Fight stopped, KO win<br>
+          W+ vs W+ → 10-10 draw<br>
+          W+ vs W → You win 10-9<br>
+          W+ vs D, L, or HURT → You win 10-8<br>
+          W vs W → 10-10 draw<br>
+          W vs D, L, or HURT → You win 10-9<br>
+          D vs D → 10-10 draw<br>
+          D vs L or HURT → You win 10-9<br>
+          L vs L → 10-10 draw<br>
+          L vs HURT → You win 10-9<br>
+          HURT vs HURT → Double KD, 10-10 draw
+        </div></div>
+      </div>
+      <div class="icol">
+        <div class="istep"><div class="sn">4</div><div class="st"><strong>HURT = knockdown.</strong> You took a big shot and hit the canvas. Your opponent wins the round automatically regardless of their own roll. Note it on the scorecard.</div></div>
+        <div class="istep"><div class="sn">5</div><div class="st"><strong>Two knockdowns = TKO.</strong> If the same fighter is knocked down twice across the whole fight — KO landing vs W/W+, or rolling HURT — the fight is stopped.</div></div>
+        <div class="istep"><div class="sn">6</div><div class="st"><strong>KO stoppage:</strong> Only stops the fight if the opponent rolled D, L, or HURT. If they rolled W or W+, their class kept them up — knockdown only, fight continues.</div></div>
+        <div class="istep"><div class="sn">7</div><div class="st"><strong>Goes 12 rounds?</strong> Count rounds won on the scorecard. Unanimous Decision = 4+ round gap. Majority = 2–3. Split = 1 round or less.</div></div>
+      </div>
+    </div>
+    <div class="inst-ft">
+      <div class="ikey">
+        <div class="ki"><div class="kd t5"></div>KO — Stops fight (vs D/L/HURT)</div>
+        <div class="ki"><div class="kd t4"></div>W+ — 10-8 round</div>
+        <div class="ki"><div class="kd t3"></div>W — 10-9 round</div>
+        <div class="ki"><div class="kd t2"></div>D — 10-10 draw</div>
+        <div class="ki"><div class="kd t1"></div>L — Lose round</div>
+        <div class="ki"><div class="kd t0"></div>HURT — Knockdown</div>
+        <span style="margin-left:auto;font-size:5pt;color:#888;">Red die = Row · Blue die = Column · Same grid all 12 rounds</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  const p = document.getElementById("preview");
+  p.insertAdjacentHTML("beforeend", renderCover());
+  p.insertAdjacentHTML("beforeend", renderInst());
+  p.insertAdjacentHTML("beforeend", renderRoster());
+  fighters.forEach(f => p.insertAdjacentHTML("beforeend", renderFighter(f)));
+  // Print 3 scorecards
+  for(let i=0;i<3;i++) p.insertAdjacentHTML("beforeend", renderScorecard());
+});
+</script>
+</body>
+</html>

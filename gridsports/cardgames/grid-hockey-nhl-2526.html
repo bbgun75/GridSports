@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grid Hockey – NHL 2025-26</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;600&display=swap');
+
+/* Portrait index card: 3in × 5in */
+@page { size: 3in 5in; margin: 0; }
+
+@media print {
+  html, body { margin: 0; padding: 0; background: white; }
+  .no-print { display: none !important; }
+  .card-wrap { width: auto !important; height: auto !important; }
+  .card-page { transform: none !important; page-break-after: always; break-after: page; }
+  .card-page:last-of-type { page-break-after: avoid; break-after: avoid; }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #080e1c; font-family: 'Barlow Condensed', sans-serif; }
+
+.no-print {
+  background: #080e1c; padding: 20px; text-align: center;
+  border-bottom: 2px solid #4fc3f7;
+}
+.no-print h1 { font-family: 'Anton', sans-serif; font-size: 1.9rem; color: #4fc3f7; letter-spacing: 4px; }
+.no-print p { color: #78909c; font-size: 0.85rem; margin-top: 4px; }
+.print-btn {
+  margin-top: 12px; padding: 10px 28px; background: #4fc3f7;
+  color: #080e1c; border: none; font-family: 'Anton', sans-serif;
+  font-size: 1rem; letter-spacing: 2px; cursor: pointer; border-radius: 2px;
+}
+
+#preview {
+  background: #0d1625; padding: 20px;
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+}
+
+/* Scale factor for screen */
+.card-wrap {
+  display: inline-block;
+  width:  calc(3in * 0.68);
+  height: calc(5in * 0.68);
+  flex-shrink: 0;
+}
+
+/* ── CARD: 3in wide × 5in tall portrait ── */
+.card-page {
+  width: 3in; height: 5in;
+  background: #fff;
+  display: flex; flex-direction: column;
+  font-family: 'Barlow Condensed', sans-serif;
+  overflow: hidden; flex-shrink: 0;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.55);
+  transform: scale(0.68); transform-origin: top left;
+  --accent: #1565c0;
+}
+
+/* ── HEADER BAND ── */
+.card-header {
+  background: var(--accent);
+  padding: 0.09in 0.1in 0.07in;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-shrink: 0;
+}
+.hdr-left { display: flex; flex-direction: column; }
+.game-label { font-family: 'Barlow', sans-serif; font-size: 5.5pt; color: rgba(255,255,255,0.5); letter-spacing: 2px; font-weight: 600; }
+.team-name-big { font-family: 'Anton', sans-serif; font-size: 17pt; color: #fff; letter-spacing: 1px; line-height: 1; margin-top: 1px; }
+.team-city-sm { font-size: 6pt; color: rgba(255,255,255,0.6); letter-spacing: 0.5px; margin-top: 2px; }
+.hdr-right { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; padding-top: 2px; }
+.team-flag { font-size: 20pt; line-height: 1; }
+.team-num { font-family: 'Barlow', sans-serif; font-size: 6pt; color: rgba(255,255,255,0.35); font-weight: 600; letter-spacing: 1px; }
+
+/* ── STAT ROW ── */
+.stat-row {
+  display: flex; border-bottom: 1.5px solid var(--accent);
+  background: #f4f7fb; flex-shrink: 0;
+}
+.stat-cell {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 0.042in 0.03in;
+  border-right: 1px solid #dde4ee;
+}
+.stat-cell:last-child { border-right: none; }
+.stat-label { font-size: 4.5pt; color: #999; letter-spacing: 1px; text-transform: uppercase; font-family: 'Barlow', sans-serif; font-weight: 600; }
+.stat-value { font-family: 'Anton', sans-serif; font-size: 10pt; color: var(--accent); letter-spacing: 0.5px; line-height: 1.1; }
+.stat-sub { font-size: 4pt; color: #bbb; font-family: 'Barlow', sans-serif; }
+
+/* ── GRID SECTION ── */
+.grid-section {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 0.065in 0.08in 0.045in;
+}
+.grid-title-row {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.038in;
+}
+.grid-title { font-family: 'Anton', sans-serif; font-size: 7pt; color: var(--accent); letter-spacing: 1.5px; }
+.grid-hint { font-size: 4.5pt; color: #bbb; font-family: 'Barlow', sans-serif; }
+
+.dice-grid {
+  display: grid;
+  grid-template-columns: 0.13in repeat(6, 1fr);
+  grid-template-rows: 0.13in repeat(6, 1fr);
+  flex: 1; gap: 1.2px;
+}
+.grid-corner { background: #fff; }
+.grid-col-head { background: #c62828; display: flex; align-items: center; justify-content: center; font-family: 'Anton', sans-serif; font-size: 5.5pt; color: white; border-radius: 1px; }
+.grid-row-head { background: #1565c0; display: flex; align-items: center; justify-content: center; font-family: 'Anton', sans-serif; font-size: 5.5pt; color: white; border-radius: 1px; }
+.grid-cell { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 0.75px solid #e0e0e0; border-radius: 1px; line-height: 1; }
+
+.cell-goal  { background: #dbeafe; border-color: #1d4ed8; }
+.cell-save  { background: #fee2e2; border-color: #dc2626; }
+.cell-block { background: #dcfce7; border-color: #16a34a; }
+.cell-post  { background: #fef9c3; border-color: #ca8a04; }
+.cell-wide  { background: #f5f5f5; border-color: #bdbdbd; }
+
+.cell-type { font-family: 'Anton', sans-serif; font-size: 4.5pt; }
+.cell-val  { font-size: 3.5pt; color: #777; font-family: 'Barlow', sans-serif; }
+
+.legend-row { display: flex; gap: 0.04in; flex-wrap: wrap; margin-top: 0.038in; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 2px; font-size: 4pt; color: #666; font-family: 'Barlow', sans-serif; }
+.legend-dot { width: 6px; height: 6px; border-radius: 1px; flex-shrink: 0; }
+
+/* ── RESULT BAND ── */
+.result-band {
+  display: flex; border-top: 1.5px solid var(--accent);
+  background: #fafbfd; flex-shrink: 0;
+}
+.result-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 0.034in 0.02in;
+  border-right: 1px solid #e8edf2;
+}
+.result-item:last-child { border-right: none; }
+.result-icon { font-size: 6.5pt; line-height: 1; }
+.result-label { font-family: 'Anton', sans-serif; font-size: 5.5pt; letter-spacing: 0.5px; }
+.result-pts { font-size: 4pt; color: #aaa; font-family: 'Barlow', sans-serif; }
+.r-win  { color: #1565c0; }
+.r-ot   { color: #b45309; }
+.r-loss { color: #c62828; }
+
+/* ── WRITE LINE ── */
+.write-line {
+  display: flex; gap: 0.05in; padding: 0.038in 0.08in 0.045in;
+  border-top: 1px solid #eee; flex-shrink: 0;
+}
+.write-field { flex: 1; border-bottom: 0.75px solid #ccc; font-size: 4pt; color: #ccc; padding-bottom: 1px; font-family: 'Barlow', sans-serif; }
+
+/* ══ INSTRUCTIONS ══ */
+.inst-page { background: #050c1a !important; display: flex; flex-direction: column; }
+.inst-top {
+  background: #0d2240; padding: 0.11in 0.1in 0.09in;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; border-bottom: 3px solid #4fc3f7; flex-shrink: 0;
+}
+.inst-game-label { font-family: 'Barlow', sans-serif; font-size: 6pt; color: #81d4fa; letter-spacing: 3px; font-weight: 600; }
+.inst-title { font-family: 'Anton', sans-serif; font-size: 22pt; color: white; letter-spacing: 2px; line-height: 0.95; margin-top: 2px; }
+.inst-season { font-family: 'Anton', sans-serif; font-size: 9pt; color: rgba(255,255,255,0.3); letter-spacing: 3px; margin-top: 1px; }
+.inst-puck { font-size: 20pt; margin: 0.04in 0 0.04in; }
+.inst-dice-row { display: flex; gap: 0.1in; }
+.inst-die { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.die-box { width: 0.26in; height: 0.26in; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 10pt; color: white; font-family: 'Anton', sans-serif; }
+.die-red  { background: #c62828; }
+.die-blue { background: #1565c0; }
+.die-label { font-size: 4.5pt; color: #81d4fa; font-family: 'Barlow', sans-serif; font-weight: 600; letter-spacing: 0.5px; }
+
+.inst-body { flex: 1; padding: 0.09in 0.1in; display: flex; flex-direction: column; gap: 0.045in; }
+.inst-section { font-family: 'Anton', sans-serif; font-size: 7pt; color: #4fc3f7; letter-spacing: 2px; margin-bottom: 1px; }
+.inst-step { display: flex; gap: 5px; align-items: flex-start; }
+.inst-num { font-family: 'Anton', sans-serif; font-size: 9pt; color: #4fc3f7; line-height: 1; flex-shrink: 0; width: 10px; }
+.inst-text { font-size: 5.5pt; color: #cfd8dc; line-height: 1.4; font-family: 'Barlow', sans-serif; }
+.inst-divider { border: none; border-top: 1px solid rgba(79,195,247,0.15); }
+
+.inst-results { display: flex; gap: 0.04in; }
+.inst-res-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.inst-res-icon { font-size: 8pt; }
+.inst-res-label { font-family: 'Anton', sans-serif; font-size: 6pt; }
+.inst-res-detail { font-size: 4.5pt; color: #90a4ae; font-family: 'Barlow', sans-serif; text-align: center; line-height: 1.3; }
+
+.inst-tiers { display: flex; flex-direction: column; gap: 2px; }
+.inst-tier-row { display: flex; align-items: center; gap: 4px; }
+.inst-tier-badge { font-family: 'Anton', sans-serif; font-size: 6pt; padding: 1px 4px; border-radius: 1px; color: white; flex-shrink: 0; }
+.inst-tier-desc { font-size: 4.5pt; color: #90a4ae; font-family: 'Barlow', sans-serif; line-height: 1.35; }
+
+.inst-footer { font-size: 4pt; color: #37474f; font-family: 'Barlow', sans-serif; border-top: 1px solid rgba(255,255,255,0.06); padding: 0.035in 0.1in; text-align: center; flex-shrink: 0; }
+
+/* ══ TALLY ══ */
+.tally-page { background: white !important; display: flex; flex-direction: column; padding: 0.08in 0.09in; }
+.tally-hdr { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #1565c0; padding-bottom: 0.03in; margin-bottom: 0.02in; }
+.tally-game { font-family: 'Anton', sans-serif; font-size: 11pt; color: #1565c0; letter-spacing: 2px; }
+.tally-sub { font-size: 5pt; color: #90a4ae; letter-spacing: 1px; }
+.tally-body { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+.tally-row { display: flex; align-items: center; border-bottom: 0.5px solid #f5f5f5; padding: 0.8px 0; }
+.t-num { font-family: 'Anton', sans-serif; font-size: 5pt; color: #ddd; width: 0.12in; flex-shrink: 0; }
+.t-flag { font-size: 7.5pt; width: 0.15in; flex-shrink: 0; line-height: 1; }
+.t-name { flex: 1; font-size: 5pt; color: #222; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; font-family: 'Barlow Condensed', sans-serif; }
+.t-boxes { display: flex; gap: 1.5px; width: 0.72in; flex-shrink: 0; }
+.t-box { flex: 1; height: 9px; border: 0.5px solid #ddd; border-radius: 1px; display: flex; align-items: center; justify-content: center; font-size: 3pt; font-weight: 700; letter-spacing: 0.2px; }
+.tw { border-color: #1565c0; color: #1565c0; }
+.tot { border-color: #b45309; color: #b45309; }
+.tl { border-color: #c62828; color: #c62828; }
+.tp { border-color: #16a34a; color: #16a34a; }
+.t-gf { width: 0.2in; height: 9px; border-bottom: 0.5px solid #ddd; flex-shrink: 0; margin-left: 2px; }
+.tally-footer { display: flex; align-items: center; gap: 6px; border-top: 1.5px solid #1565c0; padding-top: 0.03in; margin-top: 0.025in; }
+.tally-tot-label { font-family: 'Anton', sans-serif; font-size: 7pt; color: #1565c0; letter-spacing: 1px; flex: 1; }
+.tally-tot-box { width: 0.4in; height: 12px; border: 1.5px solid #1565c0; border-radius: 2px; }
+.tally-tot-note { font-size: 3.5pt; color: #aaa; font-family: 'Barlow', sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <h1>🏒 GRID HOCKEY · NHL 2025-26</h1>
+  <p>32 team cards + instructions + tally · Print on 3×5 index cards (portrait) · Tiers from actual 2025-26 standings</p>
+  <button class="print-btn" onclick="window.print()">PRINT CARDS</button>
+</div>
+
+<div id="preview"></div>
+
+<script>
+// Tiers based on actual 2025-26 GF & standings (updated March 2026):
+// A = TB, BUF, MTL, CAR, COL, MIN, DAL, EDM  → shot base 24, range 25-35 (4 goal cells)
+// B = DET, BOS, PIT, NYI, CBJ, WSH, UTA, VGK, ANA  → shot base 20, range 21-32 (3 goal cells)
+// C = OTT, TOR, FLA, PHI, NSH, CHI, STL, WPG, LAK, SJS, SEA, CGY(was D)  → shot base 16, range 17-28 (3 goal cells)
+// D = NJ, NYR, VAN, CGY, FLA  → shot base 12, range 13-24 (2 goal cells)
+
+function g(s){ return s.split(','); }
+
+const teams = [
+// Lightning → Tier A, 4 goal cells / 36 (11%)
+{num:"01",name:"Lightning", city:"Tampa Bay", flag:"⚡", conf:"ATL", tier:"A", accent:"#002868",
+ shot_base:24, shot_range:"25–35",
+ grid:[g("G,SV,SV,SV,SV,WD"),g("SV,G,BL,SV,BL,BL"),g("BL,SV,SV,SV,BL,G"),g("BL,WD,SV,SV,BL,G"),g("BL,PT,WD,SV,BL,BL"),g("BL,SV,PT,PT,WD,SV")]},
+// Canadiens → Tier A, 4 goal cells / 36 (11%)
+{num:"02",name:"Canadiens", city:"Montreal", flag:"🇨🇦", conf:"ATL", tier:"A", accent:"#af1e2d",
+ shot_base:24, shot_range:"25–35",
+ grid:[g("BL,SV,G,WD,SV,BL"),g("BL,G,G,SV,WD,BL"),g("G,BL,SV,BL,PT,BL"),g("SV,BL,SV,SV,WD,WD"),g("SV,SV,PT,BL,SV,PT"),g("BL,SV,SV,BL,SV,SV")]},
+// Red Wings → Tier B, 3 goal cells / 36 (8%)
+{num:"03",name:"Red Wings", city:"Detroit", flag:"🔴", conf:"ATL", tier:"B", accent:"#ce1126",
+ shot_base:20, shot_range:"21–32",
+ grid:[g("SV,WD,SV,BL,PT,WD"),g("SV,SV,BL,BL,BL,G"),g("BL,BL,SV,SV,SV,SV"),g("BL,BL,G,WD,PT,SV"),g("SV,SV,BL,BL,SV,BL"),g("SV,PT,BL,G,SV,SV")]},
+// Sabres → Tier A, 4 goal cells / 36 (11%) — 232 GF, 86pts
+{num:"04",name:"Sabres", city:"Buffalo", flag:"🐂", conf:"ATL", tier:"A", accent:"#003087",
+ shot_base:24, shot_range:"25–35",
+ grid:[g("SV,WD,G,SV,WD,SV"),g("WD,BL,SV,BL,SV,SV"),g("BL,G,G,SV,BL,SV"),g("PT,BL,SV,BL,BL,SV"),g("BL,SV,BL,SV,WD,SV"),g("G,BL,PT,PT,BL,SV")]},
+// Bruins → Tier B, 3 goal cells / 36 (8%)
+{num:"05",name:"Bruins", city:"Boston", flag:"🐻", conf:"ATL", tier:"B", accent:"#fcb514",
+ shot_base:20, shot_range:"21–32",
+ grid:[g("BL,BL,SV,BL,SV,SV"),g("SV,SV,BL,PT,G,SV"),g("SV,PT,WD,BL,BL,WD"),g("SV,G,SV,SV,BL,SV"),g("G,BL,SV,PT,BL,SV"),g("BL,SV,WD,BL,BL,SV")]},
+// Senators → Tier C, 3 goal cells / 36 (8%)
+{num:"06",name:"Senators", city:"Ottawa", flag:"🏛", conf:"ATL", tier:"C", accent:"#e31837",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("SV,BL,BL,BL,SV,SV"),g("SV,BL,PT,SV,SV,SV"),g("BL,BL,SV,BL,WD,G"),g("G,BL,WD,SV,WD,SV"),g("SV,BL,BL,G,BL,BL"),g("SV,PT,SV,SV,SV,PT")]},
+// Maple Leafs → Tier C, 3 goal cells / 36 (8%)
+{num:"07",name:"Maple Leafs", city:"Toronto", flag:"🍁", conf:"ATL", tier:"C", accent:"#003e7e",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("BL,BL,BL,PT,BL,PT"),g("WD,SV,SV,G,SV,SV"),g("SV,WD,SV,BL,PT,BL"),g("BL,WD,BL,SV,SV,SV"),g("BL,SV,BL,SV,G,BL"),g("SV,SV,G,SV,BL,SV")]},
+// Panthers → Tier C, 3 goal cells / 36 (8%)
+{num:"08",name:"Panthers", city:"Florida", flag:"🐆", conf:"ATL", tier:"C", accent:"#c8102e",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("BL,BL,BL,BL,SV,BL"),g("BL,SV,PT,SV,G,SV"),g("SV,WD,SV,SV,BL,SV"),g("SV,PT,BL,PT,SV,SV"),g("BL,BL,SV,SV,WD,G"),g("BL,WD,BL,SV,G,SV")]},
+// Hurricanes → Tier A, 4 goal cells / 36 (11%)
+{num:"09",name:"Hurricanes", city:"Carolina", flag:"🌀", conf:"MET", tier:"A", accent:"#cc0000",
+ shot_base:24, shot_range:"25–35",
+ grid:[g("BL,BL,BL,BL,BL,BL"),g("SV,SV,SV,WD,SV,SV"),g("BL,WD,PT,BL,BL,G"),g("BL,BL,G,PT,SV,SV"),g("G,SV,WD,SV,SV,SV"),g("PT,SV,G,SV,SV,WD")]},
+// Penguins → Tier B, 3 goal cells / 36 (8%)
+{num:"10",name:"Penguins", city:"Pittsburgh", flag:"🐧", conf:"MET", tier:"B", accent:"#fcb514",
+ shot_base:20, shot_range:"21–32",
+ grid:[g("WD,BL,BL,PT,SV,SV"),g("BL,SV,BL,BL,SV,PT"),g("SV,SV,BL,BL,SV,SV"),g("BL,G,SV,PT,SV,SV"),g("BL,BL,WD,WD,G,SV"),g("G,BL,BL,SV,SV,SV")]},
+// Islanders → Tier B, 3 goal cells / 36 (8%)
+{num:"11",name:"Islanders", city:"NY Islanders", flag:"🔷", conf:"MET", tier:"B", accent:"#f47d30",
+ shot_base:20, shot_range:"21–32",
+ grid:[g("SV,BL,G,SV,PT,BL"),g("G,WD,SV,BL,WD,SV"),g("BL,SV,BL,BL,PT,SV"),g("SV,BL,SV,SV,SV,BL"),g("SV,WD,SV,SV,BL,SV"),g("BL,BL,G,PT,SV,BL")]},
+// Blue Jackets → Tier B, 3 goal cells / 36 (8%) — 210 GF, 77pts
+{num:"12",name:"Blue Jackets", city:"Columbus", flag:"💙", conf:"MET", tier:"B", accent:"#002654",
+ shot_base:20, shot_range:"21–32",
+ grid:[g("PT,SV,SV,WD,SV,BL"),g("G,BL,SV,BL,BL,WD"),g("SV,BL,SV,WD,BL,BL"),g("BL,BL,SV,SV,SV,BL"),g("BL,SV,SV,PT,SV,SV"),g("PT,G,SV,G,BL,SV")]},
+// Capitals → Tier B, 3 goal cells / 36 (8%)
+{num:"13",name:"Capitals", city:"Washington", flag:"🦅", conf:"MET", tier:"B", accent:"#c8102e",
+ shot_base:20, shot_range:"21–32",
+ grid:[g("SV,G,PT,BL,BL,WD"),g("G,BL,PT,BL,SV,BL"),g("SV,SV,SV,WD,SV,BL"),g("BL,SV,SV,BL,BL,BL"),g("SV,SV,SV,WD,SV,PT"),g("SV,BL,BL,G,SV,SV")]},
+// Flyers → Tier C, 3 goal cells / 36 (8%)
+{num:"14",name:"Flyers", city:"Philadelphia", flag:"🟠", conf:"MET", tier:"C", accent:"#f74902",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("SV,SV,BL,SV,SV,SV"),g("G,PT,BL,SV,BL,BL"),g("G,SV,SV,SV,SV,WD"),g("PT,BL,G,BL,BL,BL"),g("SV,WD,WD,BL,PT,SV"),g("SV,BL,SV,SV,BL,BL")]},
+// Devils → Tier D, 2 goal cells / 36 (6%)
+{num:"15",name:"Devils", city:"New Jersey", flag:"😈", conf:"MET", tier:"D", accent:"#ce1126",
+ shot_base:12, shot_range:"13–24",
+ grid:[g("BL,SV,WD,SV,PT,WD"),g("SV,BL,BL,SV,SV,PT"),g("BL,BL,BL,SV,WD,WD"),g("SV,PT,G,BL,SV,BL"),g("SV,SV,BL,BL,SV,SV"),g("G,BL,BL,SV,SV,SV")]},
+// Rangers → Tier D, 2 goal cells / 36 (6%)
+{num:"16",name:"Rangers", city:"NY Rangers", flag:"🗽", conf:"MET", tier:"D", accent:"#0038a8",
+ shot_base:12, shot_range:"13–24",
+ grid:[g("BL,SV,WD,BL,BL,SV"),g("BL,SV,SV,SV,BL,WD"),g("BL,PT,WD,BL,SV,PT"),g("SV,SV,PT,SV,SV,G"),g("BL,WD,SV,BL,SV,SV"),g("SV,BL,BL,BL,G,SV")]},
+// Avalanche → Tier A, 4 goal cells / 36 (11%)
+{num:"17",name:"Avalanche", city:"Colorado", flag:"🏔", conf:"CEN", tier:"A", accent:"#6f263d",
+ shot_base:24, shot_range:"25–35",
+ grid:[g("BL,PT,BL,G,G,WD"),g("WD,SV,BL,G,BL,SV"),g("SV,SV,BL,WD,SV,BL"),g("BL,SV,G,SV,SV,SV"),g("SV,PT,BL,PT,SV,WD"),g("BL,SV,BL,SV,BL,SV")]},
+// Wild → Tier A, 4 goal cells / 36 (11%)
+{num:"18",name:"Wild", city:"Minnesota", flag:"🌲", conf:"CEN", tier:"A", accent:"#154734",
+ shot_base:24, shot_range:"25–35",
+ grid:[g("PT,SV,SV,BL,BL,G"),g("SV,WD,WD,SV,SV,SV"),g("G,BL,G,BL,BL,PT"),g("SV,SV,WD,G,BL,BL"),g("BL,SV,PT,SV,SV,SV"),g("WD,SV,SV,BL,BL,BL")]},
+// Stars → Tier A, 4 goal cells / 36 (11%)
+{num:"19",name:"Stars", city:"Dallas", flag:"⭐", conf:"CEN", tier:"A", accent:"#006847",
+ shot_base:24, shot_range:"25–35",
+ grid:[g("BL,SV,PT,SV,BL,G"),g("BL,SV,BL,SV,BL,G"),g("SV,BL,PT,WD,BL,BL"),g("BL,SV,WD,G,SV,G"),g("SV,SV,BL,WD,SV,SV"),g("SV,WD,SV,PT,SV,BL")]},
+// Mammoth → Tier B, 3 goal cells / 36 (8%)
+{num:"20",name:"Mammoth", city:"Utah", flag:"🦣", conf:"CEN", tier:"B", accent:"#5c4a1e",
+ shot_base:20, shot_range:"21–32",
+ grid:[g("SV,WD,SV,G,SV,BL"),g("SV,WD,SV,SV,BL,SV"),g("SV,BL,BL,SV,BL,SV"),g("SV,SV,BL,G,BL,SV"),g("PT,BL,BL,BL,SV,BL"),g("WD,G,SV,BL,PT,PT")]},
+// Predators → Tier C, 3 goal cells / 36 (8%)
+{num:"21",name:"Predators", city:"Nashville", flag:"🎸", conf:"CEN", tier:"C", accent:"#ffb81c",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("SV,SV,SV,SV,SV,PT"),g("BL,SV,BL,WD,BL,SV"),g("SV,SV,PT,SV,BL,BL"),g("BL,G,PT,WD,BL,BL"),g("SV,SV,BL,G,BL,BL"),g("BL,SV,SV,G,SV,WD")]},
+// Blackhawks → Tier C, 3 goal cells / 36 (8%)
+{num:"22",name:"Blackhawks", city:"Chicago", flag:"🦅", conf:"CEN", tier:"C", accent:"#ce1126",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("SV,BL,BL,PT,SV,WD"),g("BL,SV,PT,SV,SV,SV"),g("SV,SV,SV,BL,BL,SV"),g("SV,G,SV,BL,BL,G"),g("WD,BL,G,WD,BL,BL"),g("BL,SV,SV,SV,BL,PT")]},
+// Jets → Tier C, 3 goal cells / 36 (8%) — 182 GF, 62pts
+{num:"23",name:"Jets", city:"Winnipeg", flag:"✈", conf:"CEN", tier:"C", accent:"#041e42",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("BL,BL,BL,SV,SV,G"),g("SV,BL,PT,WD,BL,BL"),g("PT,SV,G,SV,SV,SV"),g("SV,SV,SV,SV,PT,SV"),g("BL,WD,BL,SV,G,BL"),g("BL,SV,BL,BL,SV,WD")]},
+// Blues → Tier C, 3 goal cells / 36 (8%)
+{num:"24",name:"Blues", city:"St. Louis", flag:"🎵", conf:"CEN", tier:"C", accent:"#002f87",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("BL,PT,WD,SV,SV,G"),g("BL,BL,SV,WD,SV,G"),g("BL,BL,SV,SV,SV,SV"),g("SV,SV,G,SV,BL,WD"),g("SV,SV,BL,BL,BL,BL"),g("BL,BL,PT,SV,PT,SV")]},
+// Oilers → Tier A, 4 goal cells / 36 (11%)
+{num:"25",name:"Oilers", city:"Edmonton", flag:"🛢", conf:"PAC", tier:"A", accent:"#fc4c02",
+ shot_base:24, shot_range:"25–35",
+ grid:[g("SV,SV,BL,BL,SV,SV"),g("BL,SV,WD,SV,BL,SV"),g("PT,WD,BL,SV,PT,SV"),g("G,BL,SV,BL,WD,G"),g("G,BL,BL,SV,SV,BL"),g("PT,G,WD,SV,BL,SV")]},
+// Golden Knts → Tier B, 3 goal cells / 36 (8%)
+{num:"26",name:"Golden Knts", city:"Vegas", flag:"⚔", conf:"PAC", tier:"B", accent:"#b4975a",
+ shot_base:20, shot_range:"21–32",
+ grid:[g("BL,SV,SV,SV,PT,PT"),g("SV,SV,BL,SV,SV,WD"),g("SV,G,BL,SV,G,WD"),g("SV,PT,BL,BL,SV,BL"),g("BL,SV,BL,BL,SV,BL"),g("SV,G,WD,BL,SV,BL")]},
+// Canucks → Tier D, 2 goal cells / 36 (6%) — 169 GF, 48pts
+{num:"27",name:"Canucks", city:"Vancouver", flag:"🌊", conf:"PAC", tier:"D", accent:"#008852",
+ shot_base:12, shot_range:"13–24",
+ grid:[g("SV,PT,SV,BL,WD,SV"),g("SV,SV,BL,WD,BL,SV"),g("SV,BL,BL,G,BL,PT"),g("BL,BL,BL,BL,SV,WD"),g("PT,BL,SV,SV,SV,SV"),g("SV,G,SV,BL,SV,WD")]},
+// Kings → Tier C, 3 goal cells / 36 (8%) — 172 GF, 69pts
+{num:"28",name:"Kings", city:"Los Angeles", flag:"👑", conf:"PAC", tier:"C", accent:"#111111",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("G,BL,SV,SV,SV,G"),g("BL,SV,BL,SV,SV,PT"),g("SV,G,BL,SV,SV,WD"),g("SV,SV,SV,BL,PT,SV"),g("WD,BL,SV,BL,SV,BL"),g("BL,BL,PT,BL,WD,BL")]},
+// Flames → Tier D, 2 goal cells / 36 (6%) — 163 GF, 59pts
+{num:"29",name:"Flames", city:"Calgary", flag:"🔥", conf:"PAC", tier:"D", accent:"#c8102e",
+ shot_base:12, shot_range:"13–24",
+ grid:[g("BL,SV,WD,BL,SV,SV"),g("SV,SV,BL,SV,WD,G"),g("SV,SV,SV,SV,WD,SV"),g("BL,SV,SV,BL,PT,BL"),g("PT,WD,PT,BL,SV,BL"),g("BL,BL,BL,BL,G,SV")]},
+// Kraken → Tier C, 3 goal cells / 36 (8%)
+{num:"30",name:"Kraken", city:"Seattle", flag:"🐙", conf:"PAC", tier:"C", accent:"#001628",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("SV,PT,SV,BL,SV,PT"),g("BL,SV,SV,BL,BL,G"),g("BL,SV,BL,BL,SV,SV"),g("BL,SV,WD,WD,WD,SV"),g("BL,SV,PT,G,SV,G"),g("BL,SV,SV,SV,BL,BL")]},
+// Ducks → Tier B, 3 goal cells / 36 (8%) — 219 GF, 75pts
+{num:"31",name:"Ducks", city:"Anaheim", flag:"🦆", conf:"PAC", tier:"B", accent:"#f47a38",
+ shot_base:20, shot_range:"21–32",
+ grid:[g("PT,SV,WD,BL,SV,G"),g("SV,BL,BL,BL,SV,BL"),g("SV,BL,SV,BL,SV,G"),g("G,SV,PT,WD,SV,BL"),g("WD,SV,SV,SV,PT,BL"),g("BL,BL,SV,SV,BL,SV")]},
+// Sharks → Tier C, 3 goal cells / 36 (8%) — 196 GF, 68pts
+{num:"32",name:"Sharks", city:"San Jose", flag:"🦈", conf:"PAC", tier:"C", accent:"#006d75",
+ shot_base:16, shot_range:"17–28",
+ grid:[g("BL,SV,BL,SV,BL,BL"),g("BL,SV,SV,BL,PT,SV"),g("WD,SV,SV,SV,G,WD"),g("PT,SV,BL,BL,SV,SV"),g("BL,WD,SV,BL,PT,G"),g("BL,SV,BL,G,SV,SV")]},
+];
+
+function cellClass(t){
+  if(t==='G')  return 'grid-cell cell-goal';
+  if(t==='SV') return 'grid-cell cell-save';
+  if(t==='BL') return 'grid-cell cell-block';
+  if(t==='PT') return 'grid-cell cell-post';
+  return 'grid-cell cell-wide';
+}
+function cellLabel(t){
+  if(t==='G')  return ['GOAL','🏒'];
+  if(t==='SV') return ['SAVE','✗'];
+  if(t==='BL') return ['BLOK','✗'];
+  if(t==='PT') return ['POST','—'];
+  return ['WIDE','—'];
+}
+function tierColor(t){
+  return {A:'#c62828',B:'#1565c0',C:'#16a34a',D:'#78350f'}[t]||'#555';
+}
+
+function renderCard(t){
+  let gridHTML = '<div class="grid-corner"></div>';
+  for(let c=1;c<=6;c++) gridHTML+=`<div class="grid-col-head">${c}</div>`;
+  for(let r=0;r<6;r++){
+    gridHTML+=`<div class="grid-row-head">${r+1}</div>`;
+    for(let c=0;c<6;c++){
+      const cell=t.grid[r][c];
+      const [lbl,val]=cellLabel(cell);
+      gridHTML+=`<div class="${cellClass(cell)}"><span class="cell-type">${lbl}</span><span class="cell-val">${val}</span></div>`;
+    }
+  }
+  return `
+<div class="card-wrap"><div class="card-page" style="--accent:${t.accent}">
+  <div class="card-header">
+    <div class="hdr-left">
+      <span class="game-label">GRID HOCKEY · NHL 2025–26</span>
+      <span class="team-name-big">${t.name}</span>
+      <span class="team-city-sm">${t.city} &middot; ${t.conf}</span>
+    </div>
+    <div class="hdr-right">
+      <span class="team-flag">${t.flag}</span>
+      <span class="team-num">#${t.num}</span>
+    </div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-cell">
+      <span class="stat-label">Shots</span>
+      <span class="stat-value">${t.shot_range}</span>
+      <span class="stat-sub">1d12 + ${t.shot_base}</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">Tier</span>
+      <span class="stat-value" style="color:${tierColor(t.tier)}">${t.tier}</span>
+      <span class="stat-sub">offense</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">🔴 Die</span>
+      <span class="stat-value" style="color:#c62828;font-size:8pt">COL</span>
+      <span class="stat-sub">column →</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">🔵 Die</span>
+      <span class="stat-value" style="color:#1565c0;font-size:8pt">ROW</span>
+      <span class="stat-sub">row ↓</span>
+    </div>
+  </div>
+  <div class="grid-section">
+    <div class="grid-title-row">
+      <span class="grid-title">SHOT CHART</span>
+      <span class="grid-hint">most goals wins · tie = OT</span>
+    </div>
+    <div class="dice-grid">${gridHTML}</div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:#dbeafe;border:1px solid #1d4ed8"></div>GOAL</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fee2e2;border:1px solid #dc2626"></div>SAVE</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#dcfce7;border:1px solid #16a34a"></div>BLOCK</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fef9c3;border:1px solid #ca8a04"></div>POST</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f5f5f5;border:1px solid #bdbdbd"></div>WIDE</div>
+    </div>
+  </div>
+  <div class="result-band">
+    <div class="result-item">
+      <span class="result-icon">🔵</span>
+      <span class="result-label r-win">WIN</span>
+      <span class="result-pts">more goals · 2 pts</span>
+    </div>
+    <div class="result-item">
+      <span class="result-icon">🟡</span>
+      <span class="result-label r-ot">OT WIN</span>
+      <span class="result-pts">tied → coin · 1 pt</span>
+    </div>
+    <div class="result-item">
+      <span class="result-icon">🔴</span>
+      <span class="result-label r-loss">LOSS</span>
+      <span class="result-pts">fewer goals · 0 pts</span>
+    </div>
+  </div>
+  <div class="write-line">
+    <div class="write-field">Player ___________</div>
+    <div class="write-field">Shots ____</div>
+    <div class="write-field">Goals ____</div>
+  </div>
+</div></div>`;
+}
+
+function renderInstructions(){
+  return `
+<div class="card-wrap"><div class="card-page inst-page">
+  <div class="inst-top">
+    <div class="inst-game-label">GRID SPORTS · NHL EDITION</div>
+    <div class="inst-title">GRID<br>HOCKEY</div>
+    <div class="inst-season">2025–26</div>
+    <div class="inst-puck">🏒</div>
+    <div class="inst-dice-row">
+      <div class="inst-die">
+        <div class="die-box die-red">1–6</div>
+        <div class="die-label">RED = COLUMN</div>
+      </div>
+      <div class="inst-die">
+        <div class="die-box die-blue">1–6</div>
+        <div class="die-label">BLUE = ROW</div>
+      </div>
+    </div>
+  </div>
+  <div class="inst-body">
+    <div class="inst-section">HOW TO PLAY</div>
+    <div class="inst-step"><div class="inst-num">1</div><div class="inst-text">Each player picks a team card. Both roll 1d12 and add their card's shot bonus — that's your total shots on goal.</div></div>
+    <div class="inst-step"><div class="inst-num">2</div><div class="inst-text">Alternate shots. Each turn: roll both dice. Red = column, Blue = row. Find that cell. GOAL = you scored. Anything else = no goal.</div></div>
+    <div class="inst-step"><div class="inst-num">3</div><div class="inst-text">When one player runs out of shots, the other keeps shooting until done.</div></div>
+    <div class="inst-step"><div class="inst-num">4</div><div class="inst-text">Most goals wins 2 pts. Tied? Flip a coin — winner gets 1 pt. Loser always 0 pts.</div></div>
+    <hr class="inst-divider">
+    <div class="inst-section">RESULT</div>
+    <div class="inst-results">
+      <div class="inst-res-item"><span class="inst-res-icon">🔵</span><span class="inst-res-label r-win">WIN</span><span class="inst-res-detail">most goals<br>2 pts</span></div>
+      <div class="inst-res-item"><span class="inst-res-icon">🟡</span><span class="inst-res-label r-ot">OT WIN</span><span class="inst-res-detail">tied · coin<br>1 pt</span></div>
+      <div class="inst-res-item"><span class="inst-res-icon">🔴</span><span class="inst-res-label r-loss">LOSS</span><span class="inst-res-detail">fewer goals<br>0 pts</span></div>
+    </div>
+    <hr class="inst-divider">
+    <div class="inst-section">TIERS (2025–26)</div>
+    <div class="inst-tiers">
+      <div class="inst-tier-row"><div class="inst-tier-badge" style="background:#c62828">A</div><div class="inst-tier-desc">TB · MTL · CAR · COL · MIN · DAL · EDM — shots 25–35</div></div>
+      <div class="inst-tier-row"><div class="inst-tier-badge" style="background:#1565c0">B</div><div class="inst-tier-desc">DET · BUF · BOS · PIT · NYI · WSH · UTA · WPG · VGK · VAN · LAK — shots 21–32</div></div>
+      <div class="inst-tier-row"><div class="inst-tier-badge" style="background:#16a34a">C</div><div class="inst-tier-desc">OTT · TOR · FLA · CBJ · PHI · NSH · CHI · STL · CGY · SEA — shots 17–28</div></div>
+      <div class="inst-tier-row"><div class="inst-tier-badge" style="background:#78350f">D</div><div class="inst-tier-desc">NJ · NYR · ANA · SJS — shots 13–24</div></div>
+    </div>
+  </div>
+  <div class="inst-footer">32 teams · tiers from actual 2025-26 GF/G & standings data · March 2026</div>
+</div></div>`;
+}
+
+function renderTally(){
+  const rows = teams.map(t=>`
+    <div class="tally-row">
+      <div class="t-num">${t.num}</div>
+      <div class="t-flag">${t.flag}</div>
+      <div class="t-name">${t.name}</div>
+      <div class="t-boxes">
+        <div class="t-box tw">W</div>
+        <div class="t-box tot">OT</div>
+        <div class="t-box tl">L</div>
+        <div class="t-box tp">PTS</div>
+      </div>
+      <div class="t-gf"></div>
+    </div>`).join('');
+  return `
+<div class="card-wrap"><div class="card-page tally-page">
+  <div class="tally-hdr">
+    <div>
+      <div class="tally-game">Grid Hockey</div>
+      <div class="tally-sub">NHL 2025–26 · Match Tally</div>
+    </div>
+    <div style="font-size:4pt;color:#90a4ae;text-align:right">W / OT / L / PTS<br>GF →</div>
+  </div>
+  <div class="tally-body">${rows}</div>
+  <div class="tally-footer">
+    <div class="tally-tot-label">Total Points</div>
+    <div class="tally-tot-box"></div>
+    <div class="tally-tot-note">2 win · 1 OT win · 0 loss</div>
+  </div>
+</div></div>`;
+}
+
+const preview = document.getElementById('preview');
+preview.insertAdjacentHTML('beforeend', renderInstructions());
+teams.forEach(t => preview.insertAdjacentHTML('beforeend', renderCard(t)));
+preview.insertAdjacentHTML('beforeend', renderTally());
+</script>
+</body>
+</html>

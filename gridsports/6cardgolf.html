@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Six Card Golf</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Oswald:wght@300;400;500;600&display=swap');
+
+:root {
+  --fairway: #2d5a27;
+  --rough:   #1a3d16;
+  --sand:    #e8d5a3;
+  --sand2:   #d4b97a;
+  --white:   #f7f3ea;
+  --dark:    #1c1c18;
+  --flag:    #c0392b;
+  --water:   #3a7ca5;
+  --gold:    #b8860b;
+  --gold2:   #daa520;
+  --card-w: min(18vw, 82px);
+  --card-h: calc(var(--card-w) * 1.4);
+  --card-w-sm: min(14vw, 64px);
+  --card-h-sm: calc(var(--card-w-sm) * 1.4);
+  --card-gap: min(2.5vw, 10px);
+  --card-r: min(2vw, 9px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overscroll-behavior: none; }
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  background: var(--rough);
+  font-family: 'Oswald', sans-serif;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+header {
+  width: 100%;
+  text-align: center;
+  padding: max(env(safe-area-inset-top, 0px) + 10px, 14px) 0 8px;
+  border-bottom: 1px solid rgba(232,213,163,0.2);
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  flex-shrink: 0;
+}
+header h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1.2rem, 5vw, 2rem);
+  font-weight: 700;
+  color: var(--sand);
+  letter-spacing: 0.04em;
+  text-shadow: 1px 2px 8px rgba(0,0,0,0.5);
+  line-height: 1;
+}
+header h1 span { color: var(--gold2); font-style: italic; }
+header p {
+  font-size: clamp(0.5rem, 2vw, 0.62rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(232,213,163,0.4);
+  margin-top: 2px;
+}
+
+.game-wrap {
+  width: 100%;
+  max-width: 520px;
+  padding: 10px 10px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* SCOREBOARD */
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(232,213,163,0.2);
+  border-radius: 10px;
+  padding: 8px 14px;
+}
+.sc-player { text-align: center; min-width: 70px; }
+.sc-label {
+  font-size: clamp(0.48rem, 1.8vw, 0.58rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(232,213,163,0.45);
+  display: block;
+}
+.sc-val {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
+  color: var(--sand2);
+  line-height: 1;
+}
+.sc-badge {
+  font-size: clamp(0.46rem, 1.6vw, 0.56rem);
+  background: rgba(184,134,11,0.2);
+  border: 1px solid rgba(218,165,32,0.35);
+  border-radius: 20px;
+  padding: 2px 7px;
+  color: var(--gold2);
+  letter-spacing: 0.06em;
+  display: inline-block;
+  margin-top: 2px;
+}
+.sc-round { text-align: center; }
+.round-num {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
+  color: var(--sand);
+  line-height: 1;
+}
+
+/* SCORECARD */
+.scorecard-wrap {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(232,213,163,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.scorecard-title {
+  font-size: clamp(0.48rem, 1.8vw, 0.58rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(232,213,163,0.4);
+  text-align: center;
+  padding: 5px 0 4px;
+  border-bottom: 1px solid rgba(232,213,163,0.1);
+}
+.scorecard { width: 100%; border-collapse: collapse; }
+.scorecard th {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.44rem, 1.6vw, 0.56rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(232,213,163,0.4);
+  padding: 4px 2px;
+  text-align: center;
+  border-bottom: 1px solid rgba(232,213,163,0.1);
+}
+.scorecard th:first-child { text-align: left; padding-left: 8px; }
+.scorecard td {
+  padding: 4px 2px;
+  text-align: center;
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(0.56rem, 2vw, 0.72rem);
+  color: rgba(232,213,163,0.2);
+  border-bottom: 1px solid rgba(232,213,163,0.05);
+}
+.scorecard td:first-child {
+  text-align: left;
+  padding-left: 8px;
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(0.48rem, 1.8vw, 0.6rem);
+  letter-spacing: 0.06em;
+  color: rgba(232,213,163,0.42);
+}
+.scorecard tr:last-child td { border-bottom: none; }
+.scorecard td.filled { color: var(--sand); }
+.scorecard td.active { color: var(--gold2); font-weight: 700; }
+.sc-win  { color: #81c784 !important; }
+.sc-lose { color: #ef9a9a !important; }
+
+/* SECTION LABELS */
+.section-label {
+  font-size: clamp(0.5rem, 1.9vw, 0.6rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(232,213,163,0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+.turn-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold2);
+  box-shadow: 0 0 5px var(--gold2);
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+}
+@keyframes pulse { 0%,100%{box-shadow:0 0 4px var(--gold2)} 50%{box-shadow:0 0 12px var(--gold2),0 0 22px rgba(218,165,32,0.4)} }
+.turn-dot.active { animation: pulse 1.6s infinite; }
+
+.player-area { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+/* CARD GRIDS */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, var(--card-w));
+  grid-template-rows: repeat(2, var(--card-h));
+  gap: var(--card-gap);
+}
+.card-grid.small {
+  grid-template-columns: repeat(3, var(--card-w-sm));
+  grid-template-rows: repeat(2, var(--card-h-sm));
+  gap: calc(var(--card-gap) * 0.8);
+}
+
+/* CARD */
+.card {
+  width: 100%; height: 100%;
+  border-radius: var(--card-r);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.card:active { transform: scale(0.95) !important; }
+
+.card.back {
+  background: var(--fairway);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,0.04) 5px, rgba(255,255,255,0.04) 6px);
+  border: 2px solid rgba(232,213,163,0.4);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+}
+.card.back::after {
+  content: '6CG';
+  font-family: 'Libre Baskerville', serif;
+  font-size: calc(var(--card-w) * 0.2);
+  font-weight: 700;
+  color: rgba(232,213,163,0.2);
+  letter-spacing: 0.06em;
+}
+.card-grid.small .card.back::after { font-size: calc(var(--card-w-sm) * 0.2); }
+
+.card.face {
+  background: var(--white);
+  border: 2px solid rgba(0,0,0,0.1);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.45);
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--card-w) * 0.06) calc(var(--card-w) * 0.07);
+}
+.card.face.matched {
+  background: #e8f5e2;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 2px #4caf50, 0 4px 14px rgba(76,175,80,0.35) !important;
+}
+.card.highlightable {
+  box-shadow: 0 0 0 2px rgba(218,165,32,0.55), 0 3px 12px rgba(0,0,0,0.45);
+}
+.card.selected-held {
+  box-shadow: 0 0 0 3px var(--gold2), 0 6px 20px rgba(218,165,32,0.5) !important;
+  transform: translateY(-4px);
+}
+
+.card.face.type-club   { border-top: 3px solid #5d4037; }
+.card.face.type-hazard { border-top: 3px solid var(--water); }
+.card.face.type-shot   { border-top: 3px solid var(--fairway); }
+.card.face.type-player { border-top: 3px solid var(--gold); }
+.card.face.type-special{ border-top: 3px solid var(--flag); }
+
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; line-height: 1; }
+.card-rank {
+  font-family: 'Libre Baskerville', serif;
+  font-size: calc(var(--card-w) * 0.175);
+  font-weight: 700; line-height: 1;
+}
+.card-grid.small .card-rank { font-size: calc(var(--card-w-sm) * 0.175); }
+
+.card-type-chip {
+  font-family: 'Oswald', sans-serif;
+  font-size: calc(var(--card-w) * 0.1);
+  font-weight: 500;
+  color: white;
+  padding: 1px calc(var(--card-w) * 0.05);
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+.card-grid.small .card-type-chip { font-size: calc(var(--card-w-sm) * 0.1); }
+
+.card-center { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; }
+.card-abbr {
+  font-family: 'Libre Baskerville', serif;
+  font-size: calc(var(--card-w) * 0.34);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.card-grid.small .card-abbr { font-size: calc(var(--card-w-sm) * 0.34); }
+.card-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: calc(var(--card-w) * 0.15);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #666;
+  text-align: center;
+  line-height: 1.15;
+  font-weight: 400;
+}
+.card-grid.small .card-name { font-size: calc(var(--card-w-sm) * 0.11); }
+.card-bottom { display:flex; justify-content:flex-start; align-items:flex-end; transform:rotate(180deg); line-height:1; }
+
+.empty-slot {
+  width:100%; height:100%;
+  border-radius: var(--card-r);
+  border: 2px dashed rgba(232,213,163,0.14);
+  background: rgba(0,0,0,0.1);
+  display:flex; align-items:center; justify-content:center;
+  color: rgba(232,213,163,0.1);
+  font-size: 0.46rem; letter-spacing:0.1em; text-transform:uppercase;
+}
+
+/* DECK AREA */
+.deck-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(12px, 4vw, 24px);
+  padding: 12px 16px;
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(232,213,163,0.1);
+  border-radius: 12px;
+}
+.pile-col { display:flex; flex-direction:column; align-items:center; gap:5px; }
+.pile-lbl { font-size:clamp(0.46rem,1.8vw,0.56rem); letter-spacing:0.16em; text-transform:uppercase; color:rgba(232,213,163,0.36); }
+
+.deck-slot { width:var(--card-w); height:var(--card-h); position:relative; }
+.deck-slot .card { position:absolute; width:100%; height:100%; }
+.deck-slot .card:nth-child(1){transform:translate(3px,3px);}
+.deck-slot .card:nth-child(2){transform:translate(1.5px,1.5px);}
+.deck-slot .card:nth-child(3){transform:translate(0,0);}
+.discard-slot { width:var(--card-w); height:var(--card-h); }
+.held-slot    { width:var(--card-w); height:var(--card-h); }
+
+/* MESSAGE */
+.msg-bar {
+  text-align:center;
+  background:rgba(0,0,0,0.3);
+  border:1px solid rgba(232,213,163,0.14);
+  border-radius:8px;
+  padding:9px 14px;
+  font-size:clamp(0.68rem,2.5vw,0.82rem);
+  letter-spacing:0.03em;
+  color:var(--white);
+  min-height:42px;
+  display:flex; align-items:center; justify-content:center;
+  line-height:1.4;
+}
+.msg-bar .hl   { color:var(--gold2); font-weight:500; }
+.msg-bar strong { font-weight:600; }
+
+/* BUTTONS */
+.btn-row { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+button {
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(0.65rem,2.2vw,0.75rem);
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  padding:clamp(10px,3vw,13px) clamp(18px,5vw,26px);
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  transition:all 0.12s;
+  font-weight:500;
+  touch-action:manipulation;
+  min-height:44px;
+}
+.btn-main { background:var(--gold2); color:var(--dark); box-shadow:0 3px 10px rgba(184,134,11,0.35); }
+.btn-main:active { background:#f0c030; transform:scale(0.97); }
+.btn-sec { background:rgba(255,255,255,0.08); color:var(--sand); border:1px solid rgba(232,213,163,0.2); }
+.btn-sec:active { background:rgba(255,255,255,0.15); transform:scale(0.97); }
+
+/* LEGEND */
+.legend {
+  background:rgba(0,0,0,0.2);
+  border:1px solid rgba(232,213,163,0.07);
+  border-radius:10px;
+  padding:10px 12px;
+  display:flex; flex-wrap:wrap; gap:5px 14px; justify-content:center;
+}
+.legend-item { font-size:clamp(0.5rem,1.8vw,0.6rem); color:rgba(232,213,163,0.42); letter-spacing:0.03em; white-space:nowrap; }
+.legend-item span { color:var(--gold2); }
+
+/* MODAL */
+.overlay {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,0.75);
+  display:flex; align-items:center; justify-content:center;
+  z-index:200;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  padding:20px;
+  padding-bottom:max(20px, env(safe-area-inset-bottom, 20px));
+}
+.modal {
+  background:linear-gradient(160deg,#223d1c,#152914);
+  border:1px solid rgba(232,213,163,0.35);
+  border-radius:18px;
+  padding:clamp(22px,6vw,38px);
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 24px 60px rgba(0,0,0,0.65);
+}
+.modal h2 { font-family:'Libre Baskerville',serif; font-size:clamp(1.4rem,5vw,2rem); color:var(--sand); margin-bottom:4px; }
+.modal .sub { font-size:clamp(0.5rem,1.8vw,0.6rem); letter-spacing:0.2em; text-transform:uppercase; color:rgba(232,213,163,0.38); margin-bottom:16px; }
+.modal-scores { display:flex; justify-content:center; gap:clamp(24px,8vw,40px); margin:14px 0; }
+.ms-item { text-align:center; }
+.ms-name { font-size:clamp(0.5rem,1.8vw,0.6rem); letter-spacing:0.18em; text-transform:uppercase; color:rgba(232,213,163,0.42); }
+.ms-val { font-family:'Libre Baskerville',serif; font-size:clamp(2.2rem,10vw,3rem); font-weight:700; line-height:1; }
+.ms-val.lead  { color:var(--gold2); }
+.ms-val.trail { color:rgba(232,213,163,0.25); }
+.modal-note { font-size:clamp(0.6rem,2vw,0.68rem); color:rgba(232,213,163,0.42); margin-bottom:18px; line-height:1.6; }
+
+.hidden { display:none !important; }
+
+@keyframes flip-in { from{opacity:0;transform:rotateY(80deg) scale(0.9)} to{opacity:1;transform:rotateY(0) scale(1)} }
+.card.face { animation:flip-in 0.2s ease both; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Six <span>Card</span> Golf</h1>
+  <p>lowest score wins</p>
+</header>
+
+<div class="game-wrap">
+
+  <div class="player-area">
+    <div class="section-label">Caddie (CPU)</div>
+    <div class="card-grid small" id="cpuGrid"></div>
+  </div>
+
+  <div class="deck-row">
+    <div class="pile-col">
+      <div class="pile-lbl">Deck</div>
+      <div class="deck-slot" id="deckStack"></div>
+    </div>
+    <div class="pile-col">
+      <div class="pile-lbl">Discard</div>
+      <div class="discard-slot" id="discardSlot"></div>
+    </div>
+    <div class="pile-col" id="heldCol" style="opacity:0;pointer-events:none;transition:opacity 0.2s">
+      <div class="pile-lbl">Held</div>
+      <div class="held-slot" id="heldSlot"></div>
+    </div>
+  </div>
+
+  <div class="msg-bar" id="msgBar">Press <strong>Tee Off</strong> to start.</div>
+
+  <div class="player-area">
+    <div class="section-label">
+      <span class="turn-dot" id="turnDot" style="opacity:0.2"></span>
+      You
+    </div>
+    <div class="card-grid" id="playerGrid"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-main" onclick="newGame()">Tee Off</button>
+    <button class="btn-sec hidden" id="discardBtn" onclick="doDiscardHeld()">Discard Held</button>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">AMT Golfer <span>+1</span></div>
+    <div class="legend-item">ACE/HIO <span>−6</span></div>
+    <div class="legend-item">DRV Driver <span>+3</span></div>
+    <div class="legend-item">xIR Irons <span>+4–7</span></div>
+    <div class="legend-item">P3/P4/BGY Par/Bogey <span>+2</span></div>
+    <div class="legend-item">WTR Water <span>+8</span></div>
+    <div class="legend-item">SND Bunker <span>+9</span></div>
+    <div class="legend-item">OOB/TRF Rough <span>+10</span></div>
+    <div class="legend-item">BRD Birdie <span>−1</span></div>
+    <div class="legend-item">FDP/CDY Free Drop <span>−2</span></div>
+    <div class="legend-item">EGL Eagle <span>−3</span></div>
+    <div class="legend-item">DBL Dbl Eagle <span>−5</span></div>
+    <div class="legend-item">MUL/GME Mulligan <span>0</span></div>
+    <div class="legend-item">Matched col <span>0</span></div>
+  </div>
+
+    <div class="scoreboard">
+    <div class="sc-player">
+      <span class="sc-label">Your Total</span>
+      <div class="sc-val" id="pTotal">–</div>
+      <div class="sc-badge" id="pRound">–</div>
+    </div>
+    <div class="sc-round">
+      <span class="sc-label">Hole</span>
+      <div class="round-num" id="holeNum">–</div>
+    </div>
+    <div class="sc-player">
+      <span class="sc-label">CPU Total</span>
+      <div class="sc-val" id="cTotal">–</div>
+      <div class="sc-badge" id="cRound">–</div>
+    </div>
+  </div>
+
+  <div class="scorecard-wrap">
+    <div class="scorecard-title">Scorecard</div>
+    <table class="scorecard" id="scorecardTable"></table>
+  </div>
+
+</div>
+
+<div class="overlay hidden" id="overlay">
+  <div class="modal">
+    <h2 id="mTitle">Hole Complete</h2>
+    <div class="sub" id="mSub">scores</div>
+    <div class="modal-scores">
+      <div class="ms-item"><div class="ms-name">You</div><div class="ms-val" id="mPval">0</div></div>
+      <div class="ms-item"><div class="ms-name">CPU</div><div class="ms-val" id="mCval">0</div></div>
+    </div>
+    <div class="modal-note" id="mNote"></div>
+    <button class="btn-main" id="mBtn" style="width:100%">Next Hole</button>
+  </div>
+</div>
+
+<script>
+const CARD_TYPES=[
+  {id:'g1', name:'Amateur',        abbr:'AMT', type:'player', val:1},
+  {id:'g2', name:'Pro Golfer',     abbr:'PRO', type:'player', val:1},
+  {id:'g3', name:'Club Champ',     abbr:'CHP', type:'player', val:1},
+  {id:'g4', name:'Weekend Hacker', abbr:'HCK', type:'player', val:1},
+  {id:'h1', name:'Hole-in-One',    abbr:'HIO', type:'special',val:-6},
+  {id:'h2', name:'Ace!',           abbr:'ACE', type:'special',val:-6},
+  {id:'h3', name:'Perfect Shot',   abbr:'PRF', type:'special',val:-6},
+  {id:'h4', name:'Dream Hole',     abbr:'DRM', type:'special',val:-6},
+  {id:'d1', name:'Driver',         abbr:'DRV', type:'club',   val:3},
+  {id:'d2', name:'Big Stick',      abbr:'BST', type:'club',   val:3},
+  {id:'d3', name:'1-Wood',         abbr:'1WD', type:'club',   val:3},
+  {id:'d4', name:'Long Drive',     abbr:'LDR', type:'club',   val:3},
+  {id:'i4a',name:'3-Iron',         abbr:'3IR', type:'club',   val:4},
+  {id:'i4b',name:'4-Iron',         abbr:'4IR', type:'club',   val:4},
+  {id:'i5a',name:'5-Iron',         abbr:'5IR', type:'club',   val:5},
+  {id:'i5b',name:'6-Iron',         abbr:'6IR', type:'club',   val:5},
+  {id:'i6a',name:'7-Iron',         abbr:'7IR', type:'club',   val:6},
+  {id:'i6b',name:'8-Iron',         abbr:'8IR', type:'club',   val:6},
+  {id:'i7a',name:'9-Iron',         abbr:'9IR', type:'club',   val:7},
+  {id:'i7b',name:'Pitching Wedge', abbr:'PWG', type:'club',   val:7},
+  {id:'p1', name:'Blade Putter',   abbr:'BPT', type:'club',   val:4},
+  {id:'p2', name:'Mallet Putter',  abbr:'MPT', type:'club',   val:4},
+  {id:'p3', name:'Long Putter',    abbr:'LPT', type:'club',   val:4},
+  {id:'s1', name:'Chip Shot',      abbr:'CHP', type:'shot',   val:5},
+  {id:'s2', name:'Draw Shot',      abbr:'DRW', type:'shot',   val:5},
+  {id:'s3', name:'Fade Shot',      abbr:'FDE', type:'shot',   val:6},
+  {id:'s4', name:'Flop Shot',      abbr:'FLP', type:'shot',   val:6},
+  {id:'s5', name:'Punch Shot',     abbr:'PNC', type:'shot',   val:7},
+  {id:'s6', name:'Bump & Run',     abbr:'B&R', type:'shot',   val:7},
+  {id:'w1', name:'Water Hazard',   abbr:'WTR', type:'hazard', val:8},
+  {id:'w2', name:'Lake Carry',     abbr:'LKE', type:'hazard', val:8},
+  {id:'w3', name:'Creek',          abbr:'CRK', type:'hazard', val:8},
+  {id:'w4', name:'Pond',           abbr:'PND', type:'hazard', val:8},
+  {id:'b1', name:'Fairway Bunker', abbr:'FWB', type:'hazard', val:9},
+  {id:'b2', name:'Green Bunker',   abbr:'GRB', type:'hazard', val:9},
+  {id:'b3', name:'Deep Bunker',    abbr:'DBK', type:'hazard', val:9},
+  {id:'b4', name:'Sand Trap',      abbr:'SND', type:'hazard', val:9},
+  {id:'r1', name:'Deep Rough',     abbr:'DRF', type:'hazard', val:10},
+  {id:'r2', name:'Thick Rough',    abbr:'TRF', type:'hazard', val:10},
+  {id:'r3', name:'Tall Grass',     abbr:'TLG', type:'hazard', val:10},
+  {id:'r4', name:'Out of Bounds',  abbr:'OOB', type:'hazard', val:10},
+  {id:'ob1',name:'Lost Ball',      abbr:'LST', type:'hazard', val:10},
+  {id:'ob2',name:'Penalty Stroke', abbr:'PEN', type:'hazard', val:10},
+  {id:'bi1',name:'Birdie',         abbr:'BRD', type:'special',val:-1},
+  {id:'bi2',name:'Birdie Putt',    abbr:'BPT', type:'special',val:-1},
+  {id:'bi3',name:'Tap-in Birdie',  abbr:'TAP', type:'special',val:-1},
+  {id:'bi4',name:'Makeable Bird',  abbr:'MKB', type:'special',val:0},
+  {id:'e1', name:'Eagle',          abbr:'EGL', type:'special',val:-3},
+  {id:'e2', name:'Double Eagle',   abbr:'DBL', type:'special',val:-5},
+  {id:'par1',name:'Par 3',         abbr:'P3',  type:'shot',   val:2},
+  {id:'par2',name:'Par 4',         abbr:'P4',  type:'shot',   val:2},
+  {id:'par3',name:'Par 5',         abbr:'P5',  type:'shot',   val:2},
+  {id:'par4',name:'Bogey',         abbr:'BGY', type:'shot',   val:2},
+  {id:'sp1',name:'Mulligan',       abbr:'MUL', type:'special',val:0},
+  {id:'sp2',name:'Gimme',          abbr:'GME', type:'special',val:0},
+  {id:'sp3',name:'Free Drop',      abbr:'FDP', type:'special',val:-2},
+  {id:'sp4',name:'Caddie Advice',  abbr:'CDY', type:'special',val:-2},
+];
+
+let deck=[],discard=[],pHand=[],cHand=[];
+let held=null,phase='idle';
+let pFlipped=0,hole=1,pTotal=0,cTotal=0;
+let roundOver=false;
+const HOLES=9;
+let holeScores=[];
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function newGame(){
+  hole=1;pTotal=0;cTotal=0;holeScores=[];
+  document.getElementById('overlay').classList.add('hidden');
+  startHole();
+}
+
+function startHole(){
+  deck=shuffle([...CARD_TYPES]);
+  discard=[];held=null;pFlipped=0;roundOver=false;
+  pHand=Array.from({length:6},()=>({...deck.pop(),up:false}));
+  cHand=Array.from({length:6},()=>({...deck.pop(),up:false}));
+  discard.push({...deck.pop(),up:true});
+  shuffle([0,1,2,3,4,5]).slice(0,2).forEach(i=>cHand[i].up=true);
+  phase='flip2';
+  render();
+  msg(`Hole ${hole}/${HOLES} — <span class="hl">&nbsp;Tap 2 of your cards&nbsp;</span> to peek at them.`);
+}
+
+function nextHole(){document.getElementById('overlay').classList.add('hidden');hole++;startHole();}
+
+function render(){
+  if(!pHand.length)return;
+  document.getElementById('holeNum').textContent=`${hole}/${HOLES}`;
+  document.getElementById('pTotal').textContent=pTotal;
+  document.getElementById('cTotal').textContent=cTotal;
+  document.getElementById('pRound').textContent=`${calcScore(pHand)} this hole`;
+  document.getElementById('cRound').textContent=`${calcScore(cHand)} this hole`;
+  const yours=(phase==='yourTurn'||phase==='flip2'||phase==='flipOne');
+  const dot=document.getElementById('turnDot');
+  dot.style.opacity=yours?'1':'0.2';
+  dot.className='turn-dot'+(yours?' active':'');
+  renderGrid('playerGrid',pHand,true);
+  renderGrid('cpuGrid',cHand,false);
+  renderDeckArea();
+  renderScorecard();
+}
+
+function renderGrid(id,hand,isPlayer){
+  const g=document.getElementById(id);
+  g.innerHTML='';
+  hand.forEach((c,i)=>{
+    const matched=isMatchedCol(hand,i);
+    const el=document.createElement('div');
+    if(!c.up){
+      el.className='card back';
+      if(isPlayer){
+        if(phase==='flip2'){el.classList.add('highlightable');el.onclick=()=>flipInitial(i);}
+        else if(phase==='yourTurn'&&held){el.classList.add('highlightable');el.onclick=()=>doSwap(i);}
+        else if(phase==='flipOne'){el.classList.add('highlightable');el.onclick=()=>flipOne(i);}
+      }
+    } else {
+      el.className=`card face type-${c.type}${matched?' matched':''}`;
+      if(isPlayer&&phase==='yourTurn'&&held){el.classList.add('highlightable');el.onclick=()=>doSwap(i);}
+      el.innerHTML=cardHTML(c);
+    }
+    g.appendChild(el);
+  });
+}
+
+function cardHTML(c){
+  return `<div class="card-top"><div class="card-rank" style="color:${typeColor(c.type)}">${valLabel(c.val)}</div><div class="card-type-chip" style="background:${typeColor(c.type)}">${c.type.slice(0,3).toUpperCase()}</div></div><div class="card-center"><div class="card-abbr" style="color:${typeColor(c.type)}">${c.abbr}</div><div class="card-name">${c.name}</div></div><div class="card-bottom"><div class="card-rank" style="color:${typeColor(c.type)}">${valLabel(c.val)}</div></div>`;
+}
+function valLabel(v){return v===0?'0':v>0?`+${v}`:String(v);}
+function typeColor(t){return {club:'#5d4037',hazard:'#1565c0',shot:'#2e7d32',player:'#b8860b',special:'#c62828'}[t]||'#333';}
+
+function renderDeckArea(){
+  const ds=document.getElementById('deckStack');
+  ds.innerHTML='';
+  if(deck.length){
+    const count=Math.min(deck.length,3);
+    for(let i=0;i<count;i++){
+      const el=document.createElement('div');
+      el.className='card back';
+      if(i===count-1&&phase==='yourTurn'&&!held){el.classList.add('highlightable');el.onclick=drawDeck;}
+      ds.appendChild(el);
+    }
+  } else {ds.innerHTML='<div class="empty-slot">empty</div>';}
+
+  const dslot=document.getElementById('discardSlot');
+  dslot.innerHTML='';
+  if(discard.length){
+    const top=discard[discard.length-1];
+    const el=document.createElement('div');
+    el.className=`card face type-${top.type}`;
+    el.innerHTML=cardHTML(top);
+    if(phase==='yourTurn'&&!held){el.classList.add('highlightable');el.style.cursor='pointer';el.onclick=takeDiscard;}
+    dslot.appendChild(el);
+  } else {dslot.innerHTML='<div class="empty-slot">empty</div>';}
+
+  const hc=document.getElementById('heldCol');
+  const hs=document.getElementById('heldSlot');
+  const db=document.getElementById('discardBtn');
+  if(held){
+    hc.style.opacity='1';hc.style.pointerEvents='auto';
+    hs.innerHTML='';
+    const el=document.createElement('div');
+    el.className=`card face type-${held.type} selected-held`;
+    el.innerHTML=cardHTML(held);
+    hs.appendChild(el);
+    db.classList.remove('hidden');
+  } else {
+    hc.style.opacity='0';hc.style.pointerEvents='none';
+    hs.innerHTML='';
+    db.classList.add('hidden');
+  }
+}
+
+function renderScorecard(){
+  const table=document.getElementById('scorecardTable');
+  let hdr='<thead><tr><th>Player</th>';
+  for(let i=1;i<=HOLES;i++)hdr+=`<th>${i}</th>`;
+  hdr+='<th>Tot</th></tr></thead>';
+  let pRow='<tr><td>You</td>',cRow='<tr><td>CPU</td>';
+  for(let i=0;i<HOLES;i++){
+    const comp=holeScores[i];
+    const isCur=(i===hole-1)&&phase!=='idle';
+    if(comp!==undefined){
+      const pw=comp.p<comp.c?'sc-win':comp.p>comp.c?'sc-lose':'';
+      const cw=comp.c<comp.p?'sc-win':comp.c>comp.p?'sc-lose':'';
+      pRow+=`<td class="filled ${pw}">${comp.p}</td>`;
+      cRow+=`<td class="filled ${cw}">${comp.c}</td>`;
+    } else if(isCur){
+      pRow+=`<td class="active">${calcScore(pHand)}</td>`;
+      cRow+=`<td class="active">${calcScore(cHand)}</td>`;
+    } else {
+      pRow+=`<td>–</td>`;cRow+=`<td>–</td>`;
+    }
+  }
+  pRow+=`<td class="filled">${holeScores.length?pTotal:'–'}</td></tr>`;
+  cRow+=`<td class="filled">${holeScores.length?cTotal:'–'}</td></tr>`;
+  table.innerHTML=hdr+'<tbody>'+pRow+cRow+'</tbody>';
+}
+
+function flipInitial(i){if(phase!=='flip2'||pHand[i].up)return;pHand[i].up=true;pFlipped++;if(pFlipped>=2){phase='yourTurn';msg(`Your turn! <span class="hl">&nbsp;Draw from deck&nbsp;</span> or <span class="hl">&nbsp;take the discard</span>.`);}else{msg(`Good — now <span class="hl">&nbsp;tap one more card</span>.`);}render();}
+function drawDeck(){if(phase!=='yourTurn'||held||!deck.length)return;held={...deck.pop()};msg(`Drew <strong>${held.name} [${held.abbr}]</strong> (${valLabel(held.val)}). <span class="hl">&nbsp;Swap&nbsp;</span> with a card or <span class="hl">&nbsp;Discard Held&nbsp;</span>.`);render();}
+function takeDiscard(){if(phase!=='yourTurn'||held||!discard.length)return;held={...discard.pop()};msg(`Took <strong>${held.name} [${held.abbr}]</strong> (${valLabel(held.val)}). <span class="hl">&nbsp;Swap&nbsp;</span> it with one of your cards.`);render();}
+
+function doSwap(i){
+  if(!held||phase!=='yourTurn')return;
+  discard.push({...pHand[i],up:true});
+  pHand[i]={...held,up:true};
+  held=null;render();afterPlayer();
+}
+
+function doDiscardHeld(){
+  if(!held||phase!=='yourTurn')return;
+  discard.push({...held,up:true});held=null;
+  const hasFD=pHand.some(c=>!c.up);
+  if(hasFD){phase='flipOne';msg(`Discarded. <span class="hl">Tap one of your face-down cards.</span>`);render();}
+  else{render();afterPlayer();}
+}
+
+function flipOne(i){if(phase!=='flipOne'||pHand[i].up)return;pHand[i].up=true;render();afterPlayer();}
+
+function afterPlayer(){
+  if(roundOver)return;
+  if(pHand.every(c=>c.up)||cHand.every(c=>c.up)){endHole();return;}
+  phase='cpuTurn';msg(`CPU is thinking…`);render();
+  setTimeout(cpuTurn,950);
+}
+
+function cpuTurn(){
+  if(phase!=='cpuTurn')return;
+  const dtop=discard.length?discard[discard.length-1]:null;
+  let useDiscard=dtop&&(dtop.val<=-2||dtop.val===0);
+  let drawn;
+  if(useDiscard){drawn={...discard.pop()};}
+  else{if(!deck.length){endCpu();return;}drawn={...deck.pop()};}
+  const dv=drawn.val;
+  let bestIdx=-1,bestVal=dv;
+  for(let i=0;i<6;i++){
+    if(!cHand[i].up){if(dv<3&&bestIdx===-1){bestIdx=i;bestVal=6;}}
+    else{
+      const cv=cHand[i].val;
+      const partner=i<3?i+3:i-3;
+      if(cHand[partner]&&cHand[partner].up&&cHand[partner].name===drawn.name){bestIdx=i;break;}
+      if(cv>bestVal){bestVal=cv;bestIdx=i;}
+    }
+  }
+  if(bestIdx!==-1){
+    const old={...cHand[bestIdx],up:true};
+    cHand[bestIdx]={...drawn,up:true};
+    discard.push(old);
+    msg(`CPU swapped the <strong>&nbsp;${old.name}&nbsp;</strong> for <strong>&nbsp;${drawn.name}&nbsp;</strong>.`);
+  } else {
+    discard.push({...drawn,up:true});
+    const fd=cHand.map((c,i)=>c.up?-1:i).filter(i=>i>=0);
+    if(fd.length){cHand[fd[Math.floor(Math.random()*fd.length)]].up=true;msg(`CPU discarded and flipped a card.`);}
+    else{msg(`CPU discarded.`);}
+  }
+  render();setTimeout(endCpu,600);
+}
+
+function endCpu(){
+  if(roundOver)return;
+  if(pHand.every(c=>c.up)||cHand.every(c=>c.up)){endHole();return;}
+  phase='yourTurn';held=null;
+  msg(`Your turn! <span class="hl">&nbsp;Draw from deck&nbsp;</span> or <span class="hl">&nbsp;take the discard</span>.`);
+  render();
+}
+
+function calcScore(hand){
+  if(!hand||hand.length<6)return 0;
+  let t=0;
+  for(let col=0;col<3;col++){
+    const a=hand[col],b=hand[col+3];
+    if(!a||!b)continue;
+    if(a.up&&b.up&&a.name===b.name)continue;
+    if(a.up)t+=a.val;
+    if(b.up)t+=b.val;
+  }
+  return t;
+}
+
+function isMatchedCol(hand,i){
+  if(!hand||hand.length<6)return false;
+  const partner=i<3?i+3:i-3;
+  if(!hand[i]||!hand[partner])return false;
+  if(!hand[i].up||!hand[partner].up)return false;
+  return hand[i].name===hand[partner].name;
+}
+
+function endHole(){
+  if(roundOver)return;
+  roundOver=true;phase='over';
+  pHand.forEach(c=>c.up=true);cHand.forEach(c=>c.up=true);render();
+  setTimeout(()=>{
+    const ps=calcScore(pHand),cs=calcScore(cHand);
+    holeScores.push({p:ps,c:cs});
+    pTotal+=ps;cTotal+=cs;render();showModal(ps,cs);
+  },700);
+}
+
+function showModal(ps,cs){
+  const last=hole>=HOLES;
+  document.getElementById('mTitle').textContent=last?(pTotal<cTotal?'You Win!':(pTotal>cTotal?'CPU Wins':'All Square!')):(ps<cs?'Good Hole!':(ps>cs?'CPU Won This Hole':'Tied Hole'));
+  document.getElementById('mSub').textContent=last?'final scorecard':`hole ${hole} complete · running total`;
+  document.getElementById('mPval').textContent=pTotal;
+  document.getElementById('mCval').textContent=cTotal;
+  document.getElementById('mPval').className='ms-val '+(pTotal<=cTotal?'lead':'trail');
+  document.getElementById('mCval').className='ms-val '+(cTotal<=pTotal?'lead':'trail');
+  document.getElementById('mNote').textContent=`This hole: You ${ps>=0?'+':''}${ps} · CPU ${cs>=0?'+':''}${cs}. Lower score wins!`;
+  const btn=document.getElementById('mBtn');
+  if(last){btn.textContent='Play Again';btn.onclick=newGame;}
+  else{btn.textContent=`Next Hole (${hole+1}/${HOLES})`;btn.onclick=nextHole;}
+  document.getElementById('overlay').classList.remove('hidden');
+}
+
+function msg(html){document.getElementById('msgBar').innerHTML=html;}
+msg(`Press <strong>&nbsp;Tee Off&nbsp;</strong> to start a new game.`);
+</script>
+</body>
+</html>

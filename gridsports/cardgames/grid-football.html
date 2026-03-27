@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRID FOOTBALL — NFL 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #f5f1e8;
+  --dark: #111;
+  --red: #c8292e;
+  --blue: #1a4e8c;
+  --gold: #c9a030;
+  --green: #1a6e3c;
+  --mid: #e8e2d4;
+}
+
+body {
+  background: #1a1a1a;
+  font-family: 'Barlow Condensed', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-print {
+  padding: 2rem 2rem 1.5rem;
+  text-align: center;
+  color: var(--cream);
+}
+.no-print h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  letter-spacing: 8px;
+  color: var(--gold);
+  line-height: 1;
+}
+.no-print .sub {
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #555;
+  margin: 0.3rem 0 0.2rem;
+}
+.no-print .tagline {
+  font-size: 0.8rem;
+  color: #777;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.btn-print {
+  background: var(--gold);
+  color: #000;
+  border: none;
+  padding: 0.55rem 2.4rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-print:hover { opacity: 0.85; }
+
+.preview-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 1rem 2rem 3rem;
+}
+
+/* ══ CARD BASE ══ */
+.card {
+  width: 5in;
+  height: 3in;
+  background: var(--cream);
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  overflow: hidden;
+  page-break-inside: avoid;
+  border: 1px solid #bbb;
+  flex-shrink: 0;
+}
+
+/* yard line texture */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 38px,
+    rgba(0,0,0,0.018) 38px,
+    rgba(0,0,0,0.018) 40px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── LEFT PANEL ── */
+.left-panel {
+  width: 1.08in;
+  display: flex;
+  flex-direction: column;
+  padding: 0.1in 0.08in 0.08in 0.1in;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  background: var(--cream);
+}
+.left-panel::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 2.5px;
+  background: var(--accent, #c8292e);
+}
+
+.team-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 9pt;
+  color: var(--accent, #c8292e);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.logo-box {
+  width: 0.68in;
+  height: 0.48in;
+  border: 1.5px solid #ddd;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22pt;
+  background: #f9f9f9;
+  margin: 0.04in 0;
+}
+.team-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 10pt;
+  color: #111;
+  letter-spacing: 0.5px;
+  line-height: 1.05;
+}
+.team-city {
+  font-size: 6pt;
+  color: var(--accent, #c8292e);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+.record-box {
+  background: var(--accent, #c8292e);
+  border-radius: 2px;
+  padding: 2px 4px;
+  margin-top: 0.04in;
+}
+.record-label {
+  font-size: 4.5pt;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  display: block;
+}
+.record-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11pt;
+  color: white;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  display: block;
+}
+.card-stats {
+  font-size: 5pt;
+  color: #666;
+  line-height: 1.6;
+  font-family: 'Barlow', sans-serif;
+  margin-top: 0.03in;
+}
+.card-stats span { display: block; }
+
+/* ── GRID PANEL ── */
+.grid-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.08in 0.07in 0.06in 0.1in;
+  position: relative;
+  z-index: 2;
+}
+.grid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.04in;
+}
+.grid-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 8pt;
+  letter-spacing: 2.5px;
+  color: #aaa;
+}
+.dice-legend {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.die-chip {
+  width: 13px; height: 13px;
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 7pt;
+  color: white;
+  flex-shrink: 0;
+}
+.die-chip.red { background: var(--red); }
+.die-chip.blue { background: var(--blue); }
+.die-label {
+  font-size: 5pt;
+  color: #aaa;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Barlow', sans-serif;
+}
+
+.grid-wrap { display: flex; flex-direction: column; gap: 1.5px; flex: 1; }
+.grid-col-labels {
+  display: grid;
+  grid-template-columns: 0.15in repeat(6, 1fr);
+  gap: 1.5px;
+  margin-left: 0;
+}
+.col-lbl {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--red);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 7pt;
+  color: white;
+  border-radius: 1px;
+  height: 13px;
+}
+.col-corner { background: transparent; }
+.grid-row {
+  display: grid;
+  grid-template-columns: 0.15in repeat(6, 1fr);
+  gap: 1.5px;
+}
+.row-lbl {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--blue);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 7pt;
+  color: white;
+  border-radius: 1px;
+}
+.grid-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 1px;
+  background: white;
+  padding: 1px;
+}
+.cell-type {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 6.5pt;
+  letter-spacing: 0.3px;
+  line-height: 1;
+}
+
+/* Cell colors */
+.cell-td { background: #eafaf1; border-color: #82e0aa; }
+.cell-td .cell-type { color: #1a7a45; }
+.cell-fg { background: #fef9e7; border-color: #f7dc6f; }
+.cell-fg .cell-type { color: #9a7d0a; }
+.cell-1st { background: #eaf4fb; border-color: #85c1e9; }
+.cell-1st .cell-type { color: #1a5276; }
+.cell-punt { background: #f2f3f4; border-color: #abb2b9; }
+.cell-punt .cell-type { color: #5d6d7e; }
+.cell-sack { background: #fdf2f8; border-color: #d7bde2; }
+.cell-sack .cell-type { color: #6c3483; }
+.cell-int { background: #fdedec; border-color: #f1948a; }
+.cell-int .cell-type { color: #922b21; }
+.cell-fumb { background: #fef5e7; border-color: #f0b27a; }
+.cell-fumb .cell-type { color: #935116; }
+
+/* ── RIGHT PANEL ── */
+.right-panel {
+  width: 1.08in;
+  display: flex;
+  flex-direction: column;
+  padding: 0.08in 0.1in 0.08in 0.08in;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  background: var(--cream);
+}
+.right-panel::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2.5px;
+  background: var(--accent, #c8292e);
+}
+
+.offense-section {
+  text-align: center;
+  margin-bottom: 0.06in;
+  padding-bottom: 0.05in;
+  border-bottom: 1px solid #ddd;
+}
+.off-label {
+  font-size: 5pt;
+  color: #aaa;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  display: block;
+}
+.off-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18pt;
+  color: var(--accent, #c8292e);
+  line-height: 1;
+  display: block;
+}
+.off-sub {
+  font-size: 5pt;
+  color: #999;
+  font-family: 'Barlow', sans-serif;
+  display: block;
+}
+
+.drive-section {
+  margin-bottom: 0.05in;
+}
+.drive-label {
+  font-size: 5pt;
+  color: #aaa;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 2px;
+}
+.drive-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+}
+.drive-box {
+  height: 0.14in;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  background: white;
+}
+
+.score-section {
+  margin-top: auto;
+  border-top: 1.5px solid var(--accent, #c8292e);
+  padding-top: 0.05in;
+}
+.score-rows { display: flex; flex-direction: column; gap: 2px; }
+.score-row { display: flex; align-items: center; justify-content: space-between; }
+.score-lbl {
+  font-size: 5pt;
+  color: #aaa;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+}
+.score-box {
+  width: 0.38in;
+  height: 0.16in;
+  border-bottom: 1.5px solid #aaa;
+  background: transparent;
+}
+
+/* ══ INSTRUCTIONS CARD ══ */
+.instr-card {
+  width: 5in;
+  height: 3in;
+  background: #0d1117;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  page-break-inside: avoid;
+  border: 1px solid #333;
+  flex-shrink: 0;
+  padding: 0.14in 0.18in;
+  color: white;
+}
+.instr-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 38px,
+    rgba(255,255,255,0.02) 38px,
+    rgba(255,255,255,0.02) 40px
+  );
+  pointer-events: none;
+}
+.instr-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28pt;
+  letter-spacing: 6px;
+  color: var(--gold);
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+.instr-sub {
+  font-size: 7pt;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 0.1in;
+  position: relative;
+  z-index: 1;
+}
+.instr-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.12in;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.instr-col-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 9pt;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 4px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 2px;
+}
+.instr-step {
+  font-size: 6.5pt;
+  color: #bbb;
+  line-height: 1.5;
+  margin-bottom: 3px;
+  font-family: 'Barlow', sans-serif;
+}
+.instr-step strong { color: var(--gold); }
+.cell-key {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.key-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.key-chip {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 6.5pt;
+  padding: 1px 4px;
+  border-radius: 1px;
+  min-width: 0.3in;
+  text-align: center;
+  flex-shrink: 0;
+}
+.key-chip.td { background: #eafaf1; color: #1a7a45; }
+.key-chip.fg { background: #fef9e7; color: #9a7d0a; }
+.key-chip.fst { background: #eaf4fb; color: #1a5276; }
+.key-chip.punt { background: #f2f3f4; color: #5d6d7e; }
+.key-chip.sack { background: #fdf2f8; color: #6c3483; }
+.key-chip.int { background: #fdedec; color: #922b21; }
+.key-chip.fumb { background: #fef5e7; color: #935116; }
+.key-desc { font-size: 5.5pt; color: #888; font-family: 'Barlow', sans-serif; }
+
+/* ══ TALLY CARD ══ */
+.tally-card {
+  width: 5in;
+  height: 3in;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  page-break-inside: avoid;
+  border: 1px solid #bbb;
+  flex-shrink: 0;
+  padding: 0.12in 0.15in;
+}
+.tally-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18pt;
+  letter-spacing: 5px;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.tally-sub {
+  font-size: 6pt;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: 0.08in;
+  font-family: 'Barlow', sans-serif;
+}
+.tally-table {
+  width: 100%;
+  border-collapse: collapse;
+  flex: 1;
+}
+.tally-table th {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 7pt;
+  letter-spacing: 1px;
+  color: white;
+  background: var(--red);
+  padding: 3px 5px;
+  text-align: left;
+  border: 1px solid #c0392b;
+}
+.tally-table th.blue { background: var(--blue); border-color: #154360; }
+.tally-table td {
+  border: 1px solid #ddd;
+  padding: 2px 5px;
+  height: 0.2in;
+  font-size: 6pt;
+  color: #888;
+  font-family: 'Barlow', sans-serif;
+  background: white;
+}
+.tally-table td.team-col {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 8pt;
+  color: #333;
+  background: #fafafa;
+  letter-spacing: 0.5px;
+}
+.scoring-key {
+  margin-top: 0.06in;
+  display: flex;
+  gap: 0.12in;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sk-item {
+  font-size: 5.5pt;
+  font-family: 'Barlow', sans-serif;
+  color: #888;
+}
+.sk-item strong {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 7pt;
+  color: #333;
+}
+
+/* ══ PRINT ══ */
+@media print {
+  body { background: white; }
+  .no-print { display: none; }
+  .preview-wrap { gap: 0; padding: 0; }
+  .card, .instr-card, .tally-card {
+    page-break-after: always;
+    border: 0.5pt solid #999;
+  }
+  @page { size: 5in 3in; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <h1>GRID FOOTBALL</h1>
+  <div class="sub">NFL 2025 Season</div>
+  <div class="tagline">Pen &amp; Paper · Two Dice · Solo Play · 32 Teams</div>
+  <button class="btn-print" onclick="window.print()">🖨 Print Notebook</button>
+</div>
+
+<div class="preview-wrap" id="cards"></div>
+
+<script>
+// Cell type helper
+function cc(t) {
+  const m = {TD:'cell-td',FG:'cell-fg','1ST':'cell-1st',PUNT:'cell-punt',SACK:'cell-sack',INT:'cell-int',FUMB:'cell-fumb'};
+  return m[t]||'';
+}
+
+// All 32 NFL teams with 2025 stats-based grids
+// Grid distribution reflects: TD rate, turnover rate, 1ST down efficiency, punt frequency
+// Strong offenses: more TD+1ST, fewer PUNT/FUMB/INT
+// Weak offenses: more PUNT+INT+FUMB, fewer TD+1ST
+const teams = [
+  // ═══ AFC EAST ═══
+  {
+    num:'01', name:'PATRIOTS', city:'New England', conf:'AFC East', emoji:'🏈',
+    record:'14-3', ppg:'27.1', to:'−3',
+    accent:'#002244',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'SACK'},{t:'1ST'},{t:'TD'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'INT'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'TD'},
+      {t:'PUNT'},{t:'FG'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'}
+    ]
+  },
+  {
+    num:'02', name:'BILLS', city:'Buffalo', conf:'AFC East', emoji:'🦬',
+    record:'12-5', ppg:'25.8', to:'+4',
+    accent:'#00338D',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'TD'},
+      {t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'SACK'},{t:'TD'},{t:'1ST'},
+      {t:'1ST'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},
+      {t:'INT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'FG'}
+    ]
+  },
+  {
+    num:'03', name:'DOLPHINS', city:'Miami', conf:'AFC East', emoji:'🐬',
+    record:'9-8', ppg:'22.4', to:'−1',
+    accent:'#008E97',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'1ST'},{t:'PUNT'},
+      {t:'1ST'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'INT'},{t:'1ST'},
+      {t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'PUNT'},{t:'SACK'},{t:'1ST'},{t:'PUNT'},{t:'FG'},
+      {t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'04', name:'JETS', city:'New York', conf:'AFC East', emoji:'✈️',
+    record:'3-14', ppg:'17.6', to:'−19',
+    accent:'#125740',
+    grid:[
+      {t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'},
+      {t:'1ST'},{t:'PUNT'},{t:'FUMB'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'SACK'},{t:'PUNT'},{t:'1ST'},
+      {t:'FUMB'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},
+      {t:'PUNT'},{t:'SACK'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},
+      {t:'INT'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'FUMB'},{t:'PUNT'}
+    ]
+  },
+
+  // ═══ AFC NORTH ═══
+  {
+    num:'05', name:'RAVENS', city:'Baltimore', conf:'AFC North', emoji:'🐦‍⬛',
+    record:'11-6', ppg:'26.3', to:'+2',
+    accent:'#241773',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'1ST'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'SACK'},{t:'1ST'},{t:'TD'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'FG'},{t:'1ST'},{t:'PUNT'},
+      {t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'}
+    ]
+  },
+  {
+    num:'06', name:'STEELERS', city:'Pittsburgh', conf:'AFC North', emoji:'⚙️',
+    record:'10-7', ppg:'21.8', to:'0',
+    accent:'#FFB612',
+    grid:[
+      {t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'FG'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'1ST'},
+      {t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},
+      {t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'FG'},
+      {t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'}
+    ]
+  },
+  {
+    num:'07', name:'BENGALS', city:'Cincinnati', conf:'AFC North', emoji:'🐯',
+    record:'9-8', ppg:'22.1', to:'−2',
+    accent:'#FB4F14',
+    grid:[
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},
+      {t:'PUNT'},{t:'1ST'},{t:'SACK'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},
+      {t:'1ST'},{t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},
+      {t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'INT'}
+    ]
+  },
+  {
+    num:'08', name:'BROWNS', city:'Cleveland', conf:'AFC North', emoji:'🦺',
+    record:'5-12', ppg:'16.2', to:'−8',
+    accent:'#311D00',
+    grid:[
+      {t:'PUNT'},{t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'INT'},
+      {t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'SACK'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'},{t:'PUNT'},{t:'1ST'},
+      {t:'FG'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},
+      {t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'},
+      {t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'PUNT'},{t:'SACK'}
+    ]
+  },
+
+  // ═══ AFC SOUTH ═══
+  {
+    num:'09', name:'TEXANS', city:'Houston', conf:'AFC South', emoji:'🤠',
+    record:'12-5', ppg:'25.1', to:'+3',
+    accent:'#03202F',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'FG'},{t:'PUNT'},{t:'1ST'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'TD'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'SACK'},{t:'1ST'},{t:'PUNT'},
+      {t:'1ST'},{t:'FG'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},
+      {t:'INT'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'10', name:'JAGUARS', city:'Jacksonville', conf:'AFC South', emoji:'🐆',
+    record:'13-4', ppg:'26.8', to:'+5',
+    accent:'#006778',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'FG'},{t:'1ST'},{t:'PUNT'},{t:'TD'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'FG'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'TD'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},
+      {t:'SACK'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'INT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'11', name:'COLTS', city:'Indianapolis', conf:'AFC South', emoji:'🐴',
+    record:'8-9', ppg:'20.3', to:'−3',
+    accent:'#002C5F',
+    grid:[
+      {t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'1ST'},{t:'PUNT'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'1ST'},
+      {t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},
+      {t:'1ST'},{t:'PUNT'},{t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'FG'},
+      {t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'}
+    ]
+  },
+  {
+    num:'12', name:'TITANS', city:'Tennessee', conf:'AFC South', emoji:'⚡',
+    record:'6-11', ppg:'17.9', to:'−7',
+    accent:'#4B92DB',
+    grid:[
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'PUNT'},{t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},
+      {t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'SACK'},
+      {t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'TD'},{t:'PUNT'}
+    ]
+  },
+
+  // ═══ AFC WEST ═══
+  {
+    num:'13', name:'BRONCOS', city:'Denver', conf:'AFC West', emoji:'🐎',
+    record:'14-3', ppg:'27.4', to:'+6',
+    accent:'#FB4F14',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'FG'},{t:'1ST'},{t:'TD'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'TD'},
+      {t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'INT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'14', name:'CHIEFS', city:'Kansas City', conf:'AFC West', emoji:'👑',
+    record:'11-6', ppg:'24.2', to:'+1',
+    accent:'#E31837',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},
+      {t:'1ST'},{t:'FG'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'FG'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'SACK'},{t:'TD'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'FG'},{t:'1ST'},{t:'PUNT'},
+      {t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'15', name:'RAIDERS', city:'Las Vegas', conf:'AFC West', emoji:'☠️',
+    record:'4-13', ppg:'16.8', to:'−11',
+    accent:'#A5ACAF',
+    grid:[
+      {t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'SACK'},
+      {t:'1ST'},{t:'PUNT'},{t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},
+      {t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'INT'},
+      {t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},
+      {t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'16', name:'CHARGERS', city:'Los Angeles', conf:'AFC West', emoji:'⚡',
+    record:'11-6', ppg:'23.5', to:'+2',
+    accent:'#0080C6',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'FG'},
+      {t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'FG'},
+      {t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'}
+    ]
+  },
+
+  // ═══ NFC EAST ═══
+  {
+    num:'17', name:'EAGLES', city:'Philadelphia', conf:'NFC East', emoji:'🦅',
+    record:'11-6', ppg:'24.8', to:'+3',
+    accent:'#004C54',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'FG'},{t:'1ST'},{t:'TD'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'1ST'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'SACK'},{t:'1ST'},{t:'PUNT'},{t:'TD'},
+      {t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'18', name:'COWBOYS', city:'Dallas', conf:'NFC East', emoji:'⭐',
+    record:'7-10', ppg:'20.1', to:'−4',
+    accent:'#003594',
+    grid:[
+      {t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'INT'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'SACK'},{t:'1ST'},
+      {t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},
+      {t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'FG'},
+      {t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'}
+    ]
+  },
+  {
+    num:'19', name:'COMMANDERS', city:'Washington', conf:'NFC East', emoji:'🏛️',
+    record:'6-11', ppg:'18.7', to:'−6',
+    accent:'#773141',
+    grid:[
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'1ST'},{t:'PUNT'},
+      {t:'1ST'},{t:'PUNT'},{t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},
+      {t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'SACK'},
+      {t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},
+      {t:'TD'},{t:'PUNT'},{t:'INT'},{t:'1ST'},{t:'PUNT'},{t:'PUNT'}
+    ]
+  },
+  {
+    num:'20', name:'GIANTS', city:'New York', conf:'NFC East', emoji:'🗽',
+    record:'4-13', ppg:'15.9', to:'−12',
+    accent:'#0B2265',
+    grid:[
+      {t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'FUMB'},{t:'PUNT'},{t:'1ST'},
+      {t:'PUNT'},{t:'SACK'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'FUMB'},
+      {t:'1ST'},{t:'PUNT'},{t:'PUNT'},{t:'SACK'},{t:'PUNT'},{t:'1ST'},
+      {t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'FUMB'},
+      {t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},
+      {t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'PUNT'},{t:'INT'}
+    ]
+  },
+
+  // ═══ NFC NORTH ═══
+  {
+    num:'21', name:'BEARS', city:'Chicago', conf:'NFC North', emoji:'🐻',
+    record:'12-5', ppg:'25.6', to:'+4',
+    accent:'#0B162A',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'FG'},{t:'PUNT'},{t:'TD'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'FG'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},
+      {t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'INT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'22', name:'LIONS', city:'Detroit', conf:'NFC North', emoji:'🦁',
+    record:'10-7', ppg:'23.4', to:'+1',
+    accent:'#0076B6',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'FG'},{t:'1ST'},
+      {t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'SACK'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'PUNT'},
+      {t:'INT'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'23', name:'PACKERS', city:'Green Bay', conf:'NFC North', emoji:'🧀',
+    record:'10-7', ppg:'22.8', to:'0',
+    accent:'#203731',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},
+      {t:'1ST'},{t:'FG'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'FG'},
+      {t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'24', name:'VIKINGS', city:'Minnesota', conf:'NFC North', emoji:'⚔️',
+    record:'8-9', ppg:'21.2', to:'−1',
+    accent:'#4F2683',
+    grid:[
+      {t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'FG'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'PUNT'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'1ST'},
+      {t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'SACK'},{t:'PUNT'},
+      {t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'TD'},
+      {t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'}
+    ]
+  },
+
+  // ═══ NFC SOUTH ═══
+  {
+    num:'25', name:'BUCCANEERS', city:'Tampa Bay', conf:'NFC South', emoji:'🏴‍☠️',
+    record:'10-7', ppg:'23.1', to:'+2',
+    accent:'#D50A0A',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'FG'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'TD'},
+      {t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'1ST'},{t:'TD'},{t:'PUNT'},
+      {t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'INT'},{t:'PUNT'},{t:'TD'}
+    ]
+  },
+  {
+    num:'26', name:'FALCONS', city:'Atlanta', conf:'NFC South', emoji:'🦅',
+    record:'6-11', ppg:'18.3', to:'−5',
+    accent:'#A71930',
+    grid:[
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},
+      {t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},
+      {t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'SACK'},{t:'PUNT'},
+      {t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'FG'},
+      {t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'INT'}
+    ]
+  },
+  {
+    num:'27', name:'SAINTS', city:'New Orleans', conf:'NFC South', emoji:'⚜️',
+    record:'6-11', ppg:'17.4', to:'−8',
+    accent:'#D3BC8D',
+    grid:[
+      {t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'},
+      {t:'1ST'},{t:'PUNT'},{t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},
+      {t:'FUMB'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},
+      {t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'INT'},
+      {t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'FG'},{t:'PUNT'}
+    ]
+  },
+  {
+    num:'28', name:'PANTHERS', city:'Carolina', conf:'NFC South', emoji:'🐈‍⬛',
+    record:'8-9', ppg:'21.6', to:'−1',
+    accent:'#0085CA',
+    grid:[
+      {t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},
+      {t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'FG'},{t:'PUNT'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'FG'},
+      {t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'1ST'},{t:'PUNT'},{t:'TD'},
+      {t:'FG'},{t:'PUNT'},{t:'SACK'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'}
+    ]
+  },
+
+  // ═══ NFC WEST ═══
+  {
+    num:'29', name:'SEAHAWKS', city:'Seattle', conf:'NFC West', emoji:'🦅',
+    record:'14-3', ppg:'28.4', to:'−3',
+    accent:'#002244',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'FG'},{t:'1ST'},{t:'TD'},{t:'1ST'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'FG'},{t:'TD'},
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'FG'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'TD'},
+      {t:'SACK'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'INT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'30', name:'RAMS', city:'Los Angeles', conf:'NFC West', emoji:'🐏',
+    record:'12-5', ppg:'30.5', to:'+5',
+    accent:'#003594',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'1ST'},{t:'TD'},{t:'FG'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},
+      {t:'TD'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'FG'},
+      {t:'1ST'},{t:'TD'},{t:'1ST'},{t:'FG'},{t:'TD'},{t:'1ST'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'FG'},
+      {t:'SACK'},{t:'PUNT'},{t:'TD'},{t:'1ST'},{t:'INT'},{t:'1ST'}
+    ]
+  },
+  {
+    num:'31', name:'49ERS', city:'San Francisco', conf:'NFC West', emoji:'🏅',
+    record:'11-6', ppg:'24.5', to:'+2',
+    accent:'#AA0000',
+    grid:[
+      {t:'TD'},{t:'1ST'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},
+      {t:'1ST'},{t:'FG'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'1ST'},
+      {t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'SACK'},{t:'1ST'},{t:'TD'},
+      {t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'1ST'},{t:'PUNT'},
+      {t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'FG'},{t:'1ST'},{t:'PUNT'},
+      {t:'INT'},{t:'PUNT'},{t:'1ST'},{t:'TD'},{t:'PUNT'},{t:'FG'}
+    ]
+  },
+  {
+    num:'32', name:'CARDINALS', city:'Arizona', conf:'NFC West', emoji:'🔴',
+    record:'5-12', ppg:'17.1', to:'−9',
+    accent:'#97233F',
+    grid:[
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'},{t:'PUNT'},{t:'INT'},
+      {t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},{t:'SACK'},{t:'PUNT'},
+      {t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'},{t:'PUNT'},{t:'1ST'},
+      {t:'FG'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'INT'},{t:'PUNT'},
+      {t:'PUNT'},{t:'TD'},{t:'PUNT'},{t:'1ST'},{t:'PUNT'},{t:'FUMB'},
+      {t:'1ST'},{t:'PUNT'},{t:'FG'},{t:'PUNT'},{t:'TD'},{t:'PUNT'}
+    ]
+  }
+];
+
+function renderCard(t) {
+  const rows = [0,1,2,3,4,5];
+  const cols = [0,1,2,3,4,5];
+
+  const colLabels = `<div class="grid-col-labels">
+    <div class="col-lbl col-corner" style="background:transparent"></div>
+    ${cols.map(c=>`<div class="col-lbl">${c+1}</div>`).join('')}
+  </div>`;
+
+  const gridRows = rows.map(r => {
+    const cells = cols.map(c => {
+      const cell = t.grid[r*6+c];
+      return `<div class="grid-cell ${cc(cell.t)}"><div class="cell-type">${cell.t}</div></div>`;
+    }).join('');
+    return `<div class="grid-row"><div class="row-lbl">${r+1}</div>${cells}</div>`;
+  }).join('');
+
+  // 10 drive boxes (5+5)
+  const driveBoxes = Array(10).fill('<div class="drive-box"></div>').join('');
+
+  return `<div class="card" style="--accent:${t.accent}">
+    <div class="left-panel">
+      <div class="team-num">TEAM ${t.num}</div>
+      <div class="logo-box">${t.emoji}</div>
+      <div class="team-name">${t.name}</div>
+      <div class="team-city">${t.city} · ${t.conf}</div>
+      <div class="record-box">
+        <span class="record-label">2025 Record</span>
+        <span class="record-value">${t.record}</span>
+      </div>
+      <div class="card-stats">
+        <span>PPG: ${t.ppg}</span>
+        <span>T/O: ${t.to}</span>
+      </div>
+    </div>
+
+    <div class="grid-panel">
+      <div class="grid-header">
+        <div class="grid-title">PLAY GRID</div>
+        <div class="dice-legend">
+          <div class="die-chip red">R</div>
+          <div class="die-label">COL</div>
+          <div class="die-chip blue">B</div>
+          <div class="die-label">ROW</div>
+        </div>
+      </div>
+      <div class="grid-wrap">
+        ${colLabels}
+        ${gridRows}
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="offense-section">
+        <span class="off-label">Offense</span>
+        <span class="off-value">${t.ppg}</span>
+        <span class="off-sub">pts/game</span>
+      </div>
+      <div class="drive-section">
+        <span class="drive-label">Drives (10)</span>
+        <div class="drive-grid">${driveBoxes}</div>
+      </div>
+      <div class="score-section">
+        <div class="score-rows">
+          <div class="score-row">
+            <div class="score-lbl">Score</div>
+            <div class="score-box"></div>
+          </div>
+          <div class="score-row">
+            <div class="score-lbl">Result</div>
+            <div class="score-box"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderInstructions() {
+  return `<div class="instr-card">
+    <div class="instr-title">GRID FOOTBALL</div>
+    <div class="instr-sub">NFL 2025 Season · Pen &amp; Paper Dice Game</div>
+    <div class="instr-body">
+      <div class="instr-col">
+        <div class="instr-col-title">How To Play</div>
+        <div class="instr-step"><strong>1.</strong> Pick two team cards — one is your offense, one is their defense.</div>
+        <div class="instr-step"><strong>2.</strong> Roll both dice. Red die = column (1–6). Blue die = row (1–6).</div>
+        <div class="instr-step"><strong>3.</strong> Find that cell. The outcome happens immediately — no second roll.</div>
+        <div class="instr-step"><strong>4.</strong> 1ST DOWN — keep rolling (drive continues). Any other cell — drive ends.</div>
+        <div class="instr-step"><strong>5.</strong> Play 10 drives per team. Record each score. Then swap cards and play the other side.</div>
+        <div class="instr-step"><strong>6.</strong> Highest total score wins. Tie? Play one sudden death drive — first to score wins.</div>
+      </div>
+      <div class="instr-col">
+        <div class="instr-col-title">Cell Guide</div>
+        <div class="cell-key">
+          <div class="key-row"><div class="key-chip td">TD</div><div class="key-desc">Touchdown — 6 points. Drive ends.</div></div>
+          <div class="key-row"><div class="key-chip fg">FG</div><div class="key-desc">Field Goal — 3 points. Drive ends.</div></div>
+          <div class="key-row"><div class="key-chip fst">1ST</div><div class="key-desc">First Down — 0 pts. Keep rolling!</div></div>
+          <div class="key-row"><div class="key-chip punt">PUNT</div><div class="key-desc">Punt — 0 points. Drive ends.</div></div>
+          <div class="key-row"><div class="key-chip sack">SACK</div><div class="key-desc">Sack — 0 points. Drive ends.</div></div>
+          <div class="key-row"><div class="key-chip int">INT</div><div class="key-desc">Interception — 0 pts. Drive ends.</div></div>
+          <div class="key-row"><div class="key-chip fumb">FUMB</div><div class="key-desc">Fumble — 0 pts. Drive ends.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTally() {
+  const rows = Array(12).fill(0).map((_,i) => `
+    <tr>
+      <td class="team-col"></td>
+      <td></td><td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td><td></td><td></td>
+      <td></td>
+    </tr>
+  `).join('');
+
+  return `<div class="tally-card">
+    <div class="tally-title">SEASON TALLY</div>
+    <div class="tally-sub">Grid Football · NFL 2025 · Record your games</div>
+    <table class="tally-table">
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>G1</th><th>G2</th><th>G3</th><th>G4</th><th>G5</th>
+          <th class="blue">G6</th><th class="blue">G7</th><th class="blue">G8</th><th class="blue">G9</th><th class="blue">G10</th>
+          <th>W–L</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="scoring-key">
+      <div class="sk-item"><strong>TD</strong> = 6 pts</div>
+      <div class="sk-item"><strong>FG</strong> = 3 pts</div>
+      <div class="sk-item"><strong>1ST</strong> = keep rolling</div>
+      <div class="sk-item"><strong>PUNT / SACK / INT / FUMB</strong> = drive ends, 0 pts</div>
+      <div class="sk-item"><strong>TIE</strong> = sudden death OT</div>
+    </div>
+  </div>`;
+}
+
+const wrap = document.getElementById('cards');
+wrap.innerHTML = renderInstructions() + teams.map(renderCard).join('') + renderTally();
+</script>
+</body>
+</html>

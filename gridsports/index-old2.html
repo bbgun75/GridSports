@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grid Sports – Pen & Paper Sports Games with Dice</title>
+<meta name="description" content="Grid Sports – pen and paper sports games for football, baseball, golf, hockey, soccer, wrestling, and boxing. Physical notebooks, two dice, no screens. Order yours on Amazon.">
+<link rel="canonical" href="https://gridsports.net/">
+<meta property="og:title" content="Grid Sports – Pen & Paper Sports Games">
+<meta property="og:description" content="Physical game notebooks for football, baseball, golf, hockey, and more. Two dice. No app. No screen.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gridsports.net/">
+<meta property="og:image" content="https://gridsports.net/gridgolf.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Grid Sports – Pen & Paper Sports Games">
+<meta name="twitter:description" content="Physical game notebooks for football, baseball, golf, hockey, and more. Two dice. No app. No screen.">
+<meta name="twitter:image" content="https://gridsports.net/og-image.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --white: #f5f0e8;
+    --yellow: #f5c518;
+    --red: #e8292e;
+    --blue: #1a4e8c;
+    --green: #1a6e3c;
+    --grid-line: rgba(245,197,24,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2.5rem;
+    border-bottom: 2px solid var(--yellow);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    color: var(--yellow);
+  }
+
+  .logo span { color: var(--white); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  nav ul a {
+    color: var(--white);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  nav ul a:hover { opacity: 1; color: var(--yellow); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 2.5rem;
+    overflow: hidden;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 12rem);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.4s forwards;
+  }
+
+  .hero h1 .accent { color: var(--yellow); display: block; }
+
+  .hero-sub {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 400;
+    max-width: 480px;
+    line-height: 1.6;
+    opacity: 0;
+    color: rgba(245,240,232,0.75);
+    animation: fadeUp 0.7s 0.6s forwards;
+  }
+
+  .hero-cta {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.8s forwards;
+  }
+
+  .btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2.2rem;
+    border: 2px solid var(--yellow);
+    color: var(--black);
+    background: var(--yellow);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn:hover { background: transparent; color: var(--yellow); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(245,240,232,0.4);
+  }
+
+  .btn-outline:hover { border-color: var(--white); color: var(--white); background: transparent; }
+
+  .hero-deco {
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(6rem, 18vw, 18rem);
+    color: rgba(245,197,24,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 10px;
+  }
+
+  /* TICKER */
+  .ticker {
+    position: relative;
+    z-index: 2;
+    background: var(--yellow);
+    color: var(--black);
+    padding: 0.7rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 18s linear infinite;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 4px;
+  }
+
+  .ticker-inner span { margin: 0 2rem; }
+
+  /* GAMES */
+  .games {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2.5rem;
+  }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    margin-bottom: 3.5rem;
+  }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+  }
+
+  .game-card {
+    position: relative;
+    padding: 2.5rem;
+    border: 1px solid rgba(245,240,232,0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+
+  .game-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .game-card:hover { border-color: var(--card-accent); }
+  .game-card:hover::before { opacity: 1; }
+
+  .game-card.hockey { --card-accent: #4da6ff; }
+  .game-card.hockey::before { background: linear-gradient(135deg, rgba(77,166,255,0.08) 0%, transparent 60%); }
+
+  .game-card.baseball { --card-accent: #1a6e3c; }
+  .game-card.baseball::before { background: linear-gradient(135deg, rgba(26,110,60,0.08) 0%, transparent 60%); }
+
+  .game-card.soccer { --card-accent: #a78bfa; }
+  .game-card.soccer::before { background: linear-gradient(135deg, rgba(167,139,250,0.08) 0%, transparent 60%); }
+
+  .game-card.golf { --card-accent: #4dbb77; }
+  .game-card.golf::before { background: linear-gradient(135deg, rgba(77,187,119,0.08) 0%, transparent 60%); }
+
+  /* DERBY = BLUE */
+  .game-card.derby { --card-accent: #4da6ff; }
+  .game-card.derby::before { background: linear-gradient(135deg, rgba(77,166,255,0.08) 0%, transparent 60%); }
+
+  .game-card.basketball { --card-accent: #f97316; }
+  .game-card.basketball::before { background: linear-gradient(135deg, rgba(249,115,22,0.08) 0%, transparent 60%); }
+
+  .game-card.wrestling { --card-accent: #cc2233; }
+  .game-card.wrestling::before { background: linear-gradient(135deg, rgba(204,34,51,0.08) 0%, transparent 60%); }
+
+    .game-card.boxing { --card-accent: #c9a030; }
+  .game-card.boxing::before { background: linear-gradient(135deg, rgba(201,160,48,0.08) 0%, transparent 60%); }
+
+  /* GRID RACING = RED */
+  .game-card.racing { --card-accent: #e8292e; }
+  .game-card.racing::before { background: linear-gradient(135deg, rgba(232,41,46,0.08) 0%, transparent 60%); }
+
+  .card-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    line-height: 1;
+    color: rgba(245,240,232,0.05);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    transition: color 0.3s;
+  }
+
+  .game-card:hover .card-number { color: rgba(245,240,232,0.08); }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.6rem;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+
+  .card-desc {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: rgba(245,240,232,0.65);
+    margin-bottom: 1.5rem;
+  }
+
+  .card-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .pill {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid rgba(245,240,232,0.2);
+    color: rgba(245,240,232,0.6);
+  }
+
+  /* CARD SHOWCASE */
+  .showcase {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2.5rem;
+    border-top: 2px solid rgba(245,197,24,0.2);
+    overflow: hidden;
+  }
+
+  .showcase-sub {
+    color: rgba(245,240,232,0.65);
+    max-width: 600px;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  .cards-strip {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    overflow-x: auto;
+    padding-bottom: 1.5rem;
+    scrollbar-width: none;
+  }
+
+  .cards-strip::-webkit-scrollbar { display: none; }
+
+  /* PLACEHOLDER CARDS */
+  .card-placeholder {
+    flex: 0 0 220px;
+    height: 300px;
+    border: 2px dashed rgba(245,240,232,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: rgba(245,240,232,0.25);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, color 0.3s, transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease;
+    cursor: pointer;
+  }
+
+  .card-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,240,232,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,240,232,0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .card-placeholder .placeholder-icon { font-size: 2rem; opacity: 0.4; }
+
+  /* Hover: scale up the card and lift it */
+  .card-placeholder:hover {
+    transform: scale(1.12) translateY(-8px);
+    z-index: 10;
+    color: rgba(245,240,232,0.5);
+  }
+
+  /* Image inside cards */
+  .card-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Per-sport accent colours on hover */
+  /* HOCKEY = BLUE */
+  .card-placeholder.hockey-card:hover {
+    border-color: rgba(77,166,255,0.6);
+    box-shadow: 0 20px 40px rgba(77,166,255,0.2), 0 0 0 1px rgba(77,166,255,0.3);
+  }
+  /* BASEBALL = GREEN */
+  .card-placeholder.baseball-card:hover {
+    border-color: rgba(26,110,60,0.6);
+    box-shadow: 0 20px 40px rgba(26,110,60,0.2), 0 0 0 1px rgba(26,110,60,0.3);
+  }
+  /* SOCCER = PURPLE */
+  .card-placeholder.soccer-card:hover {
+    border-color: rgba(167,139,250,0.6);
+    box-shadow: 0 20px 40px rgba(167,139,250,0.2), 0 0 0 1px rgba(167,139,250,0.3);
+  }
+  /* DERBY = BLUE */
+  .card-placeholder.derby-card:hover {
+    border-color: rgba(77,166,255,0.6);
+    box-shadow: 0 20px 40px rgba(77,166,255,0.2), 0 0 0 1px rgba(77,166,255,0.3);
+  }
+  .card-placeholder.golf-card:hover {
+    border-color: rgba(77,187,119,0.6);
+    box-shadow: 0 20px 40px rgba(77,187,119,0.2), 0 0 0 1px rgba(77,187,119,0.3);
+  }
+  .card-placeholder.basketball-card:hover {
+    border-color: rgba(249,115,22,0.6);
+    box-shadow: 0 20px 40px rgba(249,115,22,0.2), 0 0 0 1px rgba(249,115,22,0.3);
+  }
+  /* RACING = RED */
+  .card-placeholder.racing-card:hover {
+    border-color: rgba(232,41,46,0.6);
+    box-shadow: 0 20px 40px rgba(232,41,46,0.2), 0 0 0 1px rgba(232,41,46,0.3);
+  }
+
+  /* WRESTLING = DARK RED */
+  .card-placeholder.wrestling-card:hover {
+    border-color: rgba(204,34,51,0.6);
+    box-shadow: 0 20px 40px rgba(204,34,51,0.2), 0 0 0 1px rgba(204,34,51,0.3);
+  }
+
+  /* HOW IT WORKS */
+  .how {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2.5rem;
+    border-top: 2px solid rgba(245,197,24,0.2);
+  }
+
+  .sport-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 3.5rem;
+    margin-bottom: 1rem;
+  }
+
+  /* HOCKEY COMMENTED OUT
+  .sport-label.hockey { color: #4da6ff; margin-top: 2rem; }
+  */
+  .sport-label.derby  { color: #4da6ff; }
+  .sport-label.golf   { color: #4dbb77; }
+  .sport-label.basketball { color: #f97316; }
+  .sport-label.racing { color: #e8292e; margin-top: 2rem; }
+  .sport-label.wrestling { color: #cc2233; }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+  }
+
+  .step {
+    padding: 2rem;
+    border: 1px solid rgba(245,240,232,0.08);
+  }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--yellow);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+
+  .step h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .step p {
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.6;
+  }
+
+  /* ORDER */
+  .order {
+    position: relative;
+    z-index: 1;
+    background: var(--yellow);
+    padding: 4rem 2.5rem;
+    text-align: center;
+  }
+
+  .order .section-label { color: rgba(13,13,13,0.6); }
+
+  .order h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: var(--black);
+    line-height: 0.95;
+    margin: 0.5rem 0 1.2rem;
+  }
+
+  .order p {
+    font-size: 1rem;
+    color: rgba(13,13,13,0.7);
+    max-width: 540px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  /* PHILOSOPHY */
+  .philosophy {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2.5rem;
+    border-top: 2px solid rgba(245,197,24,0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .philosophy-quote {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    line-height: 1.05;
+  }
+
+  .philosophy-quote em {
+    font-style: normal;
+    color: var(--yellow);
+  }
+
+  .philosophy-body {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(245,240,232,0.7);
+  }
+
+  .philosophy-body p + p { margin-top: 1.2rem; }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 2px solid var(--yellow);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer .logo { font-size: 1.3rem; }
+
+  footer p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 700px) {
+    nav ul { display: none; }
+    .philosophy { grid-template-columns: 1fr; gap: 2rem; }
+    .hero { min-height: 80vh; }
+  }
+
+  /* LIGHTBOX */
+  .lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.92);
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+    animation: lbFadeIn 0.2s ease;
+  }
+
+  .lightbox-overlay.active {
+    display: flex;
+  }
+
+  .lightbox-overlay img {
+    max-width: 92vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border: 2px solid rgba(245,197,24,0.3);
+    box-shadow: 0 0 80px rgba(0,0,0,0.8);
+    cursor: default;
+    animation: lbZoomIn 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    background: none;
+    border: 2px solid rgba(245,197,24,0.4);
+    color: var(--yellow);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .lightbox-close:hover {
+    border-color: var(--yellow);
+    background: rgba(245,197,24,0.1);
+  }
+
+  .card-placeholder img { cursor: zoom-in; }
+
+  @keyframes lbFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes lbZoomIn {
+    from { transform: scale(0.88); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">GRID<span>SPORTS</span></div>
+  <ul>
+    <li><a href="#games">Games</a></li>
+    <li><a href="#how">How to Play</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks" target="_blank">Order</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-deco">GRID</div>
+  <p class="hero-eyebrow">Pen &amp; Paper Sports Games</p>
+  <h1>PUT DOWN<br><span class="accent">THE PHONE.</span></h1>
+  <p class="hero-sub">Pick a game. Roll some dice. Score some points. Beat your friends. No battery required.</p>
+  <div class="hero-cta">
+    <a href="#games" class="btn">See the Games</a>
+    <a href="#how" class="btn btn-outline">How to Play (It's not hard, we promise)</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>GRID RACING</span><span>✦</span>
+    <span>GRID GOLF</span><span>✦</span>
+    <span>GRID HR DERBY</span><span>✦</span>
+    <span>GRID HOCKEY</span><span>✦</span>
+    <span>GRID BASEBALL</span><span>✦</span>
+    <span>GRID SOCCER</span><span>✦</span>
+    <span>GRID WRESTLING</span><span>✦</span>
+    <span>GRID BOXING</span><span>✦</span>
+    <span>NO PHONE NEEDED</span><span>✦</span>
+    <span>DICE + PAPER = FUN</span><span>✦</span>
+    <span>GRID RACING</span><span>✦</span>
+    <span>GRID GOLF</span><span>✦</span>
+    <span>GRID HR DERBY</span><span>✦</span>
+    <span>GRID HOCKEY</span><span>✦</span>
+    <span>GRID BASEBALL</span><span>✦</span>
+    <span>GRID SOCCER</span><span>✦</span>
+    <span>GRID WRESTLING</span><span>✦</span>
+    <span>GRID BOXING</span><span>✦</span>
+    <span>NO PHONE NEEDED</span><span>✦</span>
+    <span>DICE + PAPER = FUN</span><span>✦</span>
+  </div>
+</div>
+
+<!-- GAMES -->
+<section class="games" id="games">
+  <p class="section-label">The Lineup</p>
+  <h2 class="section-title">Pick a Game.<br>Zero Screens.</h2>
+  <div class="games-grid">
+
+    <!-- HOCKEY COMMENTED OUT
+    <div class="game-card hockey">
+      <span class="card-number">01</span>
+      <h3 class="card-title">Grid Hockey</h3>
+      <p class="card-desc">Roll 2 dice — red die for column, blue die for row — and find where they meet on the goalie's grid. Red square = GOAL. Every team card uses real 2025–26 save percentage and GAA stats, so Winnipeg (.920) plays nothing like Chicago (.893). You still might lose to Chicago. That's on you.</p>
+      <div class="card-details">
+        <span class="pill">2 Dice</span>
+        <span class="pill">30 Shots · 3 Periods</span>
+        <span class="pill">16 Team Cards (East or West Conference)</span>
+      </div>
+    </div>
+    -->
+
+    <!-- GRID RACING -->
+    <div class="game-card racing">
+      <span class="card-number">01</span>
+      <h3 class="card-title">Grid Racing</h3>
+      <p class="card-desc">Roll 1 die through 30 segments per lap — each segment has a target number based on its type. Long straights reward high rolls. Hairpins punish them. Your score is how far you land from each target. Lowest total wins. Every circuit plays differently. Monza rewards speed. Monaco punishes mistakes.</p>
+      <div class="card-details">
+        <span class="pill">1 Die</span>
+        <span class="pill">30 Segments · 1 Lap</span>
+        <span class="pill">24 Circuit Cards</span>
+      </div>
+    </div>
+
+    <div class="game-card golf">
+      <span class="card-number">02</span>
+      <h3 class="card-title">Grid Golf</h3>
+      <p class="card-desc">Roll the dice twice per hole — once for your tee shot, once for your approach. This isn't a pro sim — it's a Saturday morning round with your buddies where someone loses a ball in the third hole and claims it "probably didn't count." Scores run high, bogeys are expected, and making par feels like a win. Simple enough for a napkin, humbling enough for 18 holes.</p>
+      <div class="card-details">
+        <span class="pill">2 Dice</span>
+        <span class="pill">18 Holes</span>
+        <span class="pill">Grid Paper</span>
+      </div>
+    </div>
+
+        <div class="game-card hockey">
+      <span class="card-number">03</span>
+      <h3 class="card-title">Grid Hockey</h3>
+      <p class="card-desc">Roll 2 dice — red die for column, blue die for row — and find where they meet on your team's grid. GOAL means it's in. Everything else means it isn't. Thirty-two teams, real 2025–26 standings baked into every card. Buffalo picked on a dare still believes this is their year.</p>
+      <div class="card-details">
+        <span class="pill">2 Dice</span>
+        <span class="pill">32 Team Cards</span>
+        <span class="pill">2025–26</span>
+      </div>
+    </div>
+
+    <div class="game-card soccer">
+      <span class="card-number">04</span>
+      <h3 class="card-title">Grid Soccer</h3>
+      <p class="card-desc">Roll 2 dice for each shot — column and row land you on GOAL, SAVE, BLOCK, POST, or MISS. nations, real qualifying stats baked into every card. VAR cannot review your dice rolls. This is between you and the grid.</p>
+      <div class="card-details">
+        <span class="pill">2 Dice</span>
+        <span class="pill">32 Nation Cards</span>
+        <span class="pill">2026</span>
+      </div>
+    </div>
+
+    <div class="game-card wrestling">
+      <span class="card-number">05</span>
+      <h3 class="card-title">Grid Wrestling</h3>
+      <p class="card-desc">Roll 2 dice each turn — column and row land you on HIT, GRAPPLE, STUN, BLOCK, or PIN. Build your momentum meter to 5 before your PIN counts. Twenty-five wrestlers across three tiers. Jobbers grind. Mid-Carders could go either way. Main Eventers are here to end you. Dale From Accounting has never won. Don't tell him.</p>
+      <div class="card-details">
+        <span class="pill">2 Dice</span>
+        <span class="pill">25 Wrestler Cards</span>
+        <span class="pill">3 Tiers</span>
+      </div>
+    </div>
+
+        <div class="game-card boxing">
+      <span class="card-number">06</span>
+      <h3 class="card-title">Grid Boxing</h3>
+      <p class="card-desc">Pick any two fighters from a roster of 30 heavyweights. Roll once each round — higher result wins the round on the judges' scorecard. Roll a KO and your opponent better have had a good round, or it's over. Roll HURT and you hit the canvas. Three knockdowns and the ref waves it off. Goes twelve rounds? The scorecards decide it.</p>
+      <div class="card-details">
+        <span class="pill">2 Dice</span>
+        <span class="pill">30 Fighter Cards</span>
+        <span class="pill">12 Rounds</span>
+      </div>
+    </div>
+
+        <div class="game-card baseball">
+      <span class="card-number">07</span>
+      <h3 class="card-title">Grid Baseball</h3>
+      <p class="card-desc">Two dice, nine innings, 30 teams. Roll for column and row — HR scores a run, RUN scores a run, HIT or BB puts a runner on base. Your next HR scores 2. OUT or K and he's gone. Most runs wins. The White Sox card is exactly as bleak as you'd imagine.</p>
+      <div class="card-details">
+        <span class="pill">2 Dice</span>
+        <span class="pill">9 Innings</span>
+        <span class="pill">30 Team Cards · 2025</span>
+      </div>
+    </div>
+
+        <div class="game-card derby">
+      <span class="card-number">08</span>
+      <h3 class="card-title">Grid HR Derby</h3>
+      <p class="card-desc">It's a home run derby in a notebook. Each ballpark has its own layout — wind zones, wall distances, quirky dimensions. Roll the dice and see if you can clear the fence.</p>
+      <div class="card-details">
+        <span class="pill">2 Dice</span>
+        <span class="pill">30 Ballparks</span>
+        <span class="pill">Roll &amp; Play</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CARD SHOWCASE -->
+<section class="showcase" id="cards">
+  <p class="section-label">The Cards</p>
+  <h2 class="section-title">What You're<br>Actually Getting.</h2>
+  <p class="showcase-sub">Pick your game. Each notebook is one sport — play a page, score it, flip to the next. No charger. No tutorial video. No guy on YouTube explaining it for 45 minutes.</p>
+
+  <!-- RACING CARDS -->
+  <p class="section-label" style="margin-top:4rem;">Grid Racing</p>
+  <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Circuit Cards.</h3>
+  <p class="showcase-sub">Each card is a unique circuit — straight lengths, corner types, and pit lane strategy baked into the grid. Fast tracks give you more overtake opportunities. Technical circuits punish bad rolls.</p>
+  <div class="cards-strip">
+    <div class="card-placeholder racing-card"><img src="gridracing.jpg" alt="Grid Racing card"></div>
+    <div class="card-placeholder racing-card"><img src="racing1.png" alt="Racing track grid"></div>
+    <div class="card-placeholder racing-card"><img src="racingscore.png" alt="Racing scorecard"></div>
+  </div>
+
+  <!-- GOLF CARDS -->
+  <p class="section-label" style="margin-top:4rem;">Grid Golf</p>
+  <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Course Cards.</h3>
+  <p class="showcase-sub">Pick your course. Each notebook features holes from one legendary course — Wisconsin or Georgia. Fairway, rough, and hazards laid out on a grid. Don't expect to shoot even par. This is a weekend hacker's game — double bogeys happen, the occasional birdie feels amazing, and that's the whole point.</p>
+  <div class="cards-strip">
+    <div class="card-placeholder golf-card"><img src="gridgolf.jpg" alt="Grid Golf card"></div>
+    <div class="card-placeholder golf-card"><img src="golf1.png" alt="Golf course grid"></div>
+    <div class="card-placeholder golf-card"><img src="golfscore.png" alt="Golf scorecard"></div>
+  </div>
+
+  <!-- HOCKEY CARDS -->
+  <p class="section-label" style="margin-top:4rem;">Grid Hockey</p>
+  <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Team Cards.</h3>
+  <p class="showcase-sub">Thirty-two teams, real 2025–26 standings and scoring data baked into every card. Tier A teams score more, Tier D teams exist to humble you. Goals are rare, misses are frequent, and the occasional post is just the universe being cruel.</p>
+  <div class="cards-strip">
+    <div class="card-placeholder hockey-card"><img src="gridhockey.jpg" alt="Grid Hockey card"></div>
+    <div class="card-placeholder hockey-card"><img src="hockey1.png" alt="Hockey team grid"></div>
+    <div class="card-placeholder hockey-card"><img src="hockeyscore.png" alt="Hockey scorecard"></div>
+  </div>
+
+  <!-- SOCCER CARDS -->
+  <p class="section-label" style="margin-top:4rem;">Grid Soccer</p>
+  <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Nation Cards.</h3>
+  <p class="showcase-sub">Thirty-two World Cup nations, real qualifying attack and defense data baked into every card. Roll both dice, find your cell — GOAL, SAVE, BLOCK, POST, or MISS. Most goals wins. VAR has no jurisdiction here.</p>
+  <div class="cards-strip">
+    <div class="card-placeholder soccer-card" style="--card-accent:#a78bfa"><img src="gridsoccer.jpg" alt="Grid Soccer card"></div>
+    <div class="card-placeholder soccer-card" style="--card-accent:#a78bfa"><img src="soccer1.png" alt="Soccer nation grid"></div>
+    <div class="card-placeholder soccer-card" style="--card-accent:#a78bfa"><img src="soccerscore.png" alt="Soccer scorecard"></div>
+  </div>
+
+  <!-- WRESTLING CARDS -->
+  <p class="section-label" style="margin-top:4rem;">Grid Wrestling</p>
+  <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Wrestler Cards.</h3>
+  <p class="showcase-sub">Twenty-five wrestlers across three tiers — Jobbers who try their best, Mid-Carders who could go either way, and Main Eventers who are here to end you. Each card has a unique grid, a finisher, and something to say for themselves. Build momentum, land the PIN, write your own storyline.</p>
+  <div class="cards-strip">
+    <div class="card-placeholder wrestling-card" style="--card-accent:#cc2233"><img src="gridwrestling.jpg" alt="Grid Wrestling card"></div>
+    <div class="card-placeholder wrestling-card" style="--card-accent:#cc2233"><img src="wrestling1.png" alt="Wrestler grid"></div>
+    <div class="card-placeholder wrestling-card" style="--card-accent:#cc2233"><img src="wrestlingscore.png" alt="Wrestling scorecard"></div>
+  </div>
+
+    <!-- BOXING CARDS -->
+  <p class="section-label" style="margin-top:4rem;">Grid Boxing</p>
+  <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Fighter Cards.</h3>
+  <p class="showcase-sub">Thirty heavyweight fighters across six styles — Power Punchers, Technical Boxers, Brawlers, Swarmers, Slick Movers, Big Punchers. Each card has a unique grid and stat block. Pick any two, assign corners, and settle it over twelve rounds. The Legend is in there. Don't start with The Legend.</p>
+  <div class="cards-strip">
+    <div class="card-placeholder boxing-card" style="--card-accent:#c9a030"><img src="gridboxing.jpg" alt="Grid Boxing card"></div>
+    <div class="card-placeholder boxing-card" style="--card-accent:#c9a030"><img src="boxing1.png" alt="Fighter grid"></div>
+    <div class="card-placeholder boxing-card" style="--card-accent:#c9a030"><img src="boxingscore.png" alt="Boxing scorecard"></div>
+  </div>
+
+  
+  <!-- BASEBALL CARDS -->
+  <p class="section-label" style="margin-top:4rem;">Grid Baseball</p>
+  <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Team Cards.</h3>
+  <p class="showcase-sub">Thirty teams, nine innings, real 2025 offensive data. HR and RUN cells score runs. HIT and BB set a Rally Token — your next scoring cell is worth double. OUT and K kill it. Most runs after 9 innings wins.</p>
+  <div class="cards-strip">
+    <div class="card-placeholder baseball-card" style="--card-accent:#22c55e"><img src="gridbaseball.jpg" alt="Grid Baseball card"></div>
+    <div class="card-placeholder baseball-card" style="--card-accent:#22c55e"><img src="baseball1.png" alt="Baseball team grid"></div>
+    <div class="card-placeholder baseball-card" style="--card-accent:#22c55e"><img src="baseballscore.png" alt="Baseball scorecard"></div>
+  </div>
+
+    <!-- DERBY CARDS -->
+  <p class="section-label" style="margin-top:4rem;">Grid HR Derby</p>
+  <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Ballpark Cards.</h3>
+  <p class="showcase-sub">Each card is a unique ballpark — real wall distances, wind zones, and quirky park dimensions baked into the grid. Roll the dice and see if your ball clears the fence.</p>
+  <div class="cards-strip">
+    <div class="card-placeholder derby-card"><img src="gridderby.jpg" alt="Grid Derby card"></div>
+    <div class="card-placeholder derby-card"><img src="derby1.png" alt="Derby ballpark grid"></div>
+    <div class="card-placeholder derby-card"><img src="derbyscore.png" alt="Derby scorecard"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <p class="section-label">Rules for All 7 Games</p>
+  <h2 class="section-title">Learn It in<br>One Round.<br>(Seriously, One Round.)</h2>
+
+  <!-- RACING RULES -->
+  <p class="sport-label racing">Grid Racing</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick a Circuit</h3>
+      <p>Choose any of the 24 circuit cards. Each one has 30 segments in order — a mix of long straights, fast corners, medium corners, and hairpins unique to that track.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Roll Through Each Segment</h3>
+      <p>Roll your die once for each of the 30 segments in order. Every segment has a target number based on its type. Your score for that segment = how far your roll lands from the target. Hit it exactly = 0.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Add It Up</h3>
+      <p>Total all 30 segment scores. Lower total = faster lap. Compare your result to the circuit's par. Under par and you're on the podium. Over par and, well, there's always next race.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Run the Season</h3>
+      <p>Record your championship points after each circuit. Complete all 24 circuits for your full season total. Lowest cumulative score takes the title.</p>
+    </div>
+  </div>
+
+
+
+  <!-- GOLF RULES -->
+  <p class="sport-label golf">Grid Golf</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Tee Shot</h3>
+      <p>Roll the die for your tee shot. Your result sets your position on the hole. Fairway and rough are safe — sand, water, or out of bounds add +1 stroke. Land in the birdie zone and you're already −1.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Approach</h3>
+      <p>Roll again for your approach shot. Rough, sand, or trees = +1. Water or out of bounds = +2. Birdie = −1. Eagle = −2. Bold rolls get rewarded — and punished.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Calculate Your Score</h3>
+      <p>Add both roll adjustments to par for the hole. That's your final score. Write it on the card and move to the next hole.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Play 18</h3>
+      <p>Work through all 18 holes, tallying strokes as you go. Lowest total score wins — but don't sweat a big number. Breaking 100 is worth bragging about. Breaking 90 and we want to hear from you.</p>
+    </div>
+  </div>
+
+  <!-- HOCKEY RULES -->
+  <p class="sport-label hockey">Grid Hockey</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick a Team</h3>
+      <p>Each player picks a team card. Tier A teams have more GOAL cells — they shoot more and score more. Tier D teams have fewer. Someone always picks Buffalo on a dare.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Roll Your Shots</h3>
+      <p>Roll 1d6 and add your card's shot bonus for your total shots on goal. Alternate shots with your opponent — red die for column, blue die for row.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Check the Result</h3>
+      <p>GOAL means it's in. SAVE, BLOCK, POST, or WIDE means it isn't. Mark your goals and keep rolling until both players are out of shots.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Most Goals Wins</h3>
+      <p>Count your goals. Most goals wins 2 pts. Tied? Flip a coin — OT winner gets 1 pt. Loser gets nothing and has to live with it.</p>
+    </div>
+  </div>
+
+
+
+  <!-- SOCCER RULES -->
+  <p class="sport-label soccer" style="color:#a78bfa">Grid Soccer</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick a Nation</h3>
+      <p>Each player picks a team card. Roll 1 die and add your card's shot bonus — that's your shots for the match. Better teams shoot more. Life isn't fair.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Take Your Shots</h3>
+      <p>Alternate shot by shot. Each turn: roll both dice — Red die is the column, Blue die is the row. Find that cell on your own card. You are always the attacker.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Check the Result</h3>
+      <p>GOAL means it's in. SAVE, BLOCK, POST, or MISS means it isn't. Mark your goals and keep going until both players have used all their shots.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Most Goals Wins</h3>
+      <p>Most goals wins 3 pts. Tied? That's a Draw — 1 pt each. Loser gets 0 pts and has to explain it to their imaginary fans. VAR is not available in this jurisdiction.</p>
+    </div>
+  </div>
+
+  <!-- WRESTLING RULES -->
+  <p class="sport-label wrestling">Grid Wrestling</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick a Wrestler</h3>
+      <p>Each player picks a wrestler card. Three tiers — Jobber, Mid-Card, Main Event. Tiers change the grid distribution, not the rules. A Jobber can beat a Main Eventer. It just doesn't happen often.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Roll Both Dice</h3>
+      <p>Players alternate turns. Roll both dice — first die is the column, second die is the row. Find where they meet on your wrestler's grid and follow the result.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Build Momentum</h3>
+      <p>HIT fills one momentum box. Fill all 5 and your PIN cell is live. Roll a PIN before the meter's full and the ref looks away. STUN costs your opponent their next turn. BLOCK means their next HIT won't count.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Land the PIN</h3>
+      <p>First wrestler to roll a PIN with a full momentum meter wins. Run a single match, a full card, or an 8-person tournament. Book the storyline. Blame the dice.</p>
+    </div>
+  </div>
+
+    <!-- BOXING RULES -->
+  <p class="sport-label boxing" style="color:#c9a030">Grid Boxing</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick 2 Fighters</h3>
+      <p>Choose any two fighters from the roster of 30 heavyweights. Assign Red Corner and Blue Corner. Pull both fighter cards and a scorecard. Six styles to choose from — Power Puncher, Technical Boxer, Brawler, Swarmer, Slick Mover, Big Puncher.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Roll Each Round</h3>
+      <p>Both fighters roll once per round on their own grid — red die is the row, blue die is the column. Find the result: KO, W+, W, D, L, or HURT. Compare results head to head.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Score the Round</h3>
+      <p>Higher result wins the round. W+ beats W beats D beats L. Win by W+ = 10-8. Win by W = 10-9. Draw = 10-10. Roll KO and your opponent rolled D, L, or HURT = fight stopped. Roll HURT = you're down, opponent wins the round no matter what they threw.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>KO or 12 Rounds</h3>
+      <p>Three knockdowns and the ref waves it off. Go all twelve rounds without a stoppage and the judges add it up. Most rounds wins — Unanimous, Split, or Majority Decision. Don't start with The Legend.</p>
+    </div>
+  </div>
+
+    <!-- BASEBALL RULES -->
+  <p class="sport-label baseball" style="color:var(--green)">Grid Baseball</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick a Team</h3>
+      <p>Each player picks a team card. Tier A teams (Los Angeles, New York) have more scoring cells. Tier D teams (Chicago, Colorado) have more Ks and OUTs. Play 9 innings each.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Roll Each At-Bat</h3>
+      <p>Each inning, roll 1d6 — on 1–3 you get 2 at-bats, on 4–6 you get 3. For each at-bat: red die = column, blue die = row. Find the cell.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Check the Result</h3>
+      <p> HR = 1 run (2 if a runner is on base). RUN = 1 run. HIT or BB = puts a runner on base. One runner at a time — this isn't real baseball. OUT or K = nothing, runner is removed.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Nine Innings, Most Runs Wins</h3>
+      <p>After 9 innings each, most runs wins. Tied? Each team gets 3 at-bats per inning until there's a winner.</p>
+    </div>
+  </div>
+
+    <!-- DERBY RULES -->
+  <p class="sport-label derby">Grid HR Derby</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick a Ballpark</h3>
+      <p>Choose any ballpark card. Each one has its own grid layout — some parks launch home runs easily, others are pitchers' parks where you'll struggle to clear the wall.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Roll Both Dice</h3>
+      <p>One die for column, one die for row. Find the square where they meet on your ballpark card grid.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Check the Result</h3>
+      <p>Home run square = gone yard. Any other square = out. Mark your result and step up to the plate again.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>10 Swings Each Round</h3>
+      <p>Each player gets 10 at-bats. Count your home runs and don't blow it in the bonus ball. Argue about park dimensions.</p>
+    </div>
+  </div>
+
+<!-- ORDER -->
+<section class="order">
+  <p class="section-label">Physical Notebook · Ships to You · No App Store Involved</p>
+  <h2>Order Your Sets.</h2>
+  <p>Grid Racing (24 circuits), Grid HR Derby (30 ballparks), Grid Golf (Wisconsin or Georgia), Grid Hockey (2025–26), Grid Baseball (2025), Grid Soccer (2026), Grid Wrestling (25 wrestlers, 3 tiers), or Grid Boxing (30 heavyweights, 12 rounds). Each notebook includes everything you need. The fun is analog.</p>
+  <a href="https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks" target="_blank" class="btn" style="background:var(--black); color:var(--yellow); border-color:var(--black); font-size:1.1rem; padding:1.2rem 3rem;">Order Now</a>
+  <p style="margin-top:0.75rem; font-size:0.85rem; opacity:0.6;">Buy one or collect all.</p>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="about">
+  <div class="philosophy-quote">
+    Physical notebook.<br><em>Two dice.</em><br>Kills 10 minutes.
+  </div>
+  <div class="philosophy-body">
+    <p>Grid Sports games is a physical game notebook you order and keep. No app to update, no subscription, no screen. Just a notebook and two dice.</p>
+    <p>Each game is purpose-built around real data and real places. Grid Racing maps real circuits — Monza's long straights play nothing like Monaco's hairpins. Grid HR Derby maps real ballparks — Colorado plays nothing like Los Angeles. Grid Golf puts real hole layouts on a page. Grid Hockey uses real 2025–26 standings — Tier A teams shoot more, score more, and will still occasionally lose to a Tier D team because that's sports. Grid Baseball brings nine innings of real offensive data to a grid. Grid Soccer puts 32 nations on a grid and lets you settle it without penalty kicks. Grid Wrestling puts 25 wrestlers on index cards and lets you run the whole show — matches, tournaments, rivalries, storylines — with two dice and a pencil. Grid Boxing puts 30 heavyweight fighters in your hands — pick any two, assign corners, and go twelve rounds.</p>
+   
+    <p>Your game. Zero screens. No tutorial video. No guy on YouTube explaining it for 45 minutes. Just a notebook and two dice.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">GRID<span>SPORTS</span></div>
+  <p>Pen · Paper · Dice · No Refunds on Bad Rolls</p>
+  <p>Questions? <a href="/cdn-cgi/l/email-protection#6a0905041e0b091e2a0d18030e191a05181e1944040f1e" style="color:var(--yellow); text-decoration:none; opacity:1;"><span class="__cf_email__" data-cfemail="86e5e9e8f2e7e5f2c6e1f4efe2f5f6e9f4f2f5a8e8e3f2">[email&#160;protected]</span></a></p>
+      <a href="https://www.facebook.com/gridsports.net" target="_blank" aria-label="Facebook" style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border:2px solid rgba(245,197,24,0.4); color:var(--yellow); text-decoration:none; transition:border-color 0.2s, background 0.2s; border-radius:2px;" onmouseover="this.style.borderColor='var(--yellow)'; this.style.background='rgba(245,197,24,0.1)'" onmouseout="this.style.borderColor='rgba(245,197,24,0.4)'; this.style.background='transparent'">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕ CLOSE</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+  (function () {
+    var overlay  = document.getElementById('lightbox');
+    var lbImg    = document.getElementById('lightboxImg');
+    var closeBtn = document.getElementById('lightboxClose');
+
+    function openLightbox(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+    }
+
+    document.querySelectorAll('.card-placeholder img').forEach(function (img) {
+      img.addEventListener('click', function (e) {
+        e.stopPropagation();
+        openLightbox(img.src, img.alt);
+      });
+    });
+
+    overlay.addEventListener('click', closeLightbox);
+    lbImg.addEventListener('click', function (e) { e.stopPropagation(); });
+    closeBtn.addEventListener('click', function (e) { e.stopPropagation(); closeLightbox(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLightbox(); });
+  })();
+</script>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": 

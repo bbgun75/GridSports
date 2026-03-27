@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grid Baseball – MLB 2025</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;600&display=swap');
+
+@page { size: 3in 5in; margin: 0; }
+
+@media print {
+  html, body { margin: 0; padding: 0; background: white; }
+  .no-print { display: none !important; }
+  .card-wrap { width: auto !important; height: auto !important; }
+  .card-page { transform: none !important; page-break-after: always; break-after: page; }
+  .card-page:last-of-type { page-break-after: avoid; break-after: avoid; }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a1a0a; font-family: 'Barlow Condensed', sans-serif; }
+
+.no-print {
+  background: #0a1a0a; padding: 20px; text-align: center;
+  border-bottom: 2px solid #16a34a;
+}
+.no-print h1 { font-family: 'Anton', sans-serif; font-size: 1.9rem; color: #16a34a; letter-spacing: 4px; }
+.no-print p { color: #6b7280; font-size: 0.85rem; margin-top: 4px; }
+.print-btn {
+  margin-top: 12px; padding: 10px 28px; background: #16a34a;
+  color: #fff; border: none; font-family: 'Anton', sans-serif;
+  font-size: 1rem; letter-spacing: 2px; cursor: pointer; border-radius: 2px;
+}
+.print-btn:hover { background: #15803d; }
+
+#preview {
+  background: #0f1f0f; padding: 20px;
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+}
+
+.card-wrap {
+  display: inline-block;
+  width:  calc(3in * 0.68);
+  height: calc(5in * 0.68);
+  flex-shrink: 0;
+}
+
+/* ── CARD: 3in wide × 5in tall portrait ── */
+.card-page {
+  width: 3in; height: 5in;
+  background: #fff;
+  display: flex; flex-direction: column;
+  font-family: 'Barlow Condensed', sans-serif;
+  overflow: hidden; flex-shrink: 0;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.55);
+  transform: scale(0.68); transform-origin: top left;
+  --accent: #15803d;
+  --accent2: #dc2626;
+}
+
+/* ── HEADER ── */
+.card-header {
+  background: var(--accent);
+  padding: 0.09in 0.1in 0.07in;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-shrink: 0;
+}
+.hdr-left { display: flex; flex-direction: column; }
+.game-label { font-family: 'Barlow', sans-serif; font-size: 5.5pt; color: rgba(255,255,255,0.5); letter-spacing: 2px; font-weight: 600; }
+.team-name-big { font-family: 'Anton', sans-serif; font-size: 17pt; color: #fff; letter-spacing: 1px; line-height: 1; margin-top: 1px; }
+.team-city-sm { font-size: 6pt; color: rgba(255,255,255,0.6); letter-spacing: 0.5px; margin-top: 2px; }
+.hdr-right { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; padding-top: 2px; }
+.team-flag { font-size: 20pt; line-height: 1; }
+.team-num { font-family: 'Barlow', sans-serif; font-size: 6pt; color: rgba(255,255,255,0.35); font-weight: 600; letter-spacing: 1px; }
+
+/* ── STAT ROW ── */
+.stat-row {
+  display: flex; border-bottom: 1.5px solid var(--accent);
+  background: #f4f8f4; flex-shrink: 0;
+}
+.stat-cell {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 0.042in 0.03in;
+  border-right: 1px solid #dde8dd;
+}
+.stat-cell:last-child { border-right: none; }
+.stat-label { font-size: 4.5pt; color: #999; letter-spacing: 1px; text-transform: uppercase; font-family: 'Barlow', sans-serif; font-weight: 600; }
+.stat-value { font-family: 'Anton', sans-serif; font-size: 10pt; color: var(--accent); letter-spacing: 0.5px; line-height: 1.1; }
+.stat-sub { font-size: 4pt; color: #bbb; font-family: 'Barlow', sans-serif; }
+
+/* ── GRID SECTION ── */
+.grid-section {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 0.065in 0.08in 0.045in;
+}
+.grid-title-row {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.038in;
+}
+.grid-title { font-family: 'Anton', sans-serif; font-size: 7pt; color: var(--accent); letter-spacing: 1.5px; }
+.grid-hint { font-size: 4.5pt; color: #bbb; font-family: 'Barlow', sans-serif; }
+
+.dice-grid {
+  display: grid;
+  grid-template-columns: 0.13in repeat(6, 1fr);
+  grid-template-rows: 0.13in repeat(6, 1fr);
+  flex: 1; gap: 1.2px;
+}
+.grid-corner { background: #fff; }
+.grid-col-head { background: #dc2626; display: flex; align-items: center; justify-content: center; font-family: 'Anton', sans-serif; font-size: 5.5pt; color: white; border-radius: 1px; }
+.grid-row-head { background: #15803d; display: flex; align-items: center; justify-content: center; font-family: 'Anton', sans-serif; font-size: 5.5pt; color: white; border-radius: 1px; }
+.grid-cell { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 0.75px solid #e0e0e0; border-radius: 1px; line-height: 1; }
+
+.cell-hr   { background: #fef9c3; border-color: #ca8a04; }
+.cell-run  { background: #dbeafe; border-color: #2563eb; }
+.cell-hit  { background: #dcfce7; border-color: #16a34a; }
+.cell-bb   { background: #ede9fe; border-color: #7c3aed; }
+.cell-out  { background: #f5f5f5; border-color: #d1d5db; }
+.cell-k    { background: #fee2e2; border-color: #dc2626; }
+
+.cell-type { font-family: 'Anton', sans-serif; font-size: 4.5pt; }
+.cell-val  { font-size: 3.5pt; color: #777; font-family: 'Barlow', sans-serif; }
+
+.legend-row { display: flex; gap: 0.04in; flex-wrap: wrap; margin-top: 0.038in; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 2px; font-size: 4pt; color: #666; font-family: 'Barlow', sans-serif; }
+.legend-dot { width: 6px; height: 6px; border-radius: 1px; flex-shrink: 0; }
+
+/* ── RALLY BAND ── */
+.rally-band {
+  background: #f0fdf4; border-top: 1px solid #bbf7d0; border-bottom: 1px solid #bbf7d0;
+  padding: 0.025in 0.08in; flex-shrink: 0;
+  display: flex; align-items: center; gap: 4px;
+}
+.rally-label { font-family: 'Anton', sans-serif; font-size: 5.5pt; color: #15803d; letter-spacing: 1px; }
+.rally-text { font-size: 4.5pt; color: #166534; font-family: 'Barlow', sans-serif; line-height: 1.3; }
+
+/* ── RESULT BAND ── */
+.result-band {
+  display: flex; border-top: 1.5px solid var(--accent);
+  background: #fafbfa; flex-shrink: 0;
+}
+.result-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 0.034in 0.02in;
+  border-right: 1px solid #e8ede8;
+}
+.result-item:last-child { border-right: none; }
+.result-icon { font-size: 6.5pt; line-height: 1; }
+.result-label { font-family: 'Anton', sans-serif; font-size: 5.5pt; letter-spacing: 0.5px; }
+.result-pts { font-size: 4pt; color: #aaa; font-family: 'Barlow', sans-serif; }
+.r-win  { color: #15803d; }
+.r-ot   { color: #b45309; }
+.r-loss { color: #dc2626; }
+
+/* ── WRITE LINE ── */
+.write-line {
+  display: flex; gap: 0.05in; padding: 0.038in 0.08in 0.042in;
+  border-top: 1px solid #eee; flex-shrink: 0;
+}
+.write-field { flex: 1; border-bottom: 0.75px solid #ccc; font-size: 4pt; color: #ccc; padding-bottom: 1px; font-family: 'Barlow', sans-serif; }
+
+/* ══ INSTRUCTIONS ══ */
+.inst-page { background: #071407 !important; display: flex; flex-direction: column; }
+.inst-top {
+  background: #0d2610; padding: 0.10in 0.1in 0.08in;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; border-bottom: 3px solid #16a34a; flex-shrink: 0;
+}
+.inst-game-label { font-family: 'Barlow', sans-serif; font-size: 6pt; color: #86efac; letter-spacing: 3px; font-weight: 600; }
+.inst-title { font-family: 'Anton', sans-serif; font-size: 22pt; color: white; letter-spacing: 2px; line-height: 0.95; margin-top: 2px; }
+.inst-season { font-family: 'Anton', sans-serif; font-size: 9pt; color: rgba(255,255,255,0.3); letter-spacing: 3px; margin-top: 1px; }
+.inst-icon { font-size: 18pt; margin: 0.035in 0 0.035in; }
+.inst-dice-row { display: flex; gap: 0.1in; }
+.inst-die { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.die-box { width: 0.26in; height: 0.26in; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 10pt; color: white; font-family: 'Anton', sans-serif; }
+.die-red  { background: #dc2626; }
+.die-green { background: #15803d; }
+.die-label { font-size: 4.5pt; color: #86efac; font-family: 'Barlow', sans-serif; font-weight: 600; letter-spacing: 0.5px; }
+
+.inst-body { flex: 1; padding: 0.08in 0.1in; display: flex; flex-direction: column; gap: 0.04in; overflow: hidden; }
+.inst-section { font-family: 'Anton', sans-serif; font-size: 7pt; color: #4ade80; letter-spacing: 2px; margin-bottom: 1px; }
+.inst-step { display: flex; gap: 5px; align-items: flex-start; }
+.inst-num { font-family: 'Anton', sans-serif; font-size: 9pt; color: #4ade80; line-height: 1; flex-shrink: 0; width: 10px; }
+.inst-text { font-size: 5.2pt; color: #d1fae5; line-height: 1.4; font-family: 'Barlow', sans-serif; }
+.inst-divider { border: none; border-top: 1px solid rgba(74,222,128,0.15); }
+
+.inst-outcomes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.inst-out-item { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 2px; border-radius: 2px; }
+.inst-out-badge { font-family: 'Anton', sans-serif; font-size: 5.5pt; padding: 1px 3px; border-radius: 1px; }
+.inst-out-detail { font-size: 4pt; color: #86efac; font-family: 'Barlow', sans-serif; text-align: center; line-height: 1.3; }
+
+.inst-tiers { display: flex; flex-direction: column; gap: 2px; }
+.inst-tier-row { display: flex; align-items: center; gap: 4px; }
+.inst-tier-badge { font-family: 'Anton', sans-serif; font-size: 6pt; padding: 1px 4px; border-radius: 1px; color: white; flex-shrink: 0; }
+.inst-tier-desc { font-size: 4.2pt; color: #86efac; font-family: 'Barlow', sans-serif; line-height: 1.35; }
+
+.inst-footer { font-size: 4pt; color: #166534; font-family: 'Barlow', sans-serif; border-top: 1px solid rgba(255,255,255,0.06); padding: 0.03in 0.1in; text-align: center; flex-shrink: 0; }
+
+/* ══ TALLY ══ */
+.tally-page { background: white !important; display: flex; flex-direction: column; padding: 0.08in 0.09in; }
+.tally-hdr { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #15803d; padding-bottom: 0.03in; margin-bottom: 0.02in; }
+.tally-game { font-family: 'Anton', sans-serif; font-size: 11pt; color: #15803d; letter-spacing: 2px; }
+.tally-sub { font-size: 5pt; color: #90a4ae; letter-spacing: 1px; }
+.tally-body { flex: 1; display: flex; flex-direction: column; gap: 0.5px; overflow: hidden; }
+.tally-row { display: flex; align-items: center; border-bottom: 0.5px solid #f5f5f5; padding: 0.6px 0; }
+.t-num { font-family: 'Anton', sans-serif; font-size: 4.5pt; color: #ddd; width: 0.11in; flex-shrink: 0; }
+.t-flag { font-size: 7pt; width: 0.14in; flex-shrink: 0; line-height: 1; }
+.t-name { flex: 1; font-size: 4.5pt; color: #222; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; font-family: 'Barlow Condensed', sans-serif; }
+.t-div { font-size: 3.5pt; color: #aaa; font-family: 'Barlow', sans-serif; width: 0.5in; flex-shrink: 0; }
+.t-boxes { display: flex; gap: 1px; width: 0.62in; flex-shrink: 0; }
+.t-box { flex: 1; height: 8px; border: 0.5px solid #ddd; border-radius: 1px; display: flex; align-items: center; justify-content: center; font-size: 3pt; font-weight: 700; letter-spacing: 0.2px; }
+.tw { border-color: #15803d; color: #15803d; }
+.tl { border-color: #dc2626; color: #dc2626; }
+.tr-box { border-color: #1d4ed8; color: #1d4ed8; }
+.tally-footer { display: flex; align-items: center; gap: 6px; border-top: 1.5px solid #15803d; padding-top: 0.03in; margin-top: 0.025in; }
+.tally-tot-label { font-family: 'Anton', sans-serif; font-size: 7pt; color: #15803d; letter-spacing: 1px; flex: 1; }
+.tally-tot-box { width: 0.4in; height: 12px; border: 1.5px solid #15803d; border-radius: 2px; }
+.tally-tot-note { font-size: 3.5pt; color: #aaa; font-family: 'Barlow', sans-serif; }
+
+/* ══ SCORESHEET ══ */
+.score-page { background: white !important; display: flex; flex-direction: column; padding: 0.07in 0.08in 0.06in; }
+.score-hdr { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #15803d; padding-bottom: 0.025in; margin-bottom: 0.03in; flex-shrink: 0; }
+.score-title { font-family: 'Anton', sans-serif; font-size: 11pt; color: #15803d; letter-spacing: 2px; }
+.score-sub { font-size: 4.5pt; color: #90a4ae; letter-spacing: 1px; font-family: 'Barlow', sans-serif; }
+.score-date { font-size: 4pt; color: #ccc; font-family: 'Barlow', sans-serif; border-bottom: 0.5px solid #ddd; padding-bottom: 1px; min-width: 0.6in; text-align: right; }
+
+.score-teams { display: flex; gap: 0.05in; margin-bottom: 0.03in; flex-shrink: 0; }
+.score-team-field { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+.score-team-label { font-size: 4pt; color: #aaa; font-family: 'Barlow', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+.score-team-line { border-bottom: 0.75px solid #999; height: 10px; }
+
+.score-grid-wrap { flex: 1; display: flex; flex-direction: column; }
+.score-innings-hdr { display: grid; grid-template-columns: 0.45in repeat(9, 1fr) 0.25in; gap: 1px; margin-bottom: 1px; }
+.score-inn-label { font-family: 'Anton', sans-serif; font-size: 4.5pt; color: #15803d; text-align: center; }
+.score-inn-r { font-family: 'Anton', sans-serif; font-size: 4.5pt; color: #dc2626; text-align: center; }
+
+.score-team-row { display: grid; grid-template-columns: 0.45in repeat(9, 1fr) 0.25in; gap: 1px; margin-bottom: 0.02in; }
+.score-team-name-cell { font-family: 'Barlow Condensed', sans-serif; font-size: 5.5pt; font-weight: 700; color: #222; text-transform: uppercase; display: flex; align-items: center; letter-spacing: 0.3px; overflow: hidden; }
+.score-inn-box { border: 0.75px solid #ddd; border-radius: 1px; height: 0.18in; display: flex; flex-direction: column; }
+.score-inn-box-top { flex: 1; border-bottom: 0.5px solid #eee; }
+.score-inn-box-bot { height: 7px; display: flex; align-items: center; justify-content: center; font-family: 'Anton', sans-serif; font-size: 4pt; color: #bbb; }
+.score-total-box { border: 1.5px solid #15803d; border-radius: 1px; height: 0.18in; }
+
+.score-divider { border: none; border-top: 1px solid #f0f0f0; margin: 0.025in 0; flex-shrink: 0; }
+
+.score-ab-section { flex-shrink: 0; }
+.score-ab-title { font-family: 'Anton', sans-serif; font-size: 5.5pt; color: #15803d; letter-spacing: 1.5px; margin-bottom: 0.02in; }
+.score-ab-grid { display: grid; grid-template-columns: 0.45in repeat(9, 1fr); gap: 1px; }
+.score-ab-team { font-family: 'Barlow Condensed', sans-serif; font-size: 5pt; font-weight: 700; color: #555; text-transform: uppercase; display: flex; align-items: center; }
+.score-ab-inn { display: flex; gap: 1px; }
+.score-ab-box { flex: 1; border: 0.75px solid #eee; border-radius: 1px; height: 0.12in; }
+
+.score-rally-note { font-size: 3.8pt; color: #999; font-family: 'Barlow', sans-serif; margin-top: 0.02in; line-height: 1.4; flex-shrink: 0; }
+.score-footer { border-top: 1px solid #eee; padding-top: 0.02in; margin-top: 0.02in; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+.score-footer-left { font-size: 3.5pt; color: #ccc; font-family: 'Barlow', sans-serif; }
+.score-result-boxes { display: flex; gap: 0.04in; }
+.score-result-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.score-result-label { font-family: 'Anton', sans-serif; font-size: 4.5pt; }
+.score-result-box { width: 0.22in; height: 10px; border: 1px solid #ddd; border-radius: 1px; }
+.r-w { color: #15803d; border-color: #15803d !important; }
+.r-l { color: #dc2626; border-color: #dc2626 !important; }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <h1>⚾ GRID BASEBALL · MLB 2025</h1>
+  <p>30 team cards + instructions + tally · Print on 3×5 index cards (portrait) · Tiers from actual 2024 MLB R/G data</p>
+  <button class="print-btn" onclick="window.print()">PRINT CARDS</button>
+</div>
+
+<div id="preview"></div>
+
+<script>
+function g(s){ return s.split(','); }
+
+const teams = [
+  // NL WEST
+  {num:"01",name:"Dodgers",city:"Los Angeles",flag:"⚾",div:"NL West",tier:"A",accent:"#005A9C",accent2:"#EF3E42",
+   grid:[["OUT","K","K","HIT","RUN","OUT"],["OUT","OUT","HIT","OUT","K","K"],["OUT","OUT","HIT","K","OUT","BB"],["OUT","OUT","RUN","OUT","HR","RUN"],["OUT","K","HR","HIT","OUT","BB"],["K","HR","BB","K","RUN","K"]]},
+  {num:"02",name:"Padres",city:"San Diego",flag:"🟫",div:"NL West",tier:"C",accent:"#2F241D",accent2:"#FFC425",
+   grid:[["K","OUT","K","BB","OUT","OUT"],["K","HR","OUT","K","HIT","K"],["K","K","OUT","K","BB","HIT"],["OUT","OUT","HIT","OUT","OUT","RUN"],["BB","OUT","RUN","OUT","RUN","HR"],["OUT","OUT","HIT","OUT","OUT","K"]]},
+  {num:"03",name:"Giants",city:"San Francisco",flag:"🌉",div:"NL West",tier:"C",accent:"#FD5A1E",accent2:"#27251F",
+   grid:[["OUT","K","HIT","K","HR","OUT"],["OUT","HIT","OUT","K","OUT","RUN"],["OUT","HIT","OUT","OUT","K","K"],["HR","OUT","OUT","OUT","OUT","HIT"],["OUT","RUN","K","RUN","BB","BB"],["K","OUT","BB","OUT","K","K"]]},
+  {num:"04",name:"Diamondbacks",city:"Arizona",flag:"🐍",div:"NL West",tier:"B",accent:"#A71930",accent2:"#E3D4AD",
+   grid:[["OUT","K","K","OUT","OUT","K"],["OUT","K","K","OUT","HR","RUN"],["OUT","K","K","OUT","BB","OUT"],["BB","OUT","OUT","HIT","BB","HIT"],["OUT","RUN","RUN","HIT","OUT","OUT"],["RUN","HR","OUT","K","K","HIT"]]},
+  {num:"05",name:"Rockies",city:"Colorado",flag:"🏔",div:"NL West",tier:"D",accent:"#33006F",accent2:"#C4CED4",
+   grid:[["OUT","OUT","HIT","HR","OUT","OUT"],["K","OUT","OUT","HIT","RUN","K"],["K","K","K","HIT","RUN","OUT"],["BB","K","OUT","OUT","OUT","OUT"],["OUT","OUT","K","BB","HIT","RUN"],["BB","OUT","K","OUT","OUT","K"]]},
+  // NL EAST
+  {num:"06",name:"Braves",city:"Atlanta",flag:"🪓",div:"NL East",tier:"A",accent:"#CE1141",accent2:"#13274F",
+   grid:[["K","OUT","OUT","HR","K","K"],["OUT","OUT","K","RUN","OUT","OUT"],["RUN","K","BB","BB","BB","HR"],["RUN","K","K","HIT","K","K"],["HIT","OUT","HIT","OUT","OUT","OUT"],["OUT","HIT","HR","RUN","OUT","OUT"]]},
+  {num:"07",name:"Phillies",city:"Philadelphia",flag:"🔔",div:"NL East",tier:"A",accent:"#E81828",accent2:"#002D72",
+   grid:[["OUT","BB","OUT","RUN","K","K"],["HIT","HIT","OUT","HR","OUT","OUT"],["OUT","RUN","K","HIT","OUT","K"],["OUT","OUT","K","OUT","RUN","OUT"],["K","OUT","HR","HR","BB","BB"],["K","K","OUT","RUN","HIT","K"]]},
+  {num:"08",name:"Mets",city:"New York",flag:"🗽",div:"NL East",tier:"B",accent:"#002D72",accent2:"#FF5910",
+   grid:[["K","BB","HIT","K","OUT","HIT"],["OUT","HIT","K","OUT","RUN","OUT"],["OUT","RUN","OUT","RUN","K","BB"],["OUT","BB","RUN","K","OUT","K"],["OUT","HIT","OUT","K","OUT","K"],["HR","OUT","OUT","OUT","HR","K"]]},
+  {num:"09",name:"Nationals",city:"Washington",flag:"🦅",div:"NL East",tier:"C",accent:"#AB0003",accent2:"#14225A",
+   grid:[["OUT","OUT","OUT","RUN","BB","K"],["OUT","BB","K","HR","OUT","OUT"],["K","K","HIT","RUN","OUT","K"],["OUT","HIT","OUT","OUT","OUT","RUN"],["K","OUT","OUT","HR","K","HIT"],["K","K","HIT","BB","OUT","OUT"]]},
+  {num:"10",name:"Marlins",city:"Miami",flag:"🐟",div:"NL East",tier:"D",accent:"#00A3E0",accent2:"#EF3340",
+   grid:[["OUT","K","K","OUT","OUT","HIT"],["OUT","BB","RUN","OUT","BB","OUT"],["HIT","OUT","K","OUT","OUT","K"],["RUN","OUT","RUN","OUT","K","OUT"],["OUT","OUT","K","HIT","K","K"],["OUT","K","HIT","BB","HR","OUT"]]},
+  // NL CENTRAL
+  {num:"11",name:"Brewers",city:"Milwaukee",flag:"🍺",div:"NL Central",tier:"A",accent:"#12284B",accent2:"#FFC52F",
+   grid:[["OUT","HR","OUT","OUT","OUT","K"],["HIT","OUT","HIT","K","HR","K"],["K","K","OUT","OUT","RUN","RUN"],["RUN","OUT","K","HR","K","BB"],["K","OUT","RUN","K","OUT","HIT"],["HIT","BB","OUT","OUT","BB","OUT"]]},
+  {num:"12",name:"Cubs",city:"Chicago",flag:"🐻",div:"NL Central",tier:"B",accent:"#0E3386",accent2:"#CC3433",
+   grid:[["HIT","OUT","OUT","HR","K","OUT"],["OUT","OUT","OUT","K","RUN","OUT"],["BB","K","OUT","HIT","RUN","K"],["OUT","HR","OUT","K","BB","OUT"],["K","K","RUN","OUT","K","RUN"],["BB","HIT","HIT","K","OUT","OUT"]]},
+  {num:"13",name:"Cardinals",city:"St. Louis",flag:"🐦",div:"NL Central",tier:"B",accent:"#C41E3A",accent2:"#FEDB00",
+   grid:[["HIT","OUT","BB","OUT","BB","HR"],["OUT","K","K","K","K","RUN"],["K","OUT","BB","RUN","OUT","HIT"],["OUT","HR","OUT","RUN","OUT","OUT"],["RUN","OUT","OUT","HIT","K","OUT"],["K","K","OUT","K","HIT","OUT"]]},
+  {num:"14",name:"Reds",city:"Cincinnati",flag:"🔴",div:"NL Central",tier:"B",accent:"#C6011F",accent2:"#000000",
+   grid:[["HIT","OUT","HIT","K","OUT","K"],["OUT","OUT","OUT","HR","BB","OUT"],["OUT","BB","HR","K","BB","RUN"],["K","HIT","K","OUT","OUT","K"],["OUT","OUT","OUT","OUT","K","K"],["RUN","OUT","HIT","RUN","K","RUN"]]},
+  {num:"15",name:"Pirates",city:"Pittsburgh",flag:"🏴‍☠️",div:"NL Central",tier:"C",accent:"#27251F",accent2:"#FDB827",
+   grid:[["HR","RUN","OUT","OUT","OUT","OUT"],["OUT","K","OUT","HIT","BB","HIT"],["K","K","OUT","OUT","OUT","RUN"],["OUT","OUT","RUN","OUT","BB","HIT"],["OUT","K","K","K","K","HR"],["HIT","K","OUT","OUT","K","BB"]]},
+  // AL WEST
+  {num:"16",name:"Astros",city:"Houston",flag:"🚀",div:"AL West",tier:"A",accent:"#002D62",accent2:"#EB6E1F",
+   grid:[["HR","OUT","OUT","K","OUT","OUT"],["RUN","K","K","OUT","RUN","OUT"],["HIT","HR","K","K","RUN","BB"],["OUT","HR","OUT","K","OUT","OUT"],["K","BB","OUT","OUT","BB","HIT"],["K","HIT","OUT","K","HIT","RUN"]]},
+  {num:"17",name:"Rangers",city:"Texas",flag:"⭐",div:"AL West",tier:"B",accent:"#003278",accent2:"#C0111F",
+   grid:[["K","RUN","RUN","OUT","HIT","OUT"],["K","OUT","HIT","OUT","OUT","K"],["K","BB","K","BB","OUT","K"],["K","BB","HIT","OUT","K","HIT"],["K","HR","OUT","OUT","OUT","OUT"],["OUT","RUN","HR","OUT","OUT","RUN"]]},
+  {num:"18",name:"Mariners",city:"Seattle",flag:"🧭",div:"AL West",tier:"B",accent:"#0C2C56",accent2:"#005C5C",
+   grid:[["HIT","K","RUN","RUN","K","K"],["BB","OUT","OUT","OUT","OUT","HR"],["RUN","BB","K","HR","OUT","K"],["HIT","OUT","K","K","OUT","K"],["OUT","OUT","HIT","OUT","OUT","HIT"],["OUT","K","OUT","BB","OUT","RUN"]]},
+  {num:"19",name:"Angels",city:"Los Angeles",flag:"😇",div:"AL West",tier:"C",accent:"#BA0021",accent2:"#003263",
+   grid:[["K","HR","OUT","OUT","HR","K"],["OUT","HIT","HIT","OUT","K","OUT"],["K","HIT","OUT","RUN","OUT","K"],["K","OUT","K","RUN","OUT","HIT"],["K","K","OUT","OUT","BB","BB"],["OUT","OUT","OUT","BB","RUN","OUT"]]},
+  {num:"20",name:"Athletics",city:"Oakland",flag:"🐘",div:"AL West",tier:"C",accent:"#003831",accent2:"#EFB21E",
+   grid:[["BB","OUT","K","HIT","K","K"],["OUT","OUT","OUT","BB","OUT","OUT"],["K","OUT","OUT","HR","K","OUT"],["HR","RUN","OUT","K","K","RUN"],["OUT","HIT","OUT","OUT","OUT","HIT"],["K","RUN","K","HIT","BB","OUT"]]},
+  // AL EAST
+  {num:"21",name:"Yankees",city:"New York",flag:"🎩",div:"AL East",tier:"A",accent:"#132448",accent2:"#C4CED3",
+   grid:[["K","HIT","OUT","OUT","OUT","K"],["HIT","OUT","HR","BB","HR","RUN"],["OUT","HIT","K","OUT","K","OUT"],["RUN","HIT","RUN","OUT","BB","OUT"],["K","K","OUT","K","BB","RUN"],["HR","OUT","OUT","K","K","OUT"]]},
+  {num:"22",name:"Red Sox",city:"Boston",flag:"🧦",div:"AL East",tier:"A",accent:"#BD3039",accent2:"#0C2340",
+   grid:[["OUT","RUN","K","HIT","OUT","K"],["K","HIT","RUN","BB","HIT","K"],["OUT","K","OUT","RUN","HR","K"],["OUT","OUT","HR","K","OUT","HR"],["BB","OUT","OUT","RUN","BB","OUT"],["OUT","HIT","OUT","OUT","K","K"]]},
+  {num:"23",name:"Orioles",city:"Baltimore",flag:"🐦",div:"AL East",tier:"A",accent:"#DF4601",accent2:"#27251F",
+   grid:[["OUT","BB","OUT","K","RUN","HIT"],["OUT","HIT","K","OUT","K","HIT"],["RUN","OUT","OUT","BB","BB","HR"],["OUT","RUN","OUT","OUT","K","HIT"],["HR","HR","OUT","K","OUT","OUT"],["OUT","K","K","K","RUN","K"]]},
+  {num:"24",name:"Blue Jays",city:"Toronto",flag:"🦅",div:"AL East",tier:"B",accent:"#134A8E",accent2:"#1D2D5C",
+   grid:[["OUT","K","OUT","K","OUT","OUT"],["OUT","BB","K","BB","OUT","HIT"],["K","OUT","OUT","K","K","K"],["OUT","RUN","OUT","HIT","HIT","HR"],["HIT","RUN","RUN","OUT","RUN","OUT"],["OUT","K","OUT","K","BB","HR"]]},
+  {num:"25",name:"Rays",city:"Tampa Bay",flag:"☀️",div:"AL East",tier:"C",accent:"#092C5C",accent2:"#8FBCE6",
+   grid:[["K","OUT","HIT","OUT","RUN","K"],["OUT","OUT","RUN","OUT","K","K"],["OUT","OUT","BB","K","RUN","HIT"],["HIT","HR","HR","OUT","K","K"],["BB","OUT","OUT","OUT","HIT","BB"],["OUT","OUT","K","K","OUT","OUT"]]},
+  // AL CENTRAL
+  {num:"26",name:"Guardians",city:"Cleveland",flag:"🛡",div:"AL Central",tier:"B",accent:"#00385D",accent2:"#E31937",
+   grid:[["OUT","K","BB","HIT","K","OUT"],["HR","OUT","OUT","OUT","RUN","HIT"],["K","OUT","OUT","RUN","BB","OUT"],["OUT","K","OUT","HR","K","OUT"],["K","OUT","K","RUN","HIT","K"],["OUT","BB","HIT","K","RUN","OUT"]]},
+  {num:"27",name:"Twins",city:"Minnesota",flag:"🌟",div:"AL Central",tier:"B",accent:"#002B5C",accent2:"#D31145",
+   grid:[["BB","OUT","OUT","RUN","OUT","K"],["RUN","OUT","OUT","BB","K","OUT"],["K","OUT","HIT","K","HIT","K"],["OUT","HIT","K","HIT","HR","OUT"],["OUT","K","K","OUT","OUT","RUN"],["OUT","HR","RUN","K","OUT","BB"]]},
+  {num:"28",name:"Royals",city:"Kansas City",flag:"👑",div:"AL Central",tier:"B",accent:"#004687",accent2:"#BD9B60",
+   grid:[["K","BB","RUN","K","OUT","OUT"],["OUT","OUT","RUN","K","K","K"],["K","RUN","HR","OUT","K","OUT"],["OUT","OUT","K","RUN","HIT","HIT"],["HR","OUT","HIT","OUT","OUT","OUT"],["K","OUT","HIT","BB","BB","OUT"]]},
+  {num:"29",name:"Tigers",city:"Detroit",flag:"🐯",div:"AL Central",tier:"B",accent:"#0C2340",accent2:"#FA4616",
+   grid:[["OUT","OUT","OUT","K","OUT","OUT"],["K","K","OUT","OUT","RUN","RUN"],["HIT","BB","OUT","K","OUT","OUT"],["HR","BB","OUT","K","OUT","BB"],["HIT","RUN","K","RUN","K","K"],["HIT","HR","OUT","K","OUT","HIT"]]},
+  {num:"30",name:"White Sox",city:"Chicago",flag:"⚫",div:"AL Central",tier:"D",accent:"#27251F",accent2:"#C4CED4",
+   grid:[["OUT","RUN","OUT","OUT","BB","OUT"],["K","K","K","K","K","RUN"],["HIT","OUT","HIT","OUT","OUT","OUT"],["OUT","OUT","BB","OUT","OUT","K"],["K","OUT","K","K","HIT","HR"],["OUT","RUN","BB","OUT","HIT","OUT"]]},
+];
+
+const cellMeta = {
+  HR:  { cls:'cell-hr',  label:'HR',  color:'#92400e', bg:'#fef9c3' },
+  RUN: { cls:'cell-run', label:'RUN', color:'#1d4ed8', bg:'#dbeafe' },
+  HIT: { cls:'cell-hit', label:'HIT', color:'#15803d', bg:'#dcfce7' },
+  BB:  { cls:'cell-bb',  label:'BB',  color:'#6d28d9', bg:'#ede9fe' },
+  OUT: { cls:'cell-out', label:'OUT', color:'#6b7280', bg:'#f5f5f5' },
+  K:   { cls:'cell-k',   label:'K',   color:'#dc2626', bg:'#fee2e2' },
+};
+
+const tierRpg = { A:'4.9', B:'4.2', C:'3.5', D:'2.8' };
+const tierAB  = { A:'2–3', B:'2–3', C:'2–3', D:'2–3' };
+
+function renderCard(t) {
+  const style = `--accent:${t.accent};--accent2:${t.accent2}`;
+
+  // Build 7×7 grid (corner + 6 col heads + 6 rows of row head + 6 cells)
+  let gridHTML = '<div class="grid-corner"></div>';
+  for (let c = 1; c <= 6; c++) gridHTML += `<div class="grid-col-head" style="background:${t.accent2}">${c}</div>`;
+  for (let r = 0; r < 6; r++) {
+    gridHTML += `<div class="grid-row-head" style="background:${t.accent}">${r+1}</div>`;
+    for (let c = 0; c < 6; c++) {
+      const val = t.grid[r][c];
+      const m = cellMeta[val];
+      gridHTML += `<div class="grid-cell ${m.cls}"><span class="cell-type" style="color:${m.color}">${m.label}</span></div>`;
+    }
+  }
+
+  const tierColors = { A:'#c62828', B:'#1565c0', C:'#15803d', D:'#78350f' };
+  const tierBadge = `<span style="background:${tierColors[t.tier]};color:#fff;font-family:'Anton',sans-serif;font-size:5pt;padding:1px 4px;border-radius:1px;letter-spacing:1px">TIER ${t.tier}</span>`;
+
+  return `
+<div class="card-wrap"><div class="card-page" style="${style}">
+  <div class="card-header">
+    <div class="hdr-left">
+      <span class="game-label">GRID SPORTS · MLB 2025</span>
+      <span class="team-name-big">${t.name.toUpperCase()}</span>
+      <span class="team-city-sm">${t.city} · ${t.div}</span>
+    </div>
+    <div class="hdr-right">
+      <span class="team-flag">${t.flag}</span>
+      <span class="team-num">#${t.num} · ${tierBadge}</span>
+    </div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-cell">
+      <span class="stat-label">🔴 Die</span>
+      <span class="stat-value" style="color:${t.accent2};font-size:8pt">COL</span>
+      <span class="stat-sub">column →</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">🟢 Die</span>
+      <span class="stat-value" style="color:${t.accent};font-size:8pt">ROW</span>
+      <span class="stat-sub">row ↓</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">R/Game</span>
+      <span class="stat-value">${tierRpg[t.tier]}</span>
+      <span class="stat-sub">avg offense</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">AB/Inn</span>
+      <span class="stat-value">${tierAB[t.tier]}</span>
+      <span class="stat-sub">per side</span>
+    </div>
+  </div>
+  <div class="grid-section">
+    <div class="grid-title-row">
+      <span class="grid-title">AT-BAT CHART</span>
+      <span class="grid-hint">most runs wins</span>
+    </div>
+    <div class="dice-grid">${gridHTML}</div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:#fef9c3;border:1px solid #ca8a04"></div>HR +1R</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#dbeafe;border:1px solid #2563eb"></div>RUN +1R</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#dcfce7;border:1px solid #16a34a"></div>HIT rally</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ede9fe;border:1px solid #7c3aed"></div>BB rally</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f5f5f5;border:1px solid #d1d5db"></div>OUT</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fee2e2;border:1px solid #dc2626"></div>K</div>
+    </div>
+  </div>
+  <div class="rally-band">
+    <span class="rally-label">🔥 RALLY</span>
+    <span class="rally-text">HIT or BB sets a Rally Token · next HR/RUN scores +2 instead of +1 · OUT or K kills it</span>
+  </div>
+  <div class="result-band">
+    <div class="result-item">
+      <span class="result-icon">🟢</span>
+      <span class="result-label r-win">WIN</span>
+      <span class="result-pts">more runs · 2 pts</span>
+    </div>
+    <div class="result-item">
+      <span class="result-icon">🟡</span>
+      <span class="result-label r-ot">EXTRA</span>
+      <span class="result-pts">tied → coin · 1 pt</span>
+    </div>
+    <div class="result-item">
+      <span class="result-icon">🔴</span>
+      <span class="result-label r-loss">LOSS</span>
+      <span class="result-pts">fewer runs · 0 pts</span>
+    </div>
+  </div>
+  <div class="write-line">
+    <div class="write-field">Player ___________</div>
+    <div class="write-field">AB ____</div>
+    <div class="write-field">Runs ____</div>
+  </div>
+</div></div>`;
+}
+
+function renderInstructions() {
+  return `
+<div class="card-wrap"><div class="card-page inst-page">
+  <div class="inst-top">
+    <div class="inst-game-label">GRID SPORTS · MLB EDITION</div>
+    <div class="inst-title">GRID<br>BASEBALL</div>
+    <div class="inst-season">2025</div>
+    <div class="inst-icon">⚾</div>
+    <div class="inst-dice-row">
+      <div class="inst-die">
+        <div class="die-box die-red">1–6</div>
+        <div class="die-label">RED = COLUMN</div>
+      </div>
+      <div class="inst-die">
+        <div class="die-box die-green">1–6</div>
+        <div class="die-label">GREEN = ROW</div>
+      </div>
+    </div>
+  </div>
+  <div class="inst-body">
+    <div class="inst-section">HOW TO PLAY</div>
+    <div class="inst-step"><div class="inst-num">1</div><div class="inst-text">Each player picks a team card. Play 9 innings. Each inning, roll 1d6 — on 1–3 you get 2 at-bats, on 4–6 you get 3 at-bats.</div></div>
+    <div class="inst-step"><div class="inst-num">2</div><div class="inst-text">For each at-bat: roll both dice. Red = column, Green = row. Find that cell on your card.</div></div>
+    <div class="inst-step"><div class="inst-num">3</div><div class="inst-text">HR or RUN = score 1 run (or 2 if Rally Token is active). HIT or BB = set Rally Token. OUT or K = nothing, Rally dies.</div></div>
+    <div class="inst-step"><div class="inst-num">4</div><div class="inst-text">After 9 innings each, most runs wins. Tied? Flip a coin for extra innings — winner gets 1 pt. Loser always 0.</div></div>
+    <hr class="inst-divider">
+    <div class="inst-section">OUTCOMES</div>
+    <div class="inst-outcomes">
+      <div class="inst-out-item" style="background:#fef9c3"><div class="inst-out-badge" style="background:#ca8a04;color:#fff">HR</div><div class="inst-out-detail">+1 Run<br>(+2 w/ Rally)</div></div>
+      <div class="inst-out-item" style="background:#dbeafe"><div class="inst-out-badge" style="background:#2563eb;color:#fff">RUN</div><div class="inst-out-detail">+1 Run<br>(+2 w/ Rally)</div></div>
+      <div class="inst-out-item" style="background:#dcfce7"><div class="inst-out-badge" style="background:#16a34a;color:#fff">HIT</div><div class="inst-out-detail">Sets Rally<br>Token 🔥</div></div>
+      <div class="inst-out-item" style="background:#ede9fe"><div class="inst-out-badge" style="background:#6d28d9;color:#fff">BB</div><div class="inst-out-detail">Sets Rally<br>Token 🔥</div></div>
+      <div class="inst-out-item" style="background:#f5f5f5"><div class="inst-out-badge" style="background:#6b7280;color:#fff">OUT</div><div class="inst-out-detail">Nothing<br>Rally dies</div></div>
+      <div class="inst-out-item" style="background:#fee2e2"><div class="inst-out-badge" style="background:#dc2626;color:#fff">K</div><div class="inst-out-detail">Strikeout<br>Rally dies</div></div>
+    </div>
+    <hr class="inst-divider">
+    <div class="inst-section">TIERS · 2024 DATA</div>
+    <div class="inst-tiers">
+      <div class="inst-tier-row"><div class="inst-tier-badge" style="background:#c62828">A</div><div class="inst-tier-desc">LAD · ATL · PHI · HOU · MIL · BAL · BOS · NYY — ~4.9 R/game</div></div>
+      <div class="inst-tier-row"><div class="inst-tier-badge" style="background:#1565c0">B</div><div class="inst-tier-desc">ARI · NYM · CHC · STL · CIN · TEX · SEA · TOR · CLE · MIN · KC · DET — ~4.2 R/game</div></div>
+      <div class="inst-tier-row"><div class="inst-tier-badge" style="background:#15803d">C</div><div class="inst-tier-desc">SD · SF · PIT · WSH · LAA · OAK · TB · ORI · — ~3.5 R/game</div></div>
+      <div class="inst-tier-row"><div class="inst-tier-badge" style="background:#78350f">D</div><div class="inst-tier-desc">COL · MIA · CWS — ~2.8 R/game</div></div>
+    </div>
+  </div>
+  <div class="inst-footer">30 teams · tiers from actual 2024 MLB R/G data · gridsports.net</div>
+</div></div>`;
+}
+
+function renderTally() {
+  const rows = teams.map(t => {
+    const tierColors = { A:'#c62828', B:'#1565c0', C:'#15803d', D:'#78350f' };
+    return `
+    <div class="tally-row">
+      <div class="t-num">${t.num}</div>
+      <div class="t-flag">${t.flag}</div>
+      <div class="t-name">${t.name}</div>
+      <div class="t-div">${t.div}</div>
+      <div class="t-boxes">
+        <div class="t-box tw">W</div>
+        <div class="t-box tl">L</div>
+        <div class="t-box tr-box">R</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+<div class="card-wrap"><div class="card-page tally-page">
+  <div class="tally-hdr">
+    <div>
+      <div class="tally-game">Grid Baseball</div>
+      <div class="tally-sub">MLB 2025 · Match Tally</div>
+    </div>
+    <div style="font-size:4pt;color:#90a4ae;text-align:right">W / L / Runs →</div>
+  </div>
+  <div class="tally-body">${rows}</div>
+  <div class="tally-footer">
+    <div class="tally-tot-label">Season Runs</div>
+    <div class="tally-tot-box"></div>
+    <div class="tally-tot-note">2 win · 1 extra inn. · 0 loss</div>
+  </div>
+</div></div>`;
+}
+
+function renderScoresheet() {
+  // 9 inning boxes per team — each box has space for AB results on top, run total on bottom
+  // Plus a row of AB-count boxes (2 or 3 per inning)
+
+  const innings = [1,2,3,4,5,6,7,8,9];
+
+  const hdrCols = `
+    <div class="score-inn-label" style="text-align:left;padding-left:2px">TEAM</div>
+    ${innings.map(i => `<div class="score-inn-label">${i}</div>`).join('')}
+    <div class="score-inn-r">R</div>`;
+
+  const teamRow = (label) => `
+    <div class="score-team-row">
+      <div class="score-team-name-cell">${label}</div>
+      ${innings.map(() => `
+        <div class="score-inn-box">
+          <div class="score-inn-box-top"></div>
+          <div class="score-inn-box-bot">R</div>
+        </div>`).join('')}
+      <div class="score-total-box"></div>
+    </div>`;
+
+  // AB tracking row — 3 small boxes per inning (circle 2 or 3)
+  const abRow = (label) => `
+    <div class="score-ab-grid">
+      <div class="score-ab-team">${label}</div>
+      ${innings.map(() => `
+        <div class="score-ab-inn">
+          <div class="score-ab-box"></div>
+          <div class="score-ab-box"></div>
+          <div class="score-ab-box"></div>
+        </div>`).join('')}
+    </div>`;
+
+  return `
+<div class="card-wrap"><div class="card-page score-page">
+  <div class="score-hdr">
+    <div>
+      <div class="score-title">Grid Baseball</div>
+      <div class="score-sub">MLB 2025 · SCORESHEET</div>
+    </div>
+    <div>
+      <div class="score-date">Date ___________</div>
+    </div>
+  </div>
+
+  <div class="score-teams">
+    <div class="score-team-field">
+      <div class="score-team-label">Home Team</div>
+      <div class="score-team-line"></div>
+    </div>
+    <div style="width:0.08in"></div>
+    <div class="score-team-field">
+      <div class="score-team-label">Away Team</div>
+      <div class="score-team-line"></div>
+    </div>
+  </div>
+
+  <div class="score-grid-wrap">
+    <div class="score-innings-hdr">${hdrCols}</div>
+    ${teamRow('HOME')}
+    ${teamRow('AWAY')}
+  </div>
+
+  <div class="score-divider"></div>
+
+  <div class="score-ab-section">
+    <div class="score-ab-title">AT-BATS PER INNING · circle used boxes</div>
+    ${abRow('HOME')}
+    <div style="height:2px"></div>
+    ${abRow('AWAY')}
+  </div>
+
+  <div class="score-rally-note">
+    🔥 Rally Token: HIT or BB sets it · next HR/RUN scores +2 · OUT or K kills it<br>
+    AB rule: roll 1d6 → 1–3 = 2 AB · 4–6 = 3 AB
+  </div>
+
+  <div class="score-footer">
+    <div class="score-footer-left">gridsports.net · Grid Baseball 2025</div>
+    <div class="score-result-boxes">
+      <div class="score-result-item">
+        <div class="score-result-label r-w">WIN</div>
+        <div class="score-result-box r-w"></div>
+      </div>
+      <div class="score-result-item">
+        <div class="score-result-label" style="color:#b45309">EXTRA</div>
+        <div class="score-result-box" style="border-color:#b45309"></div>
+      </div>
+      <div class="score-result-item">
+        <div class="score-result-label r-l">LOSS</div>
+        <div class="score-result-box r-l"></div>
+      </div>
+    </div>
+  </div>
+</div></div>`;
+}
+
+const preview = document.getElementById('preview');
+preview.insertAdjacentHTML('beforeend', renderInstructions());
+preview.insertAdjacentHTML('beforeend', renderScoresheet());
+teams.forEach(t => preview.insertAdjacentHTML('beforeend', renderCard(t)));
+preview.insertAdjacentHTML('beforeend', renderTally());
+</script>
+</body>
+</html>

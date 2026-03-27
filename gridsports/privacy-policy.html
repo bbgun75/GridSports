@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy – Golf Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark: #1a3a2a;
+      --green-mid: #2d5e40;
+      --green-light: #4a8c60;
+      --cream: #f5f0e8;
+      --cream-dark: #e8e0d0;
+      --gold: #c9a84c;
+      --text: #1e2a1e;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Fairway texture background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 60px,
+          rgba(45,94,64,0.03) 60px,
+          rgba(45,94,64,0.03) 61px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 60px,
+          rgba(45,94,64,0.03) 60px,
+          rgba(45,94,64,0.03) 61px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header */
+    header {
+      background: var(--green-dark);
+      padding: 48px 40px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      height: 40px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    header::after {
+      content: '⛳';
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 80px;
+      opacity: 0.08;
+    }
+
+    .header-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    .divider-gold {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin: 18px 0 0;
+    }
+
+    /* Main content */
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 52px 40px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .effective-date {
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-light);
+      margin-bottom: 40px;
+    }
+
+    /* The big statement card */
+    .statement-card {
+      background: var(--green-dark);
+      border-radius: 4px;
+      padding: 36px 40px;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .statement-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gold);
+    }
+
+    .statement-card p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(16px, 2.5vw, 20px);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.7;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+
+    section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    section h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    section h2 .icon {
+      width: 28px;
+      height: 28px;
+      background: var(--green-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    section p {
+      font-size: 15.5px;
+      line-height: 1.8;
+      color: #2a3a2a;
+    }
+
+    /* Checkmark list */
+    .check-list {
+      list-style: none;
+      margin-top: 14px;
+    }
+
+    .check-list li {
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 6px 0 6px 30px;
+      position: relative;
+      color: #2a3a2a;
+    }
+
+    .check-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--green-light);
+      font-weight: 700;
+    }
+
+    /* Contact section */
+    .contact-box {
+      background: var(--cream-dark);
+      border-radius: 4px;
+      padding: 24px 28px;
+      margin-top: 16px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .contact-box p {
+      font-size: 14.5px !important;
+      line-height: 1.7 !important;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--green-dark);
+      padding: 28px 40px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.4);
+    }
+
+    footer .flag {
+      color: var(--gold);
+      margin: 0 6px;
+    }
+
+    @media (max-width: 520px) {
+      header { padding: 36px 24px 32px; }
+      main { padding: 40px 24px 60px; }
+      .statement-card { padding: 26px 24px; }
+      footer { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <p class="app-name">Golf Card</p>
+      <h1>Privacy Policy</h1>
+      <div class="divider-gold"></div>
+    </div>
+  </header>
+
+  <main>
+    <p class="effective-date">Effective Date: March 7, 2026</p>
+
+    <div class="statement-card">
+      <p>Golf Card does not collect, store, or share any personal data. The game runs entirely on your device and does not require an internet connection or user account.</p>
+    </div>
+
+    <section>
+      <h2><span class="icon">🔒</span> No Data Collection</h2>
+      <p>Golf Card is designed with your privacy as the default. We do not collect, transmit, or store any information about you or your use of the app — ever.</p>
+      <ul class="check-list">
+        <li>No personal information collected</li>
+        <li>No usage analytics or telemetry</li>
+        <li>No crash reporting sent to external servers</li>
+        <li>No advertising identifiers used</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="icon">📵</span> Offline Operation</h2>
+      <p>Golf Card works entirely offline. The app requires no internet connection to function, and no data is ever sent to or received from any remote server. Your scores, sessions, and gameplay remain solely on your device.</p>
+    </section>
+
+    <section>
+      <h2><span class="icon">👤</span> No Account Required</h2>
+      <p>You do not need to create an account, sign in, or provide any personal details — including your name, email, or location — to use Golf Card. The app is ready to play the moment you open it.</p>
+    </section>
+
+    <section>
+      <h2><span class="icon">🤝</span> No Third-Party Sharing</h2>
+      <p>Because no data is collected, there is nothing to share. Golf Card does not integrate any third-party analytics, advertising SDKs, or data-broker services.</p>
+    </section>
+
+    <section>
+      <h2><span class="icon">👶</span> Children's Privacy</h2>
+      <p>Golf Card does not collect personal information from anyone, including children under the age of 13. The app is safe for players of all ages.</p>
+    </section>
+
+    <section>
+      <h2><span class="icon">📋</span> Changes to This Policy</h2>
+      <p>If this privacy policy is ever updated, the revised version will be made available within the app and will reflect a new effective date. Continued use of Golf Card after any changes constitutes acceptance of the updated policy.</p>
+    </section>
+
+    <section>
+      <h2><span class="icon">✉️</span> Contact</h2>
+      <p>Have a question about this privacy policy?</p>
+      <div class="contact-box">
+        <p>Reach out through the Golf Card app page on the App Store or Play Store, and we'll be happy to help. Since no personal data is collected, there is no user data to request, modify, or delete.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Golf Card <span class="flag">⛳</span> All rights reserved</p>
+  </footer>
+
+</body>
+</html>

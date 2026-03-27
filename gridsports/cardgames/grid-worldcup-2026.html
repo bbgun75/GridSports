@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grid World Cup – 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Barlow:wght@400;600&display=swap');
+
+@page { size: 5in 3in; margin: 0; }
+
+@media print {
+  html, body { margin: 0; padding: 0; background: white; }
+  .no-print { display: none !important; }
+  .card-wrap { width: auto !important; height: auto !important; }
+  .card-page { transform: none !important; page-break-after: always; break-after: page; }
+  .card-page:last-of-type { page-break-after: avoid; break-after: avoid; }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { background: #0d1f0d; font-family: 'Barlow Condensed', sans-serif; }
+
+.no-print {
+  background: #0d1f0d; padding: 24px; text-align: center; border-bottom: 2px solid #4caf50;
+}
+.no-print h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #4caf50; letter-spacing: 4px; }
+.no-print p { color: #aaa; font-size: 0.9rem; margin-top: 4px; }
+.print-btn {
+  margin-top: 12px; padding: 10px 28px; background: #4caf50; color: #0d1f0d;
+  border: none; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
+  letter-spacing: 2px; cursor: pointer; border-radius: 2px;
+}
+#preview { background: #1a2e1a; padding: 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.card-wrap {
+  display: inline-block;
+  width: calc(5in * 0.72);
+  height: calc(3in * 0.72);
+  flex-shrink: 0;
+}
+
+.card-page {
+  width: 5in; height: 3in; background: white; position: relative; overflow: hidden;
+  display: flex; flex-direction: row; font-family: 'Barlow Condensed', sans-serif;
+  flex-shrink: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  transform: scale(0.72);
+  transform-origin: top left;
+}
+.card-page { --accent: #1a6e3c; }
+
+/* LEFT PANEL */
+.card-left {
+  width: 1.05in; display: flex; flex-direction: column; justify-content: space-between;
+  padding: 0.11in 0.09in 0.09in 0.11in; position: relative; z-index: 2; flex-shrink: 0;
+}
+.card-left::after {
+  content: ''; position: absolute; right: 0; top: 0; bottom: 0;
+  width: 2px; background: var(--accent);
+}
+.team-num { font-family: 'Bebas Neue', sans-serif; font-size: 10pt; color: var(--accent); letter-spacing: 1px; line-height: 1; }
+.team-flag-box {
+  width: 0.68in; height: 0.46in; border: 1.5px solid #e0e0e0; border-radius: 2px;
+  display: flex; align-items: center; justify-content: center; font-size: 20pt; background: #fafafa; margin: 0.04in 0;
+}
+.team-name { font-family: 'Bebas Neue', sans-serif; font-size: 9.5pt; color: #111; letter-spacing: 0.5px; line-height: 1.1; }
+.team-conf { font-size: 6pt; color: var(--accent); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 1px; }
+
+.shot-box { background: var(--accent); border-radius: 2px; padding: 3px 4px; margin-top: 0.04in; }
+.shot-label { font-size: 5pt; color: rgba(255,255,255,0.75); letter-spacing: 1px; text-transform: uppercase; font-family: 'Barlow', sans-serif; font-weight: 600; display: block; }
+.shot-range { font-family: 'Bebas Neue', sans-serif; font-size: 12pt; color: white; letter-spacing: 1px; line-height: 1.1; display: block; }
+.shot-how { font-size: 5pt; color: rgba(255,255,255,0.65); font-family: 'Barlow', sans-serif; display: block; line-height: 1.3; }
+
+.card-stats { font-size: 5pt; color: #666; line-height: 1.6; font-family: 'Barlow', sans-serif; margin-top: 0.03in; }
+.card-stats span { display: block; }
+
+/* RIGHT PANEL */
+.card-right { flex: 1; display: flex; flex-direction: column; padding: 0.09in 0.09in 0.07in 0.11in; }
+.card-title-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.04in; }
+.card-game-title { font-family: 'Bebas Neue', sans-serif; font-size: 8.5pt; letter-spacing: 2px; color: #aaa; }
+.card-par-label { font-size: 6pt; color: #888; text-align: right; line-height: 1.3; }
+.card-par-label strong { font-size: 9pt; color: var(--accent); font-family: 'Bebas Neue', sans-serif; }
+
+/* DICE GRID */
+.dice-grid {
+  display: grid;
+  grid-template-columns: 0.17in repeat(6, 1fr);
+  grid-template-rows: 0.17in repeat(6, 1fr);
+  flex: 1; gap: 1.5px; margin-bottom: 0.04in;
+}
+.grid-corner { background: white; }
+.grid-col-head { background: #c8292e; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 7pt; color: white; border-radius: 1px; }
+.grid-row-head { background: #1a4e8c; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 7pt; color: white; border-radius: 1px; }
+.grid-cell { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 0.75px solid #e0e0e0; border-radius: 1px; line-height: 1; }
+
+.cell-goal  { background: #dbeafe; border-color: #2563eb; }
+.cell-save  { background: #fee2e2; border-color: #dc2626; }
+.cell-block { background: #dcfce7; border-color: #16a34a; }
+.cell-post  { background: #fef3c7; border-color: #d97706; }
+.cell-miss  { background: #f3f4f6; border-color: #9ca3af; }
+
+.cell-type { font-family: 'Bebas Neue', sans-serif; font-size: 5.5pt; letter-spacing: 0.3px; }
+.cell-val  { font-size: 5pt; color: #555; font-weight: 700; font-family: 'Barlow', sans-serif; }
+
+.score-legend { display: flex; gap: 0.05in; align-items: center; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 2px; font-size: 4.5pt; color: #555; font-family: 'Barlow', sans-serif; }
+.legend-dot { width: 7px; height: 7px; border-radius: 1px; flex-shrink: 0; }
+
+.result-row { display: flex; gap: 0.05in; margin-top: 2px; align-items: center; }
+.result-item { display: flex; align-items: center; gap: 2px; font-size: 4.5pt; font-family: 'Barlow', sans-serif; }
+.result-item strong { font-family: 'Bebas Neue', sans-serif; font-size: 6pt; }
+.result-w { color: #16a34a; }
+.result-d { color: #d97706; }
+.result-l { color: #dc2626; }
+
+.write-row { display: flex; gap: 0.07in; margin-top: 0.03in; }
+.write-field { flex: 1; border-bottom: 1px solid #ccc; font-size: 4.5pt; color: #bbb; padding-bottom: 1px; font-family: 'Barlow', sans-serif; }
+
+/* INSTRUCTIONS */
+.inst-page { background: #071a07; }
+.inst-left {
+  width: 1.25in; background: #1a5c1a; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; padding: 0.14in 0.1in;
+  text-align: center; gap: 0.05in; flex-shrink: 0; border-right: 3px solid #4caf50;
+}
+.inst-game-label { font-family: 'Bebas Neue', sans-serif; font-size: 8pt; color: #a5d6a7; letter-spacing: 3px; }
+.inst-title { font-family: 'Bebas Neue', sans-serif; font-size: 18pt; color: white; letter-spacing: 2px; line-height: 0.9; }
+.inst-year { font-family: 'Bebas Neue', sans-serif; font-size: 12pt; color: rgba(255,255,255,0.5); letter-spacing: 2px; }
+.inst-emoji { font-size: 20pt; margin: 0.03in 0; }
+.inst-dice-note { font-size: 5.5pt; color: #a5d6a7; font-family: 'Barlow', sans-serif; line-height: 1.5; font-weight: 600; }
+.inst-right { flex: 1; padding: 0.11in 0.11in 0.09in 0.13in; display: flex; flex-direction: column; gap: 0.04in; }
+.inst-section-title { font-family: 'Bebas Neue', sans-serif; font-size: 7.5pt; color: #4caf50; letter-spacing: 2px; margin-bottom: 1px; }
+.inst-step { display: flex; gap: 5px; align-items: flex-start; }
+.inst-step-num { font-family: 'Bebas Neue', sans-serif; font-size: 9pt; color: #4caf50; line-height: 1; flex-shrink: 0; width: 10px; }
+.inst-step-text { font-size: 5.5pt; color: #ccc; line-height: 1.45; font-family: 'Barlow', sans-serif; }
+.inst-divider { border: none; border-top: 1px solid rgba(76,175,80,0.2); margin: 0.01in 0; }
+.inst-score-grid { display: flex; gap: 0.04in; flex-wrap: wrap; }
+.inst-score-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.inst-score-label { font-family: 'Bebas Neue', sans-serif; font-size: 6.5pt; color: #4caf50; letter-spacing: 0.5px; }
+.inst-score-range { font-size: 5pt; color: #aaa; font-family: 'Barlow', sans-serif; }
+.inst-score-pts { font-size: 5pt; color: #fff; font-family: 'Barlow', sans-serif; font-weight: 700; }
+.inst-footer { margin-top: auto; font-size: 4.5pt; color: #555; font-family: 'Barlow', sans-serif; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.03in; }
+
+/* TALLY */
+.tally-page { background: white; display: flex; flex-direction: column; padding: 0.09in 0.11in 0.09in 0.11in; }
+.tally-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #1a5c1a; padding-bottom: 0.04in; margin-bottom: 0.03in; }
+.tally-title-block { display: flex; flex-direction: column; }
+.tally-game { font-family: 'Bebas Neue', sans-serif; font-size: 11pt; color: #1a5c1a; letter-spacing: 2px; }
+.tally-season { font-size: 6pt; color: #888; letter-spacing: 1px; text-transform: uppercase; }
+.tally-col-heads { display: flex; font-size: 5pt; color: #888; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.tally-body { flex: 1; display: flex; flex-direction: column; gap: 1.5px; }
+.tally-row { display: flex; align-items: center; border-bottom: 0.5px solid #f0f0f0; padding: 1px 0; }
+.tally-num { font-family: 'Bebas Neue', sans-serif; font-size: 6pt; color: #ccc; width: 0.17in; flex-shrink: 0; }
+.tally-flag { font-size: 8.5pt; width: 0.18in; flex-shrink: 0; line-height: 1; }
+.tally-name { flex: 1; font-size: 6pt; color: #222; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; }
+.tally-finish { display: flex; gap: 2px; width: 1in; flex-shrink: 0; }
+.tally-box { flex: 1; height: 10px; border: 0.5px solid #ddd; border-radius: 1px; display: flex; align-items: center; justify-content: center; font-size: 3.5pt; color: #ccc; font-weight: 700; letter-spacing: 0.3px; }
+.tw   { border-color: #c8a84b; color: #c8a84b; }
+.tru  { border-color: #888; color: #888; }
+.tqf  { border-color: #b87333; color: #b87333; }
+.tpts { border-color: #1a5c1a; color: #1a5c1a; }
+.tout { border-color: #dc2626; color: #dc2626; }
+.tally-write { width: 0.26in; height: 10px; border-bottom: 0.75px solid #ddd; flex-shrink: 0; margin-left: 3px; }
+.tally-footer { display: flex; align-items: center; gap: 8px; border-top: 1.5px solid #1a5c1a; padding-top: 0.035in; margin-top: 0.035in; }
+.tally-total-label { font-family: 'Bebas Neue', sans-serif; font-size: 7.5pt; color: #1a5c1a; letter-spacing: 1px; flex: 1; }
+.tally-total-box { width: 0.5in; height: 13px; border: 1.5px solid #1a5c1a; border-radius: 2px; }
+.tally-total-note { font-size: 4.5pt; color: #aaa; font-family: 'Barlow', sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <h1>⚽ GRID WORLD CUP · 2026</h1>
+  <p>32 team cards + instructions + tally · Print on 5×3 index cards · You are the attacker</p>
+  <button class="print-btn" onclick="window.print()">PRINT NOTEBOOK</button>
+</div>
+
+<div id="preview"></div>
+
+<script>
+const teams = [{"num":"01","name":"Brazil","flag":"🇧🇷","conf":"CONMEBOL","tier":"A","accent":"#009c3b","grid":[["MS","G","G","BL","MS","G"],["PT","MS","BL","G","G","SV"],["G","MS","MS","BL","SV","G"],["SV","SV","BL","SV","BL","SV"],["MS","BL","G","G","PT","G"],["G","SV","G","SV","BL","BL"]],"shot_base":9,"shot_range":"10–15","par":4,"champion":6,"runner":4,"qf":2},{"num":"02","name":"France","flag":"🇫🇷","conf":"UEFA","tier":"A","accent":"#002395","grid":[["BL","G","G","SV","G","SV"],["MS","G","SV","G","G","MS"],["BL","MS","PT","BL","G","BL"],["G","BL","SV","BL","SV","SV"],["MS","PT","G","G","SV","G"],["MS","SV","G","BL","BL","MS"]],"shot_base":9,"shot_range":"10–15","par":4,"champion":6,"runner":4,"qf":2},{"num":"03","name":"Argentina","flag":"🇦🇷","conf":"CONMEBOL","tier":"A","accent":"#74acdf","grid":[["SV","SV","G","BL","MS","BL"],["SV","BL","PT","MS","G","MS"],["G","G","MS","BL","BL","SV"],["G","SV","BL","BL","G","G"],["MS","SV","G","G","SV","G"],["MS","SV","G","PT","BL","G"]],"shot_base":9,"shot_range":"10–15","par":4,"champion":6,"runner":4,"qf":2},{"num":"04","name":"England","flag":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","conf":"UEFA","tier":"B","accent":"#cf081f","grid":[["G","PT","BL","MS","BL","BL"],["MS","SV","SV","MS","MS","MS"],["BL","SV","MS","G","SV","G"],["G","MS","SV","G","BL","G"],["PT","G","G","G","BL","SV"],["BL","BL","SV","G","BL","SV"]],"shot_base":7,"shot_range":"8–13","par":3,"champion":5,"runner":3,"qf":2},{"num":"05","name":"Spain","flag":"🇪🇸","conf":"UEFA","tier":"B","accent":"#c60b1e","grid":[["G","SV","BL","G","BL","G"],["SV","MS","G","SV","SV","MS"],["G","SV","MS","MS","MS","G"],["SV","BL","G","PT","G","SV"],["G","MS","BL","BL","BL","BL"],["MS","BL","G","PT","SV","BL"]],"shot_base":7,"shot_range":"8–13","par":3,"champion":5,"runner":3,"qf":2},{"num":"06","name":"Germany","flag":"🇩🇪","conf":"UEFA","tier":"B","accent":"#333333","grid":[["BL","SV","SV","BL","SV","G"],["G","MS","G","SV","BL","G"],["MS","MS","SV","MS","BL","G"],["SV","G","BL","G","BL","PT"],["G","G","BL","MS","MS","G"],["SV","PT","BL","BL","SV","MS"]],"shot_base":7,"shot_range":"8–13","par":3,"champion":5,"runner":3,"qf":2},{"num":"07","name":"Portugal","flag":"🇵🇹","conf":"UEFA","tier":"A","accent":"#006600","grid":[["G","PT","G","BL","SV","SV"],["BL","G","G","G","BL","SV"],["SV","MS","BL","MS","G","BL"],["SV","G","PT","SV","MS","G"],["MS","G","G","BL","G","G"],["BL","SV","SV","MS","MS","BL"]],"shot_base":9,"shot_range":"10–15","par":4,"champion":6,"runner":4,"qf":2},{"num":"08","name":"Netherlands","flag":"🇳🇱","conf":"UEFA","tier":"B","accent":"#ff6600","grid":[["G","G","SV","BL","SV","G"],["G","G","BL","MS","PT","PT"],["BL","MS","G","G","SV","G"],["MS","G","BL","BL","BL","MS"],["SV","G","SV","BL","MS","MS"],["BL","MS","SV","SV","SV","BL"]],"shot_base":7,"shot_range":"8–13","par":3,"champion":5,"runner":3,"qf":2},{"num":"09","name":"Belgium","flag":"🇧🇪","conf":"UEFA","tier":"B","accent":"#ef3340","grid":[["SV","MS","BL","G","BL","BL"],["SV","MS","BL","PT","BL","MS"],["MS","BL","G","BL","SV","MS"],["G","MS","SV","MS","SV","G"],["G","BL","SV","G","SV","PT"],["G","G","BL","G","G","SV"]],"shot_base":7,"shot_range":"8–13","par":3,"champion":5,"runner":3,"qf":2},{"num":"10","name":"Italy","flag":"🇮🇹","conf":"UEFA","tier":"C","accent":"#003399","grid":[["SV","MS","MS","G","PT","SV"],["MS","G","BL","MS","BL","BL"],["MS","G","G","SV","BL","G"],["SV","MS","BL","MS","BL","G"],["BL","SV","MS","SV","BL","BL"],["BL","G","G","SV","PT","SV"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"11","name":"Croatia","flag":"🇭🇷","conf":"UEFA","tier":"C","accent":"#ff0000","grid":[["SV","BL","SV","MS","SV","MS"],["SV","BL","G","BL","BL","MS"],["BL","G","G","G","MS","BL"],["BL","MS","BL","G","PT","SV"],["G","SV","MS","G","BL","MS"],["SV","BL","MS","PT","SV","G"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"12","name":"Morocco","flag":"🇲🇦","conf":"CAF","tier":"C","accent":"#006233","grid":[["MS","SV","BL","BL","SV","BL"],["MS","PT","MS","G","SV","G"],["BL","SV","PT","G","BL","G"],["MS","SV","MS","G","MS","MS"],["MS","G","G","BL","BL","BL"],["SV","BL","BL","G","SV","SV"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"13","name":"USA","flag":"🇺🇸","conf":"CONCACAF","tier":"C","accent":"#bf0a30","grid":[["SV","G","MS","G","MS","BL"],["SV","MS","SV","BL","BL","BL"],["BL","SV","BL","G","G","PT"],["MS","MS","G","BL","SV","G"],["BL","SV","PT","SV","MS","G"],["BL","SV","G","MS","BL","MS"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"14","name":"Mexico","flag":"🇲🇽","conf":"CONCACAF","tier":"C","accent":"#006847","grid":[["MS","BL","BL","SV","MS","MS"],["MS","BL","SV","MS","G","BL"],["BL","BL","G","MS","SV","G"],["G","G","G","PT","BL","BL"],["SV","SV","G","G","BL","BL"],["SV","MS","SV","MS","PT","SV"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"15","name":"Japan","flag":"🇯🇵","conf":"AFC","tier":"C","accent":"#bc002d","grid":[["BL","BL","BL","PT","BL","SV"],["MS","SV","MS","MS","BL","MS"],["G","MS","G","MS","BL","SV"],["G","BL","G","PT","SV","G"],["G","SV","G","SV","BL","MS"],["MS","SV","BL","BL","SV","G"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"16","name":"Senegal","flag":"🇸🇳","conf":"CAF","tier":"C","accent":"#00853f","grid":[["SV","BL","BL","MS","SV","G"],["MS","MS","G","PT","BL","PT"],["G","BL","BL","BL","G","MS"],["SV","SV","BL","MS","SV","BL"],["SV","SV","SV","BL","MS","BL"],["G","MS","G","MS","G","G"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"17","name":"Australia","flag":"🇦🇺","conf":"AFC","tier":"C","accent":"#002b7f","grid":[["SV","MS","BL","G","MS","BL"],["G","SV","BL","MS","MS","PT"],["BL","MS","G","BL","PT","BL"],["G","MS","SV","SV","SV","BL"],["SV","SV","G","BL","G","SV"],["BL","G","BL","G","MS","MS"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"18","name":"Colombia","flag":"🇨🇴","conf":"CONMEBOL","tier":"B","accent":"#fcd116","grid":[["BL","PT","G","SV","SV","MS"],["BL","MS","SV","BL","G","SV"],["MS","MS","SV","BL","BL","G"],["G","G","SV","MS","MS","BL"],["BL","PT","G","SV","BL","G"],["G","G","MS","SV","BL","G"]],"shot_base":7,"shot_range":"8–13","par":3,"champion":5,"runner":3,"qf":2},{"num":"19","name":"Uruguay","flag":"🇺🇾","conf":"CONMEBOL","tier":"B","accent":"#5aaeff","grid":[["PT","BL","SV","G","G","BL"],["MS","MS","SV","SV","BL","BL"],["PT","G","MS","BL","BL","G"],["BL","BL","G","SV","MS","MS"],["G","MS","BL","G","MS","SV"],["SV","SV","G","G","G","SV"]],"shot_base":7,"shot_range":"8–13","par":3,"champion":5,"runner":3,"qf":2},{"num":"20","name":"South Korea","flag":"🇰🇷","conf":"AFC","tier":"C","accent":"#cd2e3a","grid":[["MS","BL","MS","BL","BL","BL"],["SV","MS","G","BL","SV","SV"],["MS","BL","SV","SV","G","MS"],["BL","PT","G","BL","G","MS"],["MS","G","SV","MS","G","SV"],["PT","G","BL","BL","G","SV"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"21","name":"Nigeria","flag":"🇳🇬","conf":"CAF","tier":"C","accent":"#008751","grid":[["BL","G","MS","MS","BL","SV"],["BL","G","BL","BL","SV","PT"],["SV","BL","SV","G","SV","SV"],["PT","MS","G","MS","SV","BL"],["G","G","MS","G","SV","BL"],["BL","MS","BL","MS","G","MS"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"22","name":"Poland","flag":"🇵🇱","conf":"UEFA","tier":"C","accent":"#dc143c","grid":[["MS","SV","SV","SV","BL","MS"],["BL","SV","MS","BL","G","BL"],["MS","PT","G","MS","G","SV"],["MS","G","SV","PT","G","BL"],["BL","BL","SV","BL","G","SV"],["MS","BL","BL","G","G","MS"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"23","name":"Ecuador","flag":"🇪🇨","conf":"CONMEBOL","tier":"C","accent":"#006233","grid":[["BL","G","BL","G","PT","MS"],["G","SV","BL","MS","BL","MS"],["MS","MS","SV","MS","BL","MS"],["SV","PT","SV","BL","G","BL"],["G","BL","SV","SV","SV","G"],["MS","G","BL","G","SV","BL"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"24","name":"Switzerland","flag":"🇨🇭","conf":"UEFA","tier":"C","accent":"#ff0000","grid":[["BL","SV","PT","G","MS","BL"],["G","BL","MS","G","SV","BL"],["SV","MS","SV","BL","SV","BL"],["SV","G","MS","BL","MS","SV"],["PT","G","BL","MS","G","SV"],["MS","G","BL","G","BL","MS"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"25","name":"Denmark","flag":"🇩🇰","conf":"UEFA","tier":"C","accent":"#c60c30","grid":[["BL","MS","G","BL","SV","MS"],["SV","SV","SV","MS","MS","SV"],["MS","G","BL","G","BL","BL"],["BL","G","PT","BL","SV","PT"],["BL","BL","MS","G","MS","BL"],["G","SV","G","SV","G","MS"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"26","name":"Serbia","flag":"🇷🇸","conf":"UEFA","tier":"C","accent":"#c6363c","grid":[["MS","G","G","G","BL","G"],["BL","SV","BL","BL","MS","MS"],["SV","MS","G","BL","MS","G"],["BL","G","MS","SV","BL","SV"],["BL","SV","BL","SV","G","PT"],["SV","PT","MS","SV","BL","MS"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"27","name":"Canada","flag":"🇨🇦","conf":"CONCACAF","tier":"C","accent":"#d80621","grid":[["MS","MS","SV","SV","BL","BL"],["G","PT","MS","G","G","G"],["SV","BL","MS","SV","G","MS"],["BL","BL","G","BL","MS","BL"],["SV","MS","SV","MS","SV","BL"],["G","G","PT","BL","BL","SV"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"28","name":"Iran","flag":"🇮🇷","conf":"AFC","tier":"D","accent":"#239f40","grid":[["SV","MS","BL","SV","MS","SV"],["BL","G","BL","MS","MS","G"],["SV","PT","MS","BL","BL","G"],["MS","G","SV","MS","PT","BL"],["MS","MS","BL","MS","SV","MS"],["BL","BL","SV","G","BL","BL"]],"shot_base":3,"shot_range":"4–9","par":1,"champion":2,"runner":1,"qf":0},{"num":"29","name":"Cameroon","flag":"🇨🇲","conf":"CAF","tier":"C","accent":"#007a5e","grid":[["MS","G","MS","MS","MS","SV"],["G","SV","G","BL","MS","G"],["G","G","SV","PT","BL","PT"],["MS","BL","BL","BL","G","BL"],["SV","SV","G","MS","BL","SV"],["BL","MS","SV","SV","BL","BL"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"30","name":"Ghana","flag":"🇬🇭","conf":"CAF","tier":"C","accent":"#006b3f","grid":[["G","G","BL","BL","SV","SV"],["BL","BL","SV","SV","MS","SV"],["BL","BL","PT","BL","G","SV"],["MS","MS","MS","MS","G","BL"],["G","PT","G","MS","BL","BL"],["MS","MS","G","SV","SV","G"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"31","name":"Saudi Arabia","flag":"🇸🇦","conf":"AFC","tier":"C","accent":"#006c35","grid":[["BL","MS","PT","MS","SV","G"],["SV","MS","MS","BL","G","MS"],["MS","G","BL","BL","MS","BL"],["SV","SV","MS","SV","G","G"],["BL","G","G","SV","BL","G"],["SV","SV","BL","PT","BL","BL"]],"shot_base":5,"shot_range":"6–11","par":2,"champion":3,"runner":2,"qf":1},{"num":"32","name":"Tunisia","flag":"🇹🇳","conf":"CAF","tier":"D","accent":"#e70013","grid":[["SV","BL","MS","G","BL","BL"],["BL","BL","MS","G","BL","MS"],["PT","PT","MS","BL","G","SV"],["SV","BL","SV","BL","MS","MS"],["SV","BL","SV","BL","MS","MS"],["MS","SV","G","MS","MS","G"]],"shot_base":3,"shot_range":"4–9","par":1,"champion":2,"runner":1,"qf":0}];
+
+function cellClass(t) {
+  if (t==='G')  return 'grid-cell cell-goal';
+  if (t==='SV') return 'grid-cell cell-save';
+  if (t==='BL') return 'grid-cell cell-block';
+  if (t==='PT') return 'grid-cell cell-post';
+  return 'grid-cell cell-miss';
+}
+function cellLabel(t) {
+  if (t==='G')  return ['GOAL','⚽'];
+  if (t==='SV') return ['SAVE','✗'];
+  if (t==='BL') return ['BLOK','✗'];
+  if (t==='PT') return ['POST','—'];
+  return ['MISS','—'];
+}
+
+function renderCard(t) {
+  let gridHTML = '<div class="grid-corner"></div>';
+  for (let c=1;c<=6;c++) gridHTML += `<div class="grid-col-head">${c}</div>`;
+  for (let r=0;r<6;r++) {
+    gridHTML += `<div class="grid-row-head">${r+1}</div>`;
+    for (let c=0;c<6;c++) {
+      const cell = t.grid[r][c];
+      const [lbl,val] = cellLabel(cell);
+      gridHTML += `<div class="${cellClass(cell)}"><span class="cell-type">${lbl}</span><span class="cell-val">${val}</span></div>`;
+    }
+  }
+  return `
+  <div class="card-wrap"><div class="card-page" style="--accent:${t.accent}">
+    <div class="card-left">
+      <div>
+        <div class="team-num">${t.num}</div>
+        <div class="team-flag-box">${t.flag}</div>
+        <div class="team-name">${t.name}</div>
+        <div class="team-conf">${t.conf}</div>
+      </div>
+      <div class="shot-box">
+        <span class="shot-label">Shots</span>
+        <span class="shot-range">${t.shot_range}</span>
+        <span class="shot-how">Roll 1 die + ${t.shot_base}</span>
+      </div>
+      <div class="card-stats">
+        <span>PAR <strong style="color:var(--accent)">${t.par}</strong> goals</span>
+        <span>Tier ${t.tier} attack</span>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-title-row">
+        <span class="card-game-title">GRID WORLD CUP · 2026</span>
+        <span class="card-par-label">MOST GOALS <strong>WINS</strong><br>tie = draw</span>
+      </div>
+      <div class="dice-grid">${gridHTML}</div>
+      <div class="score-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#dbeafe;border:1px solid #2563eb"></div>GOAL ⚽ scored</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fee2e2;border:1px solid #dc2626"></div>SAVE keeper</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#dcfce7;border:1px solid #16a34a"></div>BLOK cleared</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fef3c7;border:1px solid #d97706"></div>POST bar/post</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f3f4f6;border:1px solid #9ca3af"></div>MISS wide</div>
+      </div>
+      <div class="result-row">
+        <div class="result-item result-w">🟢 WIN: <strong>more goals · 3pts</strong></div>
+        <div class="result-item result-d">🟡 DRAW: <strong>equal goals · 1pt</strong></div>
+        <div class="result-item result-l">🔴 LOSS: <strong>fewer goals · 0pts</strong></div>
+      </div>
+      <div class="write-row">
+        <div class="write-field">Player ___________</div>
+        <div class="write-field">Shots rolled ____</div>
+        <div class="write-field">Goals scored ____</div>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+function renderInstructions() {
+  return `
+  <div class="card-wrap"><div class="card-page inst-page">
+    <div class="inst-left">
+      <div class="inst-game-label">GRID SPORTS</div>
+      <div class="inst-title">WORLD<br>CUP</div>
+      <div class="inst-year">2026</div>
+      <div class="inst-emoji">⚽</div>
+      <div class="inst-dice-note">RED die = column<br>BLUE die = row<br>YOU are attacking</div>
+    </div>
+    <div class="inst-right">
+      <div class="inst-section-title">HOW TO PLAY</div>
+      <div class="inst-step"><div class="inst-step-num">1</div><div class="inst-step-text">Each player picks a team card. Both roll 1 die and add their card's shot bonus — that's your shots for the match.</div></div>
+      <div class="inst-step"><div class="inst-step-num">2</div><div class="inst-step-text">Alternate shot by shot. Each turn: roll both dice, Red = column, Blue = row. Find your cell. GOAL = you scored. Everything else = no goal.</div></div>
+      <div class="inst-step"><div class="inst-step-num">3</div><div class="inst-step-text">When one player runs out of shots, the other keeps rolling alone until their shots are done too.</div></div>
+      <div class="inst-step"><div class="inst-step-num">4</div><div class="inst-step-text">Most goals wins. Tied on goals = Draw. Winner gets 3 pts, Draw = 1 pt each, Loser = 0 pts.</div></div>
+      <hr class="inst-divider">
+      <div class="inst-section-title">MATCH RESULT</div>
+      <div class="inst-score-grid">
+        <div class="inst-score-item"><div class="inst-score-label" style="color:#16a34a">🟢 WIN</div><div class="inst-score-range">most goals</div><div class="inst-score-pts">3 pts</div></div>
+        <div class="inst-score-item"><div class="inst-score-label" style="color:#d97706">🟡 DRAW</div><div class="inst-score-range">equal goals</div><div class="inst-score-pts">1 pt each</div></div>
+        <div class="inst-score-item"><div class="inst-score-label" style="color:#dc2626">🔴 LOSS</div><div class="inst-score-range">fewer goals</div><div class="inst-score-pts">0 pts</div></div>
+      </div>
+      <div class="inst-footer">32 teams · shot ranges based on real World Cup possession &amp; attack stats · stronger teams get more shots &amp; more goal cells · good luck.</div>
+    </div>
+  </div></div>`;
+}
+
+function renderTally() {
+  const rows = teams.map(t => `
+    <div class="tally-row">
+      <div class="tally-num">${t.num}</div>
+      <div class="tally-flag">${t.flag}</div>
+      <div class="tally-name">${t.name}</div>
+      <div class="tally-finish">
+        <div class="tally-box tw">WIN</div>
+        <div class="tally-box tru">DRW</div>
+        <div class="tally-box tout">LSS</div>
+        <div class="tally-box tpts">PTS</div>
+      </div>
+      <div class="tally-write"></div>
+      <div class="tally-write"></div>
+    </div>`).join('');
+  return `
+  <div class="card-wrap"><div class="card-page tally-page">
+    <div class="tally-header">
+      <div class="tally-title-block">
+        <span class="tally-game">Grid World Cup · 2026</span>
+        <span class="tally-season">Head-to-Head Match Tally</span>
+      </div>
+      <div class="tally-col-heads">
+        <span style="flex:1.4">Team</span>
+        <span style="width:1in;text-align:center">W / D / L</span>
+        <span style="width:0.26in;text-align:center">GF</span>
+        <span style="width:0.26in;text-align:center">Pts</span>
+      </div>
+    </div>
+    <div class="tally-body">${rows}</div>
+    <div class="tally-footer">
+      <div class="tally-total-label">Total Championship Points</div>
+      <div class="tally-total-box"></div>
+      <div class="tally-total-note">3pts win · 1pt draw · 0pts loss · most pts wins tournament</div>
+    </div>
+  </div></div>`;
+}
+
+const preview = document.getElementById('preview');
+preview.insertAdjacentHTML('beforeend', renderInstructions());
+teams.forEach(t => preview.insertAdjacentHTML('beforeend', renderCard(t)));
+preview.insertAdjacentHTML('beforeend', renderTally());
+</script>
+</body>
+</html>

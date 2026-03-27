@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Grid F1 2026 – Circuit Cards</title>
+<style>
+  @page { size: 5in 3in; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Arial Narrow', Arial, sans-serif; background: #fff; }
+
+  .card {
+    width: 5in;
+    height: 3in;
+    page-break-after: always;
+    display: grid;
+    grid-template-columns: 1.3in 1fr;
+    border: 2px solid #111;
+    overflow: hidden;
+  }
+
+  /* ── LEFT PANEL ── */
+  .left {
+    background: #e10600;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.1in 0.09in;
+    border-right: 2px solid #111;
+  }
+  .circuit-num  { font-size: 6.5pt; font-weight: bold; letter-spacing: 2px; opacity: 0.75; text-transform: uppercase; }
+  .circuit-name { font-size: 14pt; font-weight: 900; line-height: 1.05; text-transform: uppercase; margin-top: 2px; }
+  .circuit-loc  { font-size: 6.5pt; opacity: 0.82; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .circuit-meta { font-size: 6pt; line-height: 1.8; opacity: 0.9; margin-top: 5px; }
+  .circuit-note { font-size: 5.5pt; opacity: 0.78; font-style: italic; margin-top: 3px; line-height: 1.4; }
+  .diff-label   { font-size: 5.5pt; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+  .diff-pips    { display: flex; gap: 2px; }
+  .pip          { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); }
+  .pip.on       { background: #fff; }
+
+  /* ── RIGHT PANEL ── */
+  .right {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+  }
+
+  .how {
+    background: #111;
+    color: #fff;
+    padding: 0.035in 0.09in;
+    font-size: 5.4pt;
+    line-height: 1.6;
+  }
+  .hl  { color: #f5c518; font-weight: bold; }
+  .hls { color: #4ade80; font-weight: bold; }
+  .hfc { color: #fb923c; font-weight: bold; }
+  .hmc { color: #60a5fa; font-weight: bold; }
+  .hhc { color: #f87171; font-weight: bold; }
+
+  .lap-area {
+    flex: 1;
+    padding: 0.05in 0.09in 0.02in;
+  }
+  .lap-title {
+    font-size: 5.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #888;
+    margin-bottom: 3px;
+  }
+
+  /* 5 rows × 6 cols = 30 segments */
+  .seg-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 2px;
+    width: 100%;
+    height: 1.35in;
+  }
+  .seg-cell {
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    border: 1.5px solid;
+  }
+  /* LS = Long Straight — green */
+  .seg-cell.LS { border-color: #15803d; background: #f0fdf4; }
+  .seg-cell.LS .seg-letter { color: #15803d; }
+  /* FC = Fast Corner — orange */
+  .seg-cell.FC { border-color: #c2410c; background: #fff7ed; }
+  .seg-cell.FC .seg-letter { color: #c2410c; }
+  /* MC = Medium Corner — blue */
+  .seg-cell.MC { border-color: #1d4ed8; background: #eff6ff; }
+  .seg-cell.MC .seg-letter { color: #1d4ed8; }
+  /* HC = Hairpin — red */
+  .seg-cell.HC { border-color: #b91c1c; background: #fef2f2; }
+  .seg-cell.HC .seg-letter { color: #b91c1c; }
+
+  .seg-letter { font-size: 7pt; font-weight: 900; line-height: 1; }
+  .seg-num    { font-size: 4pt; color: #ccc; line-height: 1; }
+  .seg-target { font-size: 4pt; line-height: 1; font-weight: bold; }
+  .seg-cell.LS .seg-target { color: #15803d; }
+  .seg-cell.FC .seg-target { color: #c2410c; }
+  .seg-cell.MC .seg-target { color: #1d4ed8; }
+  .seg-cell.HC .seg-target { color: #b91c1c; }
+
+  /* ── RESULT ROW ── */
+  .bottom-bar {
+    display: flex;
+    gap: 4px;
+    align-items: stretch;
+    padding: 0.025in 0.09in;
+    border-top: 1px solid #eee;
+  }
+  .result-row { display: flex; gap: 2px; align-items: center; flex: 1; }
+  .result-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    border-radius: 2px;
+    padding: 2px 1px;
+  }
+  .result-item.p1  { background: #FFD700; }
+  .result-item.p2  { background: #C0C0C0; }
+  .result-item.p3  { background: #cd7f32; }
+  .result-item.pts { background: #d4edda; }
+  .result-item.dnf { background: #f8d7da; }
+  .res-label { font-size: 6.5pt; font-weight: 900; color: #111; line-height: 1; }
+  .res-score { font-size: 5pt; color: #333; line-height: 1.3; }
+  .res-pts   { font-size: 5pt; font-weight: bold; color: #555; line-height: 1; }
+
+  .divider { width: 1px; background: #eee; margin: 0 2px; }
+  .total-group { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  .total-label { font-size: 5pt; text-transform: uppercase; letter-spacing: 1px; color: #999; font-weight: bold; }
+  .total-box   { width: 28px; height: 18px; border: 1.5px solid #aaa; border-radius: 2px; margin-top: 2px; }
+  .run-group   { display: flex; flex-direction: column; justify-content: center; }
+  .run-label   { font-size: 5pt; text-transform: uppercase; letter-spacing: 1px; color: #999; font-weight: bold; margin-bottom: 2px; }
+  .run-boxes   { display: flex; gap: 2px; }
+  .run-entry   { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+  .run-num     { font-size: 4pt; color: #bbb; }
+  .run-box     { width: 22px; height: 18px; border: 1.5px solid #bbb; border-radius: 2px; }
+
+  /* ── KEY ── */
+  .key {
+    background: #f5f5f5;
+    padding: 0.022in 0.09in;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    flex-wrap: wrap;
+  }
+  .key-item { font-size: 5.4pt; display: flex; align-items: center; gap: 2px; color: #444; }
+  .kdot { width: 7px; height: 7px; border-radius: 1px; flex-shrink: 0; }
+  .kdot.ls { background: #15803d; }
+  .kdot.fc { background: #c2410c; }
+  .kdot.mc { background: #1d4ed8; }
+  .kdot.hc { background: #b91c1c; }
+  .key-note { font-size: 5pt; color: #aaa; margin-left: auto; font-style: italic; }
+
+  /* ── INSTRUCTIONS PAGE ── */
+  .instructions {
+    width: 5in;
+    height: 3in;
+    page-break-after: always;
+    display: grid;
+    grid-template-columns: 1.3in 1fr;
+    border: 2px solid #111;
+    overflow: hidden;
+  }
+  .inst-left {
+    background: #e10600;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.12in 0.1in;
+    border-right: 2px solid #111;
+  }
+  .inst-title    { font-size: 18pt; font-weight: 900; text-transform: uppercase; line-height: 1; letter-spacing: 1px; }
+  .inst-subtitle { font-size: 7pt; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; margin-top: 4px; }
+  .inst-tagline  { font-size: 6pt; opacity: 0.75; font-style: italic; line-height: 1.5; }
+  .inst-season   { font-size: 8pt; font-weight: bold; letter-spacing: 3px; opacity: 0.9; text-transform: uppercase; }
+  .inst-right {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 0.09in 0.1in 0.07in;
+    gap: 0.05in;
+  }
+  .inst-section-title { font-size: 6pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #e10600; margin-bottom: 2px; }
+  .inst-step { display: flex; gap: 5px; align-items: flex-start; font-size: 6pt; line-height: 1.5; color: #222; }
+  .inst-step-num {
+    background: #111; color: #fff; font-size: 5.5pt; font-weight: bold;
+    width: 12px; height: 12px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .inst-divider { height: 1px; background: #eee; }
+  .inst-seg-key { display: flex; gap: 5px; flex-wrap: wrap; }
+  .inst-seg-item { display: flex; align-items: center; gap: 3px; font-size: 6pt; }
+  .inst-seg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 5pt; font-weight: bold; color: #fff; }
+  .inst-scoring { display: flex; gap: 3px; }
+  .inst-score-item { display: flex; flex-direction: column; align-items: center; flex: 1; border-radius: 2px; padding: 2px 1px; }
+  .inst-score-item.p1  { background: #FFD700; }
+  .inst-score-item.p2  { background: #C0C0C0; }
+  .inst-score-item.p3  { background: #cd7f32; }
+  .inst-score-item.pts { background: #d4edda; }
+  .inst-score-item.dnf { background: #f8d7da; }
+  .inst-score-label { font-size: 6.5pt; font-weight: 900; color: #111; line-height: 1; }
+  .inst-score-range { font-size: 5pt; color: #333; line-height: 1.3; }
+  .inst-score-pts   { font-size: 5pt; font-weight: bold; color: #555; }
+  .inst-footer { font-size: 5pt; color: #aaa; font-style: italic; margin-top: auto; }
+
+  /* ── TALLY PAGE ── */
+  .tally-page {
+    width: 5in;
+    height: 3in;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #111;
+    overflow: hidden;
+    background: #fff;
+  }
+  .tally-header {
+    background: #111;
+    color: #fff;
+    padding: 0.045in 0.09in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e10600;
+  }
+  .tally-title-block { display: flex; flex-direction: column; gap: 1px; }
+  .tally-game   { font-size: 7.5pt; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: #f5c518; }
+  .tally-season { font-size: 6pt; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; }
+  .tally-col-heads { display: flex; align-items: center; gap: 4px; font-size: 5.5pt; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
+  .tally-body { flex: 1; overflow: hidden; display: flex; flex-direction: column; padding: 0.03in 0.09in; gap: 2px; }
+  .tally-row { display: flex; align-items: center; gap: 4px; height: 0.098in; }
+  .tally-num  { font-size: 5pt; color: #bbb; width: 0.14in; text-align: right; flex-shrink: 0; }
+  .tally-name { font-size: 6pt; font-weight: bold; color: #111; flex: 1.2; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; }
+  .tally-finish { display: flex; gap: 2px; width: 1in; flex-shrink: 0; }
+  .tally-box { flex: 1; height: 0.09in; border-radius: 1px; font-size: 4.5pt; font-weight: bold; display: flex; align-items: center; justify-content: center; color: #333; border: 1px solid rgba(0,0,0,0.1); }
+  .tp1  { background: #FFD700; }
+  .tp2  { background: #C0C0C0; }
+  .tp3  { background: #cd7f32; color: #fff; }
+  .tpts { background: #d4edda; }
+  .tdnf { background: #f8d7da; }
+  .tally-write { width: 0.28in; height: 0.09in; border-bottom: 1px solid #ccc; flex-shrink: 0; }
+  .tally-footer { background: #f5f5f5; border-top: 1px solid #ddd; padding: 0.04in 0.09in; display: flex; align-items: center; gap: 8px; }
+  .tally-total-label { font-size: 6pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #555; }
+  .tally-total-box   { width: 0.45in; height: 0.18in; border: 1.5px solid #e10600; border-radius: 2px; flex-shrink: 0; }
+  .tally-total-note  { font-size: 5pt; color: #aaa; font-style: italic; margin-left: auto; }
+
+  @media print { body { margin: 0; } .card, .instructions, .tally-page { page-break-after: always; } }
+</style>
+</head>
+<body>
+<script>
+// Segment types and targets (score = abs(roll - target), lower = better)
+// LS = Long Straight  target 6  (roll high)
+// FC = Fast Corner    target 2  (roll low-ish, 1-3 fine)
+// MC = Medium Corner  target 3  (mid roll best)
+// HC = Hairpin        target 1  (roll as low as possible)
+
+const SEG_TARGETS = { LS:6, FC:2, MC:3, HC:1 };
+
+const circuits = [
+  { num:"01", name:"Melbourne",     loc:"Melbourne, AUS",         laps:58, turns:14, diff:3, par:65, note:"Semi-street. Fast sections cut by tight chicanes.",
+    segs:"LS FC MC HC LS FC LS MC HC LS FC LS MC HC LS FC LS MC HC LS FC LS MC HC LS FC LS MC HC LS" },
+  { num:"02", name:"Shanghai",      loc:"Shanghai, CHN",          laps:56, turns:16, diff:2, par:69, note:"Huge back straight. Spiralling T1. Mixed character.",
+    segs:"FC HC LS LS FC HC LS FC HC LS LS FC HC LS FC HC LS LS FC HC LS FC HC LS LS FC HC LS FC HC" },
+  { num:"03", name:"Suzuka",        loc:"Suzuka, JPN",            laps:53, turns:18, diff:5, par:68, note:"Esses, 130R, Spoon — legendary corner sequence.",
+    segs:"HC HC FC HC HC FC HC HC MC LS HC HC FC HC HC FC HC HC MC LS HC HC FC HC HC FC HC HC MC LS" },
+  { num:"04", name:"Sakhir",        loc:"Sakhir, BRN",            laps:57, turns:15, diff:2, par:67, note:"Long straights, medium corners. Consistent opener.",
+    segs:"LS MC HC LS LS MC HC LS LS MC HC LS LS MC HC LS LS MC HC LS LS MC HC LS LS MC HC LS LS MC" },
+  { num:"05", name:"Jeddah",        loc:"Jeddah, KSA",            laps:50, turns:27, diff:5, par:72, note:"Fastest street circuit. 27 wall-lined corners.",
+    segs:"HC HC FC HC HC HC LS HC HC HC FC HC HC HC LS HC HC HC FC HC HC HC LS HC HC HC FC HC HC HC" },
+  { num:"06", name:"Miami",         loc:"Miami Gardens, USA",     laps:57, turns:19, diff:3, par:65, note:"Three straights, tricky chicanes, elevation changes.",
+    segs:"LS FC MC HC LS LS FC MC HC LS LS FC MC HC LS LS FC MC HC LS LS FC MC HC LS LS FC MC HC LS" },
+  { num:"07", name:"Montreal",      loc:"Montréal, CAN",          laps:70, turns:14, diff:3, par:69, note:"Fast and relentless. Wall of Champions at the end.",
+    segs:"LS LS MC HC LS LS FC HC LS LS MC HC LS LS FC HC LS LS MC HC LS LS FC HC LS LS MC HC LS LS" },
+  { num:"08", name:"Monaco",        loc:"Monte Carlo, MON",       laps:78, turns:19, diff:5, par:71, note:"Almost all corners. Walls everywhere. Zero margin.",
+    segs:"HC HC HC FC HC HC HC HC HC MC HC HC HC HC FC HC HC HC HC HC HC HC MC HC HC HC HC HC FC HC" },
+  { num:"09", name:"Catalunya",     loc:"Barcelona, ESP",         laps:66, turns:14, diff:2, par:66, note:"High-speed corners, long straight, lots of overtaking.",
+    segs:"LS LS FC LS LS FC MC LS LS FC LS LS FC MC LS LS FC LS LS FC MC LS LS FC LS LS FC MC LS LS" },
+  { num:"10", name:"Red Bull Ring", loc:"Spielberg, AUT",         laps:71, turns:10, diff:2, par:68, note:"Short, flat-out. Only 10 turns. Massive uphill braking.",
+    segs:"LS LS LS MC LS LS LS MC LS LS LS MC LS LS LS MC LS LS LS MC LS LS LS MC LS LS LS MC LS LS" },
+  { num:"11", name:"Silverstone",   loc:"Silverstone, GBR",       laps:52, turns:18, diff:3, par:61, note:"Copse, Maggotts, Becketts — iconic high-speed sweepers.",
+    segs:"LS FC FC MC LS LS FC FC MC LS LS FC FC MC LS LS FC FC MC LS LS FC FC MC LS LS FC FC MC LS" },
+  { num:"12", name:"Spa",           loc:"Spa-Francorchamps, BEL", laps:44, turns:19, diff:4, par:66, note:"Eau Rouge, Raidillon, Pouhon — long and legendary.",
+    segs:"LS FC LS LS FC LS MC FC LS LS FC LS LS FC LS LS MC FC LS LS FC LS LS FC LS LS MC FC LS LS" },
+  { num:"13", name:"Hungaroring",   loc:"Budapest, HUN",          laps:70, turns:14, diff:3, par:69, note:"Monaco without walls. Almost no straights to recover.",
+    segs:"HC HC MC HC HC HC FC HC HC HC MC HC HC HC FC HC HC HC MC HC HC HC FC HC HC HC MC HC HC HC" },
+  { num:"14", name:"Zandvoort",     loc:"Zandvoort, NED",         laps:72, turns:14, diff:3, par:65, note:"Banked corners, undulating terrain, limited passing.",
+    segs:"LS FC HC HC FC LS FC HC HC FC LS FC HC HC FC LS FC HC HC FC LS FC HC HC FC LS FC HC HC" },
+  { num:"15", name:"Monza",         loc:"Monza, ITA",             laps:53, turns:11, diff:1, par:71, note:"Temple of Speed. Full throttle 80% of the lap.",
+    segs:"LS LS LS FC LS LS LS LS FC LS LS LS LS FC LS LS LS LS FC LS LS LS LS FC LS LS LS LS FC LS" },
+  { num:"16", name:"Madrid",        loc:"Madrid, ESP",            laps:55, turns:20, diff:3, par:63, note:"New for 2026. IFEMA circuit. Mix of fast and technical.",
+    segs:"LS FC MC HC LS FC MC HC LS FC MC HC LS FC MC HC LS FC MC HC LS FC MC HC LS FC MC HC LS FC" },
+  { num:"17", name:"Baku",          loc:"Baku, AZE",              laps:51, turns:20, diff:5, par:73, note:"2.2km straight then a brutal medieval castle section.",
+    segs:"LS LS HC HC HC HC FC HC HC HC LS LS HC HC HC HC FC HC HC HC LS LS HC HC HC HC FC HC HC HC" },
+  { num:"18", name:"Marina Bay",    loc:"Singapore, SGP",         laps:62, turns:23, diff:5, par:71, note:"23 corners. Hottest, hardest, slowest street circuit.",
+    segs:"HC HC HC HC FC HC HC HC HC HC MC HC HC HC FC HC HC HC HC HC MC HC HC HC FC HC HC HC HC HC" },
+  { num:"19", name:"Austin",        loc:"Austin, USA",            laps:56, turns:20, diff:3, par:62, note:"Blind crest T1, elevation changes, great racing.",
+    segs:"FC HC LS FC FC LS FC MC HC LS FC FC LS FC MC HC LS FC FC LS FC MC HC LS FC FC LS FC MC HC" },
+  { num:"20", name:"Mexico City",   loc:"Mexico City, MEX",       laps:71, turns:17, diff:2, par:69, note:"High altitude. Long stadium straight. Low downforce.",
+    segs:"LS LS MC HC LS LS FC HC LS LS MC HC LS LS FC HC LS LS MC HC LS LS FC HC LS LS MC HC LS LS" },
+  { num:"21", name:"Interlagos",    loc:"São Paulo, BRA",         laps:71, turns:15, diff:3, par:67, note:"Counter-clockwise. Senna S. Changeable weather.",
+    segs:"LS FC HC HC LS FC MC HC LS FC HC HC LS FC MC HC LS FC HC HC LS FC MC HC LS FC HC HC LS FC" },
+  { num:"22", name:"Las Vegas",     loc:"Las Vegas, USA",         laps:50, turns:17, diff:3, par:70, note:"1.92km Las Vegas Blvd straight. Cold, gripless track.",
+    segs:"LS LS FC HC LS LS FC HC LS LS FC HC LS LS FC HC LS LS FC HC LS LS FC HC LS LS FC HC LS LS" },
+  { num:"23", name:"Losail",        loc:"Lusail, QAT",            laps:57, turns:16, diff:3, par:66, note:"Night race. High tyre degradation. Fast and punishing.",
+    segs:"LS FC MC HC LS LS FC HC LS FC MC HC LS LS FC HC LS FC MC HC LS LS FC HC LS FC MC HC LS LS" },
+  { num:"24", name:"Yas Marina",    loc:"Abu Dhabi, UAE",         laps:58, turns:16, diff:1, par:63, note:"Season finale. Smooth, modern, fast revised layout.",
+    segs:"LS LS FC MC LS LS FC MC LS LS FC MC LS LS FC MC LS LS FC MC LS LS FC MC LS LS FC MC LS LS" },
+];
+
+function pips(d) {
+  let h = '';
+  for (let i=1;i<=5;i++) h+=`<div class="pip${i<=d?' on':''}"></div>`;
+  return h;
+}
+
+function renderCard(c) {
+  const segArr = c.segs.split(' ').filter(s => ['LS','FC','MC','HC'].includes(s)).slice(0,30);
+  while (segArr.length < 30) segArr.push('HC');
+
+  const targets = { LS:6, FC:2, MC:3, HC:1 };
+  const targetLabels = { LS:'→6', FC:'→2', MC:'→3', HC:'→1' };
+
+  let gridHTML = '<div class="seg-grid">';
+  segArr.forEach((t, i) => {
+    gridHTML += `<div class="seg-cell ${t}">
+      <div class="seg-num">${i+1}</div>
+      <div class="seg-letter">${t}</div>
+      <div class="seg-target">${targetLabels[t]}</div>
+    </div>`;
+  });
+  gridHTML += '</div>';
+
+  let runBoxes = '';
+  for (let r=1;r<=4;r++) {
+    runBoxes += `<div class="run-entry"><div class="run-num">R${r}</div><div class="run-box"></div></div>`;
+  }
+
+  const p = c.par;
+  return `
+  <div class="card">
+    <div class="left">
+      <div>
+        <div class="circuit-num">Circuit ${c.num} · 2026 F1</div>
+        <div class="circuit-name">${c.name}</div>
+        <div class="circuit-loc">${c.loc}</div>
+      </div>
+      <div>
+        <div class="circuit-meta">🔁 ${c.laps} laps &nbsp;·&nbsp; ↩ ${c.turns} turns<br>Par: ${p}</div>
+        <div class="circuit-note">${c.note}</div>
+      </div>
+      <div>
+        <div class="diff-label">Track Difficulty</div>
+        <div class="diff-pips">${pips(c.diff)}</div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="how">
+        Score = <span class="hl">|roll − target|</span> per segment. Lower = faster. &nbsp;
+        <span class="hls">LS→6</span> &nbsp;
+        <span class="hfc">FC→2</span> &nbsp;
+        <span class="hmc">MC→3</span> &nbsp;
+        <span class="hhc">HC→1</span> &nbsp;
+        Roll the target exactly = 0. Add all 30.
+      </div>
+      <div class="lap-area">
+        <div class="lap-title">One Lap · 30 Segments · Roll Each in Order</div>
+        ${gridHTML}
+      </div>
+      <div class="bottom-bar">
+        <div class="result-row">
+          <div class="result-item p1">
+            <div class="res-label">P1</div>
+            <div class="res-score">≤${p-10}</div>
+            <div class="res-pts">25 pts</div>
+          </div>
+          <div class="result-item p2">
+            <div class="res-label">P2</div>
+            <div class="res-score">${p-9}–${p-5}</div>
+            <div class="res-pts">18 pts</div>
+          </div>
+          <div class="result-item p3">
+            <div class="res-label">P3</div>
+            <div class="res-score">${p-4}–${p-1}</div>
+            <div class="res-pts">15 pts</div>
+          </div>
+          <div class="result-item pts">
+            <div class="res-label">PTS</div>
+            <div class="res-score">${p}–${p+8}</div>
+            <div class="res-pts">10 pts</div>
+          </div>
+          <div class="result-item dnf">
+            <div class="res-label">DNF</div>
+            <div class="res-score">${p+9}+</div>
+            <div class="res-pts">0 pts</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="total-group">
+          <div class="total-label">Score</div>
+          <div class="total-box"></div>
+        </div>
+        <div class="divider"></div>
+        <div class="run-group">
+          <div class="run-label">Season</div>
+          <div class="run-boxes">${runBoxes}</div>
+        </div>
+      </div>
+      <div class="key">
+        <div class="key-item"><div class="kdot ls"></div> LS: Long Straight</div>
+        <div class="key-item"><div class="kdot fc"></div> FC: Fast Corner</div>
+        <div class="key-item"><div class="kdot mc"></div> MC: Med Corner</div>
+        <div class="key-item"><div class="kdot hc"></div> HC: Hairpin</div>
+        <div class="key-note">Par ${p} · beat par = points</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ── INSTRUCTIONS PAGE ─────────────────────────────────────────────────────
+  document.body.insertAdjacentHTML("beforeend", `
+  <div class="instructions">
+    <div class="inst-left">
+      <div>
+        <div class="inst-title">Grid<br>F1</div>
+        <div class="inst-subtitle">Pen &amp; Paper Racing</div>
+      </div>
+      <div>
+        <div class="inst-tagline">One die. 30 segments.<br>24 circuits.<br>Build your championship.</div>
+      </div>
+      <div class="inst-season">2026 Season</div>
+    </div>
+    <div class="inst-right">
+      <div>
+        <div class="inst-section-title">How to Play</div>
+        <div class="inst-step"><div class="inst-step-num">1</div><div>Pick a circuit card. Roll your die once for each of the 30 numbered segments in order.</div></div>
+        <div class="inst-step"><div class="inst-step-num">2</div><div>Each segment has a <strong>target number</strong>. Your score = <strong>how far your roll is from the target</strong>. Hit it exactly = 0.</div></div>
+        <div class="inst-step"><div class="inst-step-num">3</div><div>Add all 30 segment scores. <strong>Lower total = faster lap.</strong> Compare to the circuit's par.</div></div>
+        <div class="inst-step"><div class="inst-step-num">4</div><div>Record championship points. Complete all 24 circuits for your season total.</div></div>
+      </div>
+      <div class="inst-divider"></div>
+      <div>
+        <div class="inst-section-title">Segment Types</div>
+        <div class="inst-seg-key">
+          <div class="inst-seg-item"><div class="inst-seg-dot" style="background:#15803d">LS</div> Long Straight — target 6, roll high</div>
+          <div class="inst-seg-item"><div class="inst-seg-dot" style="background:#c2410c">FC</div> Fast Corner — target 2, roll low-ish</div>
+          <div class="inst-seg-item"><div class="inst-seg-dot" style="background:#1d4ed8">MC</div> Med Corner — target 3, mid roll best</div>
+          <div class="inst-seg-item"><div class="inst-seg-dot" style="background:#b91c1c">HC</div> Hairpin — target 1, roll as low as possible</div>
+        </div>
+      </div>
+      <div class="inst-divider"></div>
+      <div>
+        <div class="inst-section-title">Results (relative to circuit par)</div>
+        <div class="inst-scoring">
+          <div class="inst-score-item p1"><div class="inst-score-label">P1</div><div class="inst-score-range">par −10+</div><div class="inst-score-pts">25 pts</div></div>
+          <div class="inst-score-item p2"><div class="inst-score-label">P2</div><div class="inst-score-range">par −5 to −9</div><div class="inst-score-pts">18 pts</div></div>
+          <div class="inst-score-item p3"><div class="inst-score-label">P3</div><div class="inst-score-range">par −1 to −4</div><div class="inst-score-pts">15 pts</div></div>
+          <div class="inst-score-item pts"><div class="inst-score-label">PTS</div><div class="inst-score-range">par to +8</div><div class="inst-score-pts">10 pts</div></div>
+          <div class="inst-score-item dnf"><div class="inst-score-label">DNF</div><div class="inst-score-range">par +9+</div><div class="inst-score-pts">0 pts</div></div>
+        </div>
+      </div>
+      <div class="inst-footer">Max season score: 600 pts · 25 pts × 24 circuits · Good luck.</div>
+    </div>
+  </div>`);
+
+  // ── CIRCUIT CARDS ──────────────────────────────────────────────────────────
+  circuits.forEach(c => document.body.insertAdjacentHTML("beforeend", renderCard(c)));
+
+  // ── TALLY PAGE ─────────────────────────────────────────────────────────────
+  const tallyRows = circuits.map(c => `
+    <div class="tally-row">
+      <div class="tally-num">${c.num}</div>
+      <div class="tally-name">${c.name}</div>
+      <div class="tally-finish">
+        <div class="tally-box tp1">P1</div>
+        <div class="tally-box tp2">P2</div>
+        <div class="tally-box tp3">P3</div>
+        <div class="tally-box tpts">PTS</div>
+        <div class="tally-box tdnf">DNF</div>
+      </div>
+      <div class="tally-write"></div>
+      <div class="tally-write"></div>
+    </div>`).join('');
+
+  document.body.insertAdjacentHTML("beforeend", `
+  <div class="tally-page">
+    <div class="tally-header">
+      <div class="tally-title-block">
+        <span class="tally-game">Grid F1 &nbsp;·&nbsp; 2026</span>
+        <span class="tally-season">Season Championship</span>
+      </div>
+      <div class="tally-col-heads">
+        <span style="flex:1.2">Circuit</span>
+        <span style="width:1in;text-align:center">Finish</span>
+        <span style="width:0.28in;text-align:center">Score</span>
+        <span style="width:0.28in;text-align:center">Pts</span>
+      </div>
+    </div>
+    <div class="tally-body">${tallyRows}</div>
+    <div class="tally-footer">
+      <div class="tally-total-label">Season Total Championship Points</div>
+      <div class="tally-total-box"></div>
+      <div class="tally-total-note">Max 600 pts · 25 × 24 circuits · Good luck.</div>
+    </div>
+  </div>`);
+});
+</script>
+</body>
+</html>
