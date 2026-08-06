@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GRID NFL FOOTBALL</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gr:#1a3a6e;--gd:#c9a227;--dk:#0a1628;--md:#e8edf5;--rd:#b22222;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Barlow',sans-serif;background:#c8d4e8;padding:.3in;}
+.no-print{text-align:center;margin-bottom:.3in;padding:.2in;background:var(--dk);border-radius:6px;color:white;}
+.no-print h1{font-family:'Bebas Neue',sans-serif;font-size:42pt;color:var(--gd);letter-spacing:6px;line-height:1;}
+.no-print .sub{font-family:'Barlow Condensed',sans-serif;font-size:11pt;color:#aaa;letter-spacing:3px;margin-top:4px;}
+.no-print .tag{font-family:'Barlow Condensed',sans-serif;font-size:9pt;color:#ccc;letter-spacing:2px;margin-top:5px;}
+.btn-print{margin-top:12px;padding:8px 28px;background:var(--gd);color:var(--dk);border:none;font-family:'Bebas Neue',sans-serif;font-size:14pt;letter-spacing:3px;border-radius:3px;cursor:pointer;}
+.wrap{display:flex;flex-wrap:wrap;gap:.18in;}
+.card,.instr-card,.tally-card{width:3.5in;background:white;border:1px solid #bbb;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.12);display:flex;flex-direction:column;overflow:hidden;page-break-inside:avoid;}
+.tally-card{width:7.18in;}
+.ch{background:var(--gr);color:white;padding:.05in .1in .04in;display:flex;justify-content:space-between;align-items:flex-end;}
+.ch-left .num{font-family:'Bebas Neue',sans-serif;font-size:7pt;color:rgba(255,255,255,.45);letter-spacing:2px;}
+.ch-left .name{font-family:'Bebas Neue',sans-serif;font-size:17pt;letter-spacing:2px;line-height:1;}
+.ch-left .region{font-family:'Barlow Condensed',sans-serif;font-size:6.5pt;color:rgba(255,255,255,.6);letter-spacing:2px;}
+.ch-right{text-align:right;}
+.conf{font-family:'Barlow Condensed',sans-serif;font-size:6pt;background:var(--gd);color:var(--dk);padding:1px 5px;border-radius:2px;letter-spacing:1px;}
+.rec{font-family:'Barlow Condensed',sans-serif;font-size:6pt;color:rgba(255,255,255,.55);letter-spacing:1px;margin-top:3px;}
+.cb{flex:1;display:flex;padding:.06in .08in .04in;}
+.gs{flex:1;}
+.gl{font-family:'Bebas Neue',sans-serif;font-size:5.5pt;color:var(--gr);letter-spacing:2px;margin-bottom:2px;}
+.dg{display:grid;grid-template-columns:auto repeat(6,1fr);gap:1.5px;}
+.ax{display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:7pt;color:#888;width:.14in;}
+.ch2{text-align:center;font-family:'Bebas Neue',sans-serif;font-size:7pt;color:#888;padding-bottom:1px;}
+.gc{width:100%;aspect-ratio:1.5/1;display:flex;align-items:center;justify-content:center;border-radius:1.5px;font-family:'Bebas Neue',sans-serif;font-size:5.5pt;text-align:center;padding:1px;}
+.TD{background:#1a5c2a;color:white;}
+.FG{background:#BA7517;color:#412402;}
+.D1{background:#E6F1FB;color:#0C447C;border:1px solid #85B7EB;}
+.PUN{background:#F1EFE8;color:#5F5E5A;border:1px solid #D3D1C7;}
+.TUV{background:#A32D2D;color:white;}
+.SAC{background:#2c2c2c;color:#c9a227;}
+.sp{width:.85in;padding-left:.07in;display:flex;flex-direction:column;gap:4px;}
+.st{font-family:'Bebas Neue',sans-serif;font-size:6pt;color:var(--gr);letter-spacing:2px;border-bottom:1px solid var(--gr);padding-bottom:1px;margin-bottom:2px;}
+.sr{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;}
+.sl2{font-family:'Barlow Condensed',sans-serif;font-size:6pt;color:#555;letter-spacing:1px;}
+.sv2{font-family:'Bebas Neue',sans-serif;font-size:8pt;color:var(--dk);}
+.sg{font-family:'Bebas Neue',sans-serif;font-size:9pt;padding:0 3px;border-radius:2px;background:var(--gr);color:white;}
+.sg.b{background:#2d5aa0;}.sg.c{background:#856404;}.sg.d{background:var(--rd);}
+.ri{font-family:'Barlow Condensed',sans-serif;font-size:5pt;color:#555;margin-bottom:1px;}
+.ri strong{font-family:'Bebas Neue',sans-serif;font-size:6.5pt;color:var(--gr);}
+.dt{margin-top:3px;}
+.dr{display:flex;gap:2px;flex-wrap:wrap;}
+.db{width:.135in;height:.135in;border:1px solid #85B7EB;border-radius:1px;background:#E6F1FB;}
+.cf2{background:var(--md);padding:.04in .08in;}
+.h2h-label{font-family:'Bebas Neue',sans-serif;font-size:6pt;color:var(--gr);letter-spacing:2px;margin-bottom:3px;}
+.h2h-row{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
+.h2h-team{font-family:'Barlow Condensed',sans-serif;font-size:6.5pt;color:#444;font-weight:600;width:.8in;white-space:nowrap;overflow:hidden;letter-spacing:.5px;}
+.h2h-pts{font-family:'Barlow Condensed',sans-serif;font-size:5.5pt;color:#666;letter-spacing:1px;}
+.h2h-box{width:.32in;height:.18in;border:1.5px solid var(--gr);border-radius:2px;background:white;}
+.h2h-vs{font-family:'Bebas Neue',sans-serif;font-size:9pt;color:#aaa;letter-spacing:1px;text-align:center;display:block;margin-bottom:3px;}
+.h2h-final{display:flex;align-items:center;gap:5px;margin-top:4px;padding-top:3px;border-top:1px dashed #ccc;}
+.h2h-final .lbl{font-family:'Barlow Condensed',sans-serif;font-size:5.5pt;color:#666;letter-spacing:1px;}
+.h2h-final .bx{height:.18in;border:1.5px solid var(--gd);border-radius:2px;background:white;}
+.h2h-final .winner-box{width:.9in;}.h2h-final .pts-box{width:.28in;}
+.ls{background:var(--dk);padding:.025in .08in;display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+.li{display:flex;align-items:center;gap:2px;}
+.ld{width:7px;height:7px;border-radius:1px;flex-shrink:0;}
+.ll{font-family:'Barlow Condensed',sans-serif;font-size:4.5pt;color:rgba(255,255,255,.75);}
+.ih{background:var(--dk);padding:.06in .1in;display:flex;justify-content:space-between;align-items:center;}
+.it{font-family:'Bebas Neue',sans-serif;font-size:16pt;color:var(--gd);letter-spacing:4px;}
+.is{font-family:'Barlow Condensed',sans-serif;font-size:7pt;color:rgba(255,255,255,.55);letter-spacing:2px;text-align:right;}
+.ib{flex:1;padding:.07in .1in;display:grid;grid-template-columns:1fr 1fr;gap:.06in;}
+.ib h3{font-family:'Bebas Neue',sans-serif;font-size:8pt;color:var(--gr);letter-spacing:2px;border-bottom:1px solid var(--gr);padding-bottom:2px;margin-bottom:4px;}
+.ib p,.ib li{font-family:'Barlow',sans-serif;font-size:5.5pt;color:#333;line-height:1.55;}
+.ib ul{padding-left:8px;}.ib li{margin-bottom:2px;}
+.if{background:var(--gr);padding:.035in .1in;display:flex;justify-content:space-between;}
+.if span{font-family:'Barlow Condensed',sans-serif;font-size:5.5pt;color:rgba(255,255,255,.8);letter-spacing:1px;}
+.th{background:var(--dk);padding:.06in .12in;display:flex;justify-content:space-between;align-items:center;}
+.tt{font-family:'Bebas Neue',sans-serif;font-size:16pt;color:var(--gd);letter-spacing:4px;}
+.ts{font-family:'Barlow Condensed',sans-serif;font-size:7pt;color:rgba(255,255,255,.5);letter-spacing:2px;}
+.tb{padding:.05in .1in;flex:1;}
+.tc{display:grid;grid-template-columns:repeat(2,1fr);gap:.08in;}
+.tct{font-family:'Bebas Neue',sans-serif;font-size:7pt;color:var(--gr);letter-spacing:2px;margin-bottom:3px;border-bottom:1px solid var(--gr);padding-bottom:1px;}
+.tr2{display:flex;align-items:center;gap:5px;margin-bottom:2.5px;}
+.tn2{font-family:'Bebas Neue',sans-serif;font-size:8pt;color:#aaa;width:.14in;flex-shrink:0;}
+.tnm{font-family:'Barlow Condensed',sans-serif;font-size:7pt;color:var(--dk);font-weight:600;letter-spacing:.5px;flex:1;}
+.tsb{width:.22in;height:.15in;border:1px solid #ccc;border-radius:1px;background:white;flex-shrink:0;}
+.tpb{width:.18in;height:.15in;border:1px solid #85B7EB;border-radius:1px;background:#E6F1FB;flex-shrink:0;}
+.tf{background:var(--md);padding:.04in .12in;display:flex;justify-content:space-between;align-items:center;}
+.tpk{display:flex;gap:8px;flex-wrap:wrap;}
+.tpi{font-family:'Barlow Condensed',sans-serif;font-size:5.5pt;color:#555;}
+.tpi strong{font-family:'Bebas Neue',sans-serif;font-size:7.5pt;color:var(--gr);}
+.ttot{display:flex;align-items:center;gap:6px;}
+.tl{font-family:'Bebas Neue',sans-serif;font-size:8pt;color:#777;letter-spacing:2px;}
+.tb2{width:.4in;height:.22in;border:2px solid var(--gr);border-radius:2px;background:white;}
+@media print{@page{size:8.5in 11in;margin:.4in;}body{background:white !important;padding:0;}.no-print{display:none !important;}.wrap{gap:.18in;padding:0;}.card,.instr-card,.tally-card{box-shadow:none;border-color:#ccc;}}
+</style>
+</head>
+<body>
+<div class="no-print">
+  <h1>GRID NFL</h1>
+  <div class="sub">NFL &middot; 2025-26 SEASON &middot; ALL 32 TEAMS</div>
+  <div class="tag">Pick Two Cards &middot; Each Team Runs 12 Drives &middot; High Score Wins</div>
+  <button class="btn-print" onclick="window.print()">&#9632; PRINT NOTEBOOK</button>
+</div>
+<div class="wrap" id="wrap"></div>
+<script>
+// Calibrated cell counts (Monte Carlo verified):
+// A: 6TD 8FG 9D1 7INC 4PUN 2INT  → ~29 pts / 12 drives
+// B: 4TD 9FG 9D1 8INC 5PUN 1INT  → ~24 pts / 12 drives
+// C: 3TD 8FG 10D1 8INC 6PUN 1INT 1FUM → ~21 pts / 12 drives
+// D: 2TD 8FG 9D1 9INC 7PUN 1INT 1FUM  → ~16 pts / 12 drives
+
+const DISP={TD:'TD',FG:'FG',D1:'1ST',PUN:'PUNT',TUV:'TUV'};
+const LEGEND=[
+  {cls:'TD',label:'TD · 7 PTS'},{cls:'FG',label:'FG · 3 PTS'},
+  {cls:'D1',label:'1ST DOWN · RE-ROLL'},
+  {cls:'PUN',label:'PUNT · END DRIVE'},
+  {cls:'TUV',label:'TURNOVER · END DRIVE'},
+];
+
+function mkGrid(td,fg,d1,inc,pun,int_,fum){
+  let g=[];
+  for(let i=0;i<td;i++) g.push('TD');
+  for(let i=0;i<fg;i++) g.push('FG');
+  for(let i=0;i<d1;i++) g.push('D1');
+  for(let i=0;i<inc+pun;i++) g.push('PUN');
+  for(let i=0;i<int_+(fum||0);i++) g.push('TUV');
+  while(g.length<36) g.push('PUN');
+  return g;
+}
+function shuffle(arr,seed){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=(seed*9301+i*49297+233)%a.length;
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+const bA=mkGrid(6,8,9,7,4,2,0);
+const bB=mkGrid(4,9,9,8,5,1,0);
+const bC=mkGrid(3,8,10,8,6,1,1);
+const bD=mkGrid(2,8,9,9,7,1,1);
+function g(base,seed){return shuffle(base,seed);}
+
+// 32 NFL teams — real 2025 regular season PPG (StatMuse final stats)
+// A=27+ PPG, B=22-27 PPG, C=18-22 PPG, D=<18 PPG
+const teams=[
+  // ── AFC EAST ──
+  {num:'01',name:'Buffalo',       region:'AFC East',  ppg:'28.3',off:'A',def:'B', grid:g(bA,1)},
+  {num:'02',name:'New England',   region:'AFC East',  ppg:'28.8',off:'A',def:'A', grid:g(bA,2)},
+  {num:'03',name:'Miami',         region:'AFC East',  ppg:'20.4',off:'C',def:'C', grid:g(bC,3)},
+  {num:'04',name:'New York Jets', region:'AFC East',  ppg:'17.8',off:'D',def:'C', grid:g(bD,4)},
+  // ── AFC NORTH ──
+  {num:'05',name:'Baltimore',     region:'AFC North', ppg:'24.9',off:'B',def:'B', grid:g(bB,5)},
+  {num:'06',name:'Cincinnati',    region:'AFC North', ppg:'24.4',off:'B',def:'C', grid:g(bB,6)},
+  {num:'07',name:'Pittsburgh',    region:'AFC North', ppg:'23.4',off:'B',def:'A', grid:g(bB,7)},
+  {num:'08',name:'Cleveland',     region:'AFC North', ppg:'16.9',off:'D',def:'B', grid:g(bD,8)},
+  // ── AFC SOUTH ──
+  {num:'09',name:'Jacksonville',  region:'AFC South', ppg:'27.9',off:'A',def:'C', grid:g(bA,9)},
+  {num:'10',name:'Houston',       region:'AFC South', ppg:'23.8',off:'B',def:'A', grid:g(bB,10)},
+  {num:'11',name:'Indianapolis',  region:'AFC South', ppg:'27.4',off:'A',def:'B', grid:g(bA,11)},
+  {num:'12',name:'Tennessee',     region:'AFC South', ppg:'17.4',off:'D',def:'C', grid:g(bD,12)},
+  // ── AFC WEST ──
+  {num:'13',name:'Denver',        region:'AFC West',  ppg:'23.6',off:'B',def:'A', grid:g(bB,13)},
+  {num:'14',name:'Kansas City',   region:'AFC West',  ppg:'21.3',off:'C',def:'A', grid:g(bC,14)},
+  {num:'15',name:'Las Vegas',     region:'AFC West',  ppg:'14.8',off:'D',def:'D', grid:g(bD,15)},
+  {num:'16',name:'Los Angeles C', region:'AFC West',  ppg:'21.6',off:'C',def:'B', grid:g(bC,16)},
+  // ── NFC EAST ──
+  {num:'17',name:'Dallas',        region:'NFC East',  ppg:'27.7',off:'A',def:'C', grid:g(bA,17)},
+  {num:'18',name:'New York Giants',region:'NFC East', ppg:'22.4',off:'B',def:'C', grid:g(bB,18)},
+  {num:'19',name:'Philadelphia',  region:'NFC East',  ppg:'22.3',off:'B',def:'A', grid:g(bB,19)},
+  {num:'20',name:'Washington',    region:'NFC East',  ppg:'20.9',off:'C',def:'B', grid:g(bC,20)},
+  // ── NFC NORTH ──
+  {num:'21',name:'Chicago',       region:'NFC North', ppg:'25.9',off:'B',def:'C', grid:g(bB,21)},
+  {num:'22',name:'Detroit',       region:'NFC North', ppg:'28.3',off:'A',def:'B', grid:g(bA,22)},
+  {num:'23',name:'Green Bay',     region:'NFC North', ppg:'23.0',off:'B',def:'B', grid:g(bB,23)},
+  {num:'24',name:'Minnesota',     region:'NFC North', ppg:'19.8',off:'C',def:'C', grid:g(bC,24)},
+  // ── NFC SOUTH ──
+  {num:'25',name:'Atlanta',       region:'NFC South', ppg:'20.8',off:'C',def:'C', grid:g(bC,25)},
+  {num:'26',name:'Carolina',      region:'NFC South', ppg:'19.3',off:'C',def:'D', grid:g(bC,26)},
+  {num:'27',name:'New Orleans',   region:'NFC South', ppg:'18.8',off:'C',def:'C', grid:g(bC,27)},
+  {num:'28',name:'Tampa Bay',     region:'NFC South', ppg:'22.4',off:'B',def:'B', grid:g(bB,28)},
+  // ── NFC WEST ──
+  {num:'29',name:'Arizona',       region:'NFC West',  ppg:'20.9',off:'C',def:'D', grid:g(bC,29)},
+  {num:'30',name:'Los Angeles R', region:'NFC West',  ppg:'30.5',off:'A',def:'B', grid:g(bA,30)},
+  {num:'31',name:'San Francisco', region:'NFC West',  ppg:'25.7',off:'B',def:'B', grid:g(bB,31)},
+  {num:'32',name:'Seattle',       region:'NFC West',  ppg:'28.4',off:'A',def:'A', grid:g(bA,32)},
+];
+
+// Result tables calibrated for NFL 12-drive scoring
+const RT={
+  A:[{l:'BLOWOUT W',r:'42+',p:30},{l:'WIN',r:'35-41',p:25},{l:'CLOSE W',r:'28-34',p:20},{l:'OT WIN',r:'21-27',p:15},{l:'OT LOSS',r:'14-20',p:10},{l:'LOSS',r:'0-13',p:0}],
+  B:[{l:'BLOWOUT W',r:'35+',p:30},{l:'WIN',r:'28-34',p:25},{l:'CLOSE W',r:'21-27',p:20},{l:'OT WIN',r:'14-20',p:15},{l:'OT LOSS',r:'7-13', p:10},{l:'LOSS',r:'0-6',  p:0}],
+  C:[{l:'UPSET W',  r:'28+',p:30},{l:'WIN',r:'21-27',p:25},{l:'CLOSE W',r:'14-20',p:20},{l:'LOSS',r:'7-13', p:5}, {l:'BLOWOUT L',r:'0-6',p:0}],
+  D:[{l:'UPSET W',  r:'21+',p:30},{l:'WIN',r:'14-20',p:20},{l:'LOSS',r:'7-13', p:5}, {l:'BLOWOUT L',r:'0-6',p:0}],
+};
+
+function gc(g){return g==='A'?'':g==='B'?'b':g==='C'?'c':'d';}
+
+function buildGrid(cells){
+  let h='<div class="dg"><div class="ax" style="height:.15in"></div>';
+  for(let c=1;c<=6;c++) h+='<div class="ch2">'+c+'</div>';
+  for(let r=0;r<6;r++){
+    h+='<div class="ax">'+(r+1)+'</div>';
+    for(let c=0;c<6;c++){
+      const t=cells[r*6+c];
+      h+='<div class="gc '+t+'">'+DISP[t]+'</div>';
+    }
+  }
+  return h+'</div>';
+}
+function buildLegend(){
+  return '<div class="ls">'+LEGEND.map(l=>'<div class="li"><div class="ld '+l.cls+'"></div><span class="ll">'+l.label+'</span></div>').join('')+'</div>';
+}
+
+function instrCard(){
+  return `<div class="instr-card">
+    <div class="ih"><div class="it">HOW TO PLAY</div><div class="is">GRID NFL<br>2025 SEASON &middot; ALL 32 TEAMS</div></div>
+    <div class="ib">
+      <div>
+        <h3>WHAT YOU NEED</h3>
+        <ul><li>This notebook (printed)</li><li>Two dice &mdash; one red, one blue</li><li>A pen or pencil</li><li>Two cards for a matchup</li></ul>
+        <h3 style="margin-top:6px">SETTING UP</h3>
+        <p>Pick any two cards. One is <strong>Home</strong>, one is <strong>Away</strong>. Each team runs <strong>12 drives</strong> using their own card's offense grid.</p>
+        <h3 style="margin-top:6px">RUNNING A DRIVE</h3>
+        <p>Roll both dice. <strong>Red = row</strong>, <strong>Blue = column</strong>. Find the cell.</p>
+        <p style="margin-top:3px"><strong>1ST DOWN</strong> &mdash; Roll again, drive continues.<br>
+        <strong>TD = 7 pts &nbsp;|&nbsp; FG = 3 pts</strong> &mdash; Score, end drive, mark box.<br>
+        <strong>PUNT</strong> &mdash; Drive ends, no score.<br>
+        <strong>TURNOVER</strong> &mdash; Drive ends, no score.</p>
+        <h3 style="margin-top:6px">GO FOR IT</h3>
+        <p>On any <strong>FG cell</strong>, you may choose to go for the TD instead. Roll one die: <strong>1 = TD scored</strong>, <strong>2&ndash;6 = turnover on downs</strong> (no points, drive ends). Your call &mdash; but it's a 1-in-6 shot.</p>
+      </div>
+      <div>
+        <h3>FINISHING THE GAME</h3>
+        <p>Both teams play 12 drives. Add totals. High score wins. Write scores in the <strong>H2H boxes</strong> at the bottom of the card and circle the winner.</p>
+        <p style="margin-top:3px">Check the <strong>Result Table</strong> on your card (grade A/B/C/D) to find your season points.</p>
+        <h3 style="margin-top:6px">OFFENSE GRADES</h3>
+        <ul>
+          <li><strong>A</strong> &mdash; Elite offense, ~29 pts avg</li>
+          <li><strong>B</strong> &mdash; Strong offense, ~24 pts avg</li>
+          <li><strong>C</strong> &mdash; Average offense, ~21 pts avg</li>
+          <li><strong>D</strong> &mdash; Struggling offense, ~16 pts avg</li>
+        </ul>
+        <h3 style="margin-top:6px">SEASON PLAY</h3>
+        <p>Play matchups across all 32 cards. Record season points on the tally sheet. Highest total wins the Super Bowl.</p>
+      </div>
+    </div>
+    <div class="if"><span>RED = ROW &middot; BLUE = COLUMN &middot; 12 DRIVES PER TEAM</span><span>32 TEAMS &middot; NFL 2025</span></div>
+  </div>`;
+}
+
+function teamCard(t){
+  const rt=RT[t.off];
+  const rtHtml=rt.map(r=>'<div class="ri"><strong>'+r.l+'</strong> '+r.r+' = '+r.p+'pts</div>').join('');
+  const drives=Array(12).fill('<div class="db"></div>').join('');
+  return `<div class="card">
+    <div class="ch">
+      <div class="ch-left">
+        <div class="num">CARD ${t.num}</div>
+        <div class="name">${t.name}</div>
+        <div class="region">${t.region}</div>
+      </div>
+      <div class="ch-right">
+        <div class="conf">${t.ppg} PPG</div>
+        <div class="rec" style="margin-top:5px"><span class="sg ${gc(t.off)}" style="font-size:7pt">OFF ${t.off}</span></div>
+        <div class="rec" style="margin-top:3px"><span class="sg ${gc(t.def)}" style="font-size:7pt">DEF ${t.def}</span></div>
+      </div>
+    </div>
+    <div class="cb">
+      <div class="gs">
+        <div class="gl">OFFENSE GRID &mdash; RED = ROW &middot; BLUE = COL</div>
+        ${buildGrid(t.grid)}
+        <div class="dt">
+          <div class="gl" style="margin-top:3px">12 DRIVES</div>
+          <div class="dr">${drives}</div>
+        </div>
+      </div>
+      <div class="sp">
+        <div><div class="st">RESULT TABLE</div>${rtHtml}</div>
+      </div>
+    </div>
+    <div class="cf2">
+      <div class="h2h-label">HEAD TO HEAD</div>
+      <div class="h2h-row"><span class="h2h-team">${t.name}</span><span class="h2h-pts">PTS</span><div class="h2h-box"></div></div>
+      <span class="h2h-vs">vs</span>
+      <div class="h2h-row"><span class="h2h-team">Opponent</span><span class="h2h-pts">PTS</span><div class="h2h-box"></div></div>
+      <div class="h2h-final">
+        <span class="lbl">WINNER</span><div class="bx winner-box"></div>
+        <span class="lbl">SZN PTS</span><div class="bx pts-box"></div>
+      </div>
+    </div>
+    ${buildLegend()}
+  </div>`;
+}
+
+function tallyCard(){
+  const half=16;
+  const hdr='<div class="tr2" style="margin-bottom:3px"><span class="tn2" style="font-size:5pt;color:#888">#</span><span class="tnm" style="font-size:5.5pt;color:#888">TEAM</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:5.5pt;color:#888;width:.22in;text-align:center;flex-shrink:0">W-L</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:5.5pt;color:var(--gr);width:.18in;text-align:center;flex-shrink:0">PTS</span></div>';
+  function rows(arr){return arr.map(t=>'<div class="tr2"><span class="tn2">'+t.num+'</span><span class="tnm">'+t.name+'</span><div class="tsb"></div><div class="tpb"></div></div>').join('');}
+  return `<div class="tally-card">
+    <div class="th"><div class="tt">SEASON TALLY</div><div class="ts">GRID NFL &middot; 2025-26 SEASON &middot; ALL 32 TEAMS</div></div>
+    <div class="tb"><div class="tc">
+      <div><div class="tct">AFC &mdash; CARDS 01&ndash;16</div>${hdr}${rows(teams.slice(0,16))}</div>
+      <div><div class="tct">NFC &mdash; CARDS 17&ndash;32</div>${hdr}${rows(teams.slice(16))}</div>
+    </div></div>
+    <div class="tf">
+      <div class="tpk">
+        <div class="tpi"><strong>BLOWOUT W</strong> 30</div><div class="tpi"><strong>WIN</strong> 25</div>
+        <div class="tpi"><strong>CLOSE W</strong> 20</div><div class="tpi"><strong>OT WIN</strong> 15</div>
+        <div class="tpi"><strong>OT LOSS</strong> 10</div><div class="tpi"><strong>LOSS</strong> 5/0</div>
+      </div>
+      <div class="ttot"><span class="tl">SUPER BOWL TOTAL</span><div class="tb2"></div></div>
+    </div>
+  </div>`;
+}
+
+document.getElementById('wrap').innerHTML=instrCard()+teams.map(teamCard).join('')+tallyCard();
+</script>
+</body>
+</html>
