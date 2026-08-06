@@ -1,577 +1,463 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grid Hockey - NHL Teams 3x5</title>
-    <style>
-        @page {
-            size: 3in 5in;
-            margin: 0;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grid Hockey – Pen & Paper Hockey Dice Game | Grid Sports</title>
+<meta name="description" content="Grid Hockey is a pen-and-paper hockey dice game with 32 teams built from real 2025–26 standings. Two dice, no screen. Physical notebook ships to you on Amazon.">
+<meta name="keywords" content="hockey dice game, pen and paper hockey game, tabletop hockey game, analog hockey game, dice hockey game, hockey notebook game, no screen sports game, two dice hockey">
+<meta name="author" content="Grid Sports">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gridsports.net/grid-hockey">
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="Grid Sports">
+<meta property="og:url" content="https://gridsports.net/grid-hockey">
+<meta property="og:title" content="Grid Hockey – Hockey Dice Game | Grid Sports">
+<meta property="og:description" content="32 teams on cards built from real 2025–26 standings. Two dice, no screen. Physical notebook. No app.">
+<meta property="og:image" content="https://gridsports.net/og-image.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@gridsports">
+<meta name="twitter:title" content="Grid Hockey – Hockey Dice Game | Grid Sports">
+<meta name="twitter:description" content="32 teams. Two dice. No screen. Physical notebook game.">
+<meta name="twitter:image" content="https://gridsports.net/og-image.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Grid Sports", "item": "https://gridsports.net/" },
+        { "@type": "ListItem", "position": 2, "name": "Games", "item": "https://gridsports.net/#games" },
+        { "@type": "ListItem", "position": 3, "name": "Grid Hockey", "item": "https://gridsports.net/grid-hockey" }
+      ]
+    },
+    {
+      "@type": "Product",
+      "name": "Grid Hockey",
+      "description": "A pen-and-paper hockey dice game featuring 32 teams built from real 2025–26 standings. Two dice, no screen. Physical game notebook — no app, no screen.",
+      "brand": { "@type": "Brand", "name": "Grid Sports" },
+      "url": "https://gridsports.net/grid-hockey",
+      "image": "https://gridsports.net/gridhockey.jpg",
+      "category": "Tabletop Game / Sports Game",
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock",
+        "seller": { "@type": "Organization", "name": "Grid Sports" },
+        "url": "https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do you play Grid Hockey?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each player picks a team card. Roll 1d6 and add your card's shot bonus for your total shots on goal. Alternate shots — red die for column, blue die for row. GOAL means it's in. SAVE, BLOCK, POST, or WIDE means it isn't. Most goals wins 2 pts. Tied? Flip a coin — OT winner gets 1 pt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's in the Grid Hockey notebook?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The notebook includes team cards for 32 teams built from real 2025–26 standings, scoring grids, and scorecards. All you need to add are two dice — one red, one blue."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a phone or app to play Grid Hockey?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Grid Hockey is a completely physical pen-and-paper game. No app, no screen, no battery. Just the notebook and two dice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I buy Grid Hockey?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Grid Hockey is available on Amazon through the Grid Sports author store."
+          }
         }
-        
-        @media print {
-            .no-print { display: none; }
-            .page-break { page-break-after: always; }
-            body { margin: 0; padding: 0; }
-            .card {
-                transform: rotate(90deg);
-                transform-origin: top left;
-                position: relative;
-                left: 3in;
-				top: .15in;
-            }
-            .print-grid-only .scorecard-card { display: none; }
-            .print-scorecard-only .grid-card { display: none; }
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            font-size: 11px;
-        }
-        
-        .controls {
-            text-align: center;
-            padding: 20px;
-            background: #FFF;
-            border: 3px solid #000;
-            margin-bottom: 20px;
-        }
-        
-        .controls h2 {
-            margin-top: 0;
-            color: #000;
-        }
-        
-        .controls select {
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border: 2px solid #000;
-            background: #fff;
-            margin: 10px;
-        }
-        
-        .controls button {
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border: 2px solid #000;
-            background: #fff;
-        }
-        
-        .controls button:hover {
-            background: #E8E8E8;
-        }
-        
-        .card {
-            width: 3in;
-            height: 5in;
-            border: 3px solid #000;
-            padding: 0.12in;
-            background: white;
-            margin: 0 auto 20px auto;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .card h1 {
-            text-align: center;
-            margin: 0 0 3px 0;
-            font-size: 13px;
-            font-weight: bold;
-        }
-        
-        .team-header {
-            text-align: center;
-            margin: 0 0 2px 0;
-            padding: 4px;
-            border: 2px solid #000;
-            font-weight: bold;
-            font-size: 11px;
-        }
-        
-        .goalie-stats {
-            text-align: center;
-            margin: 0 0 4px 0;
-            padding: 2px;
-            font-size: 7px;
-            border: 1px solid #666;
-            background: #F5F5F5;
-        }
-        
-        .grid-section {
-            border: 2px solid #000;
-            padding: 4px;
-            background: #FCFCFC;
-            margin-bottom: 4px;
-        }
-        
-        .grid-section h3 {
-            margin: 0 0 3px 0;
-            font-size: 8px;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: 15px repeat(6, 26px);
-            grid-template-rows: 15px repeat(6, 26px);
-            gap: 1px;
-            background: #333;
-            margin: 0 auto;
-            width: fit-content;
-        }
-        
-        .cell {
-            background: #E8E8E8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 9px;
-            font-weight: bold;
-            border: 1px solid #666;
-        }
-        
-        .label {
-            background: #333;
-            color: #fff;
-            font-size: 8px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .ice { background: #E8F4F9; }
-        .goal { background: #FFB6C1; color: #000; font-size: 7px; }
-        .goalie { background: #E8E8E8; color: #000; font-size: 7px; }
-        .block { background: #F0F0F0; color: #000; font-size: 7px; }
-        .miss { background: #FCFCFC; color: #000; font-size: 7px; }
-        
-        .legend {
-            margin-top: 3px;
-            font-size: 5.5px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1px;
-            line-height: 1.2;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-        
-        .legend-box {
-            width: 6px;
-            height: 6px;
-            border: 1px solid #000;
-            flex-shrink: 0;
-        }
-        
-        .scorecard {
-            border: 2px solid #000;
-            padding: 3px;
-            background: #FCFCFC;
-            flex: 1;
-        }
-        
-        .scorecard h3 {
-            margin: 0 0 2px 0;
-            font-size: 8px;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 7px;
-        }
-        
-        th, td {
-            border: 1px solid #000;
-            padding: 1px;
-            text-align: center;
-        }
-        
-        th {
-            background: #E8E8E8;
-            font-weight: bold;
-        }
-        
-        .period-header {
-            background: #F0F0F0;
-            font-weight: bold;
-        }
-        
-        .total-row {
-            background: #FFEB99;
-            font-weight: bold;
-        }
-    </style>
+      ]
+    }
+  ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230d0d0d'/%3E%3Crect x='4' y='4' width='56' height='56' fill='none' stroke='%23f5c518' stroke-width='3'/%3E%3Cline x1='4' y1='22.7' x2='60' y2='22.7' stroke='%23f5c518' stroke-width='1.5' opacity='.5'/%3E%3Cline x1='4' y1='41.3' x2='60' y2='41.3' stroke='%23f5c518' stroke-width='1.5' opacity='.5'/%3E%3Cline x1='22.7' y1='4' x2='22.7' y2='60' stroke='%23f5c518' stroke-width='1.5' opacity='.5'/%3E%3Cline x1='41.3' y1='4' x2='41.3' y2='60' stroke='%23f5c518' stroke-width='1.5' opacity='.5'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23f5c518'/%3E%3Ccircle cx='14.5' cy='14.5' r='4' fill='%23f5c518' opacity='.7'/%3E%3Ccircle cx='49.5' cy='49.5' r='4' fill='%23f5c518' opacity='.7'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0d0d0d">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --white: #f5f0e8;
+    --yellow: #f5c518;
+    --accent: #4da6ff;
+    --grid-line: rgba(245,197,24,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+  nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2.5rem; border-bottom: 2px solid var(--yellow); background: rgba(13,13,13,0.96); backdrop-filter: blur(8px); }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px; color: var(--yellow); text-decoration: none; }
+  .logo span { color: var(--white); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a { color: var(--white); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; transition: opacity 0.2s, color 0.2s; }
+  nav ul a:hover { opacity: 1; color: var(--yellow); }
+  .nav-order { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; padding: 0.6rem 1.4rem; border: 2px solid var(--yellow); color: var(--black); background: var(--yellow); transition: all 0.2s; }
+  .nav-order:hover { background: transparent; color: var(--yellow); }
+  .hero { position: relative; z-index: 1; padding: 5rem 2.5rem 4rem; overflow: hidden; border-bottom: 2px solid rgba(245,197,24,0.15); }
+  .hero-deco { position: absolute; right: -1rem; top: 50%; transform: translateY(-50%) rotate(90deg); font-family: 'Bebas Neue', sans-serif; font-size: clamp(8rem, 20vw, 22rem); color: rgba(77,166,255,0.04); white-space: nowrap; pointer-events: none; letter-spacing: 10px; }
+  .hero-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; opacity: 0; animation: fadeUp 0.6s 0.1s forwards; }
+  .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.5rem, 13vw, 11rem); line-height: 0.88; letter-spacing: 2px; opacity: 0; animation: fadeUp 0.7s 0.25s forwards; max-width: 900px; }
+  .hero h1 em { font-style: normal; color: var(--accent); display: block; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; opacity: 0; animation: fadeUp 0.6s 0.45s forwards; }
+  .pill { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.35rem 0.9rem; border: 1px solid rgba(77,166,255,0.5); color: var(--accent); }
+  .hero-desc { max-width: 560px; font-size: clamp(1rem, 1.8vw, 1.2rem); line-height: 1.65; color: rgba(245,240,232,0.7); margin-top: 2rem; opacity: 0; animation: fadeUp 0.7s 0.55s forwards; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; opacity: 0; animation: fadeUp 0.7s 0.7s forwards; }
+  .btn { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; padding: 1rem 2.2rem; border: 2px solid var(--yellow); color: var(--black); background: var(--yellow); cursor: pointer; transition: all 0.2s; display: inline-block; }
+  .btn:hover { background: transparent; color: var(--yellow); }
+  .btn-outline { background: transparent; color: var(--white); border-color: rgba(245,240,232,0.35); }
+  .btn-outline:hover { border-color: var(--white); color: var(--white); background: transparent; }
+  .images-section { position: relative; z-index: 1; padding: 4rem 2.5rem; border-bottom: 2px solid rgba(245,197,24,0.15); }
+  .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 0.95; margin-bottom: 2.5rem; }
+  .cards-strip { display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 1rem; scrollbar-width: none; }
+  .cards-strip::-webkit-scrollbar { display: none; }
+  .card-placeholder { flex: 0 0 240px; height: 320px; border: 2px dashed rgba(77,166,255,0.35); position: relative; overflow: hidden; cursor: zoom-in; transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease, border-color 0.3s; }
+  .card-placeholder::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(245,240,232,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(245,240,232,0.03) 1px, transparent 1px); background-size: 20px 20px; }
+  .card-placeholder:hover { transform: scale(1.08) translateY(-6px); border-color: rgba(77,166,255,0.7); box-shadow: 0 20px 40px rgba(77,166,255,0.2), 0 0 0 1px rgba(77,166,255,0.3); z-index: 10; }
+  .card-placeholder img { width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0; }
+  .how-section { position: relative; z-index: 1; padding: 5rem 2.5rem; border-bottom: 2px solid rgba(245,197,24,0.15); }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2px; margin-top: 2.5rem; }
+  .step { padding: 2.2rem; border: 1px solid rgba(245,240,232,0.08); position: relative; overflow: hidden; transition: border-color 0.3s; }
+  .step:hover { border-color: rgba(77,166,255,0.3); }
+  .step::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(77,166,255,0.06) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; }
+  .step:hover::before { opacity: 1; }
+  .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: var(--accent); line-height: 1; margin-bottom: 0.8rem; }
+  .step h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.7rem; }
+  .step p { font-size: 0.95rem; color: rgba(245,240,232,0.6); line-height: 1.65; }
+  .data-section { position: relative; z-index: 1; padding: 5rem 2.5rem; border-bottom: 2px solid rgba(245,197,24,0.15); display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .data-quote { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 4.5vw, 4rem); line-height: 1.05; color: var(--white); }
+  .data-quote em { font-style: normal; color: var(--accent); }
+  .data-body { font-size: 1rem; line-height: 1.75; color: rgba(245,240,232,0.65); }
+  .data-body p + p { margin-top: 1.2rem; }
+  .data-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 2.5rem; }
+  .stat-box { padding: 2rem 1.5rem; border: 1px solid rgba(245,240,232,0.08); text-align: center; }
+  .stat-number { font-family: 'Bebas Neue', sans-serif; font-size: 3.8rem; line-height: 1; color: var(--accent); }
+  .stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(245,240,232,0.45); margin-top: 0.3rem; }
+  .faq-section { position: relative; z-index: 1; padding: 5rem 2.5rem; border-bottom: 2px solid rgba(245,197,24,0.15); max-width: 860px; }
+  .faq-item { border-top: 1px solid rgba(245,240,232,0.1); }
+  .faq-item:last-child { border-bottom: 1px solid rgba(245,240,232,0.1); }
+  .faq-q { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 1.4rem 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: color 0.2s; user-select: none; }
+  .faq-q:hover { color: var(--accent); }
+  .faq-icon { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--accent); transition: transform 0.3s; flex-shrink: 0; margin-left: 1rem; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-a { font-size: 0.95rem; color: rgba(245,240,232,0.6); line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+  .faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.4rem; }
+  .more-section { position: relative; z-index: 1; padding: 5rem 2.5rem; border-bottom: 2px solid rgba(245,197,24,0.15); }
+  .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2px; margin-top: 2.5rem; }
+  .game-card { padding: 2rem; border: 1px solid rgba(245,240,232,0.08); text-decoration: none; color: var(--white); display: block; transition: border-color 0.3s; position: relative; overflow: hidden; }
+  .game-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; }
+  .game-card:hover { border-color: var(--card-accent, var(--yellow)); }
+  .game-card:hover::before { opacity: 1; }
+  .game-card.football { --card-accent: #c9a030; }
+  .game-card.football::before { background: linear-gradient(135deg, rgba(201,160,48,0.08) 0%, transparent 60%); }
+  .game-card.baseball { --card-accent: #1a6e3c; }
+  .game-card.baseball::before { background: linear-gradient(135deg, rgba(26,110,60,0.08) 0%, transparent 60%); }
+  .game-card.basketball { --card-accent: #f97316; }
+  .game-card.basketball::before { background: linear-gradient(135deg, rgba(249,115,22,0.08) 0%, transparent 60%); }
+  .game-card.golf { --card-accent: #4dbb77; }
+  .game-card.golf::before { background: linear-gradient(135deg, rgba(77,187,119,0.08) 0%, transparent 60%); }
+  .game-card.soccer { --card-accent: #a78bfa; }
+  .game-card.soccer::before { background: linear-gradient(135deg, rgba(167,139,250,0.08) 0%, transparent 60%); }
+  .game-card.wrestling { --card-accent: #cc2233; }
+  .game-card.wrestling::before { background: linear-gradient(135deg, rgba(204,34,51,0.08) 0%, transparent 60%); }
+  .game-card.boxing { --card-accent: #c9a030; }
+  .game-card.boxing::before { background: linear-gradient(135deg, rgba(201,160,48,0.08) 0%, transparent 60%); }
+  .game-card.racing { --card-accent: #e8292e; }
+  .game-card.racing::before { background: linear-gradient(135deg, rgba(232,41,46,0.08) 0%, transparent 60%); }
+  .game-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 1px; margin-bottom: 0.5rem; }
+  .game-card-desc { font-size: 0.85rem; color: rgba(245,240,232,0.5); line-height: 1.55; }
+  .game-card-arrow { margin-top: 1rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--card-accent, var(--yellow)); opacity: 0; transform: translateX(-6px); transition: opacity 0.2s, transform 0.2s; }
+  .game-card:hover .game-card-arrow { opacity: 1; transform: translateX(0); }
+  .order-section { position: relative; z-index: 1; background: var(--yellow); padding: 5rem 2.5rem; text-align: center; }
+  .order-section .section-label { color: rgba(13,13,13,0.55); }
+  .order-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 7vw, 6rem); color: var(--black); line-height: 0.9; margin: 0.5rem 0 1.5rem; }
+  .order-section p { font-size: 1.05rem; color: rgba(13,13,13,0.65); max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.6; }
+  footer { position: relative; z-index: 1; border-top: 2px solid var(--yellow); padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer .logo { font-size: 1.3rem; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; color: var(--yellow); text-decoration: none; }
+  footer .logo span { color: var(--white); }
+  footer p { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,240,232,0.35); }
+  .lightbox-overlay { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.92); align-items: center; justify-content: center; cursor: zoom-out; animation: lbFadeIn 0.2s ease; }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-overlay img { max-width: 92vw; max-height: 90vh; object-fit: contain; border: 2px solid rgba(245,197,24,0.3); box-shadow: 0 0 80px rgba(0,0,0,0.8); cursor: default; animation: lbZoomIn 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  .lightbox-close { position: absolute; top: 1.2rem; right: 1.5rem; background: none; border: 2px solid rgba(245,197,24,0.4); color: var(--yellow); font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px; padding: 0.4rem 1rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .lightbox-close:hover { border-color: var(--yellow); background: rgba(245,197,24,0.1); }
+  .nav-toggle { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: 2px solid rgba(245,197,24,0.5); padding: 0.5rem 0.65rem; cursor: pointer; z-index: 200; transition: border-color 0.2s; }
+  .nav-toggle:hover { border-color: var(--yellow); }
+  .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--yellow); transition: transform 0.3s, opacity 0.3s; transform-origin: center; }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; background: rgba(13,13,13,0.98); flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+  .mobile-menu a { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 4px; color: var(--white); text-decoration: none; padding: 0.6rem 2rem; transition: color 0.2s; border-bottom: 1px solid rgba(245,197,24,0.1); width: 100%; text-align: center; }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--yellow); }
+  .mobile-menu a.order-link { color: var(--yellow); margin-top: 1rem; border: 2px solid var(--yellow); font-size: 2rem; padding: 0.8rem 2rem; width: auto; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes lbFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes lbZoomIn { from { transform: scale(0.88); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @media (max-width: 700px) { nav ul { display: none; } .nav-toggle { display: flex; } .mobile-menu { display: flex; } .data-section { grid-template-columns: 1fr; gap: 2.5rem; } .nav-order { display: none; } }
+</style>
 </head>
 <body>
-    <div class="controls no-print">
-        <h2>GRID HOCKEY - NHL Teams</h2>
-        <p>Select a team and print option.</p>
-        <div>
-            <select id="teamSelect"></select>
-        </div>
-        <div style="margin-top: 15px;">
-            <label style="margin-right: 20px;">
-                <input type="radio" name="printOption" value="both" checked> Print Both Cards
-            </label>
-            <label style="margin-right: 20px;">
-                <input type="radio" name="printOption" value="grid"> Print Grid Only
-            </label>
-            <label>
-                <input type="radio" name="printOption" value="scorecard"> Print Scorecard Only
-            </label>
-        </div>
-        <div style="margin-top: 15px;">
-            <button onclick="loadSelected()">Show Cards</button>
-            <button onclick="window.print()">Print Cards</button>
-        </div>
-    </div>
-    
-    <div id="cardsContainer"></div>
 
-    <script>
-        const teamColors = {
-            ducks: { primary: '#F47A38', secondary: '#B9975B' },
-            bruins: { primary: '#FFB81C', secondary: '#000000' },
-            sabres: { primary: '#002654', secondary: '#FCB514' },
-            flames: { primary: '#C8102E', secondary: '#F1BE48' },
-            hurricanes: { primary: '#CC0000', secondary: '#000000' },
-            blackhawks: { primary: '#CF0A2C', secondary: '#000000' },
-            avalanche: { primary: '#6F263D', secondary: '#236192' },
-            bluejackets: { primary: '#002654', secondary: '#CE1126' },
-            stars: { primary: '#006847', secondary: '#8F8F8C' },
-            redwings: { primary: '#CE1126', secondary: '#FFFFFF' },
-            oilers: { primary: '#041E42', secondary: '#FF4C00' },
-            panthers: { primary: '#041E42', secondary: '#C8102E' },
-            kings: { primary: '#111111', secondary: '#A2AAAD' },
-            wild: { primary: '#154734', secondary: '#A6192E' },
-            canadiens: { primary: '#AF1E2D', secondary: '#192168' },
-            predators: { primary: '#FFB81C', secondary: '#041E42' },
-            devils: { primary: '#CE1126', secondary: '#000000' },
-            islanders: { primary: '#00539B', secondary: '#F47D30' },
-            rangers: { primary: '#0038A8', secondary: '#CE1126' },
-            senators: { primary: '#C52032', secondary: '#C2912C' },
-            flyers: { primary: '#F74902', secondary: '#000000' },
-            penguins: { primary: '#000000', secondary: '#FCB514' },
-            sharks: { primary: '#006D75', secondary: '#EA7200' },
-            kraken: { primary: '#001628', secondary: '#99D9D9' },
-            blues: { primary: '#002F87', secondary: '#FCB514' },
-            lightning: { primary: '#002868', secondary: '#FFFFFF' },
-            leafs: { primary: '#00205B', secondary: '#FFFFFF' },
-            utah: { primary: '#69B3E7', secondary: '#000000' },
-            canucks: { primary: '#00205B', secondary: '#00843D' },
-            golden: { primary: '#B4975A', secondary: '#333F42' },
-            capitals: { primary: '#041E42', secondary: '#C8102E' },
-            jets: { primary: '#041E42', secondary: '#004C97' }
-        };
-        
-        const nhlTeams = {
-            ducks: { name: "Anaheim Ducks", savePct: ".897", gaa: "3.08", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goal','goal','goal','goal','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            bruins: { name: "Boston Bruins", savePct: ".916", gaa: "2.45", strength: "elite", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goal','block','miss']] },
-            sabres: { name: "Buffalo Sabres", savePct: ".898", gaa: "3.02", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goal','goal','goal','goal','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            flames: { name: "Calgary Flames", savePct: ".902", gaa: "2.90", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            hurricanes: { name: "Carolina Hurricanes", savePct: ".911", gaa: "2.58", strength: "good", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goal','goalie','block','miss']] },
-            blackhawks: { name: "Chicago Blackhawks", savePct: ".893", gaa: "3.22", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goal','goal','goal','goal','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            avalanche: { name: "Colorado Avalanche", savePct: ".907", gaa: "2.71", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            bluejackets: { name: "Columbus Blue Jackets", savePct: ".896", gaa: "3.12", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goal','goal','goal','goal','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            stars: { name: "Dallas Stars", savePct: ".913", gaa: "2.51", strength: "good", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goal','goalie','block','miss']] },
-            redwings: { name: "Detroit Red Wings", savePct: ".903", gaa: "2.85", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            oilers: { name: "Edmonton Oilers", savePct: ".899", gaa: "2.92", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goal','goal','goal','goal','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            panthers: { name: "Florida Panthers", savePct: ".908", gaa: "2.68", strength: "good", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            kings: { name: "Los Angeles Kings", savePct: ".906", gaa: "2.73", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            wild: { name: "Minnesota Wild", savePct: ".910", gaa: "2.63", strength: "good", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goal','goalie','block','miss']] },
-            canadiens: { name: "Montreal Canadiens", savePct: ".895", gaa: "3.15", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goal','goal','goal','goal','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            predators: { name: "Nashville Predators", savePct: ".904", gaa: "2.82", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            devils: { name: "New Jersey Devils", savePct: ".909", gaa: "2.65", strength: "good", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goal','goalie','block','miss']] },
-            islanders: { name: "New York Islanders", savePct: ".905", gaa: "2.77", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            rangers: { name: "New York Rangers", savePct: ".918", gaa: "2.38", strength: "elite", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goal','goalie','block','miss']] },
-            senators: { name: "Ottawa Senators", savePct: ".901", gaa: "2.95", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goal','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            flyers: { name: "Philadelphia Flyers", savePct: ".900", gaa: "2.98", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goal','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            penguins: { name: "Pittsburgh Penguins", savePct: ".902", gaa: "2.88", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            sharks: { name: "San Jose Sharks", savePct: ".894", gaa: "3.18", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goal','goal','goal','goal','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            kraken: { name: "Seattle Kraken", savePct: ".907", gaa: "2.72", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            blues: { name: "St. Louis Blues", savePct: ".906", gaa: "2.75", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            lightning: { name: "Tampa Bay Lightning", savePct: ".910", gaa: "2.62", strength: "good", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goal','goalie','block','miss']] },
-            leafs: { name: "Toronto Maple Leafs", savePct: ".905", gaa: "2.78", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            utah: { name: "Utah Mammoth", savePct: ".901", gaa: "2.96", strength: "weak", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goal','goal','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goal','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            canucks: { name: "Vancouver Canucks", savePct: ".904", gaa: "2.81", strength: "average", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['miss','block','goalie','goalie','block','miss']] },
-            golden: { name: "Vegas Golden Knights", savePct: ".912", gaa: "2.55", strength: "good", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goal','goalie','block','miss']] },
-            capitals: { name: "Washington Capitals", savePct: ".908", gaa: "2.70", strength: "good", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goal','goalie','block','miss']] },
-            jets: { name: "Winnipeg Jets", savePct: ".920", gaa: "2.28", strength: "elite", grid: [['miss','block','goalie','goalie','block','miss'],['block','goalie','goalie','goalie','goalie','block'],['goalie','goalie','goalie','goalie','goalie','goalie'],['goalie','goalie','goal','goal','goalie','goalie'],['goalie','goalie','goalie','goalie','goalie','goalie'],['miss','block','goal','goalie','block','miss']] }
-        };
-        
-        function getTextColor(bgColor) {
-            const r = parseInt(bgColor.substr(1,2), 16);
-            const g = parseInt(bgColor.substr(3,2), 16);
-            const b = parseInt(bgColor.substr(5,2), 16);
-            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-            return brightness > 128 ? '#000000' : '#FFFFFF';
-        }
-        
-        function renderTeamCard(teamKey) {
-            const team = nhlTeams[teamKey];
-            const colors = teamColors[teamKey];
-            const grid = team.grid;
-            const textColor = getTextColor(colors.primary);
-            
-            // CARD 1 - GRID
-            let html = `
-            <div class="card grid-card page-break">
-                <h1>GRID HOCKEY</h1>
-                
-                <div class="team-header" style="background: ${colors.primary}; color: ${textColor}; border-color: ${colors.secondary};">
-                    ${team.name}
-                </div>
-                
-                <div class="goalie-stats">
-                    SV%: ${team.savePct} • GAA: ${team.gaa} • ${team.strength.toUpperCase()} Goaltending
-                </div>
-                
-                <div class="grid-section" style="flex: 1;">
-                    <h3>SHOT GRID (Roll 2d6)</h3>
-                    <div class="grid">`;
-            
-            html += '<div class="label"></div>';
-            for (let col = 1; col <= 6; col++) {
-                html += `<div class="label">${col}</div>`;
-            }
-            
-            grid.forEach((row, rowIndex) => {
-                html += `<div class="label">${rowIndex + 1}</div>`;
-                row.forEach(cell => {
-                    let className = 'cell';
-                    let content = '';
-                    
-                    if (cell === 'ice') className += ' ice';
-                    else if (cell === 'goal') { className += ' goal'; content = 'GOAL'; }
-                    else if (cell === 'goalie') { className += ' goalie'; content = 'SAVE'; }
-                    else if (cell === 'block') { className += ' block'; content = 'BLK'; }
-                    else if (cell === 'miss') { className += ' miss'; content = 'MISS'; }
-                    
-                    html += `<div class="${className}">${content}</div>`;
-                });
-            });
-            
-            html += `
-                    </div><br>
-                    <div class="legend">
-                        <div class="legend-item"><span class="legend-box" style="background: #FFB6C1;"></span>GOAL ALLOWED = Score! ✅</div>
-                        <div class="legend-item"><span class="legend-box" style="background: #E8E8E8;"></span>SAVE = No goal ☐</div>
-                        <div class="legend-item"><span class="legend-box" style="background: #F0F0F0;"></span>BLK = Blocked ☐</div>
-                        <div class="legend-item"><span class="legend-box" style="background: #FCFCFC;"></span>MISS = Missed net/Reroll</div>
-                    </div><br>
-					    <div class="legend">
-                        <div class="legend-item"><b>NOTES:</b></div>
-                    </div>
-                </div>
-            </div>`;
-            
-            // CARD 2 - SCORECARD
-            html += `
-            <div class="card scorecard-card page-break">
-                <h1>GRID HOCKEY</h1>
-                
-                <div class="team-header" style="background: ${colors.primary}; color: ${textColor}; border-color: ${colors.secondary};">
-                    ${team.name}
-                </div>
-                
-                <div class="goalie-stats">
-                    SV%: ${team.savePct} • GAA: ${team.gaa} • ${team.strength.toUpperCase()} Goaltending
-                </div>
-                
-                <div class="scorecard" style="flex: 1;">
-                    <h3>SCORECARD</h3>
-                    <table>
-                        <tr>
-                            <th>Period</th>
-                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
-                            <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
-                            <th>Goals</th>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P1</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P2</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P3</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td colspan="12" class="total-row">FINAL: _______</td>
-                        </tr><tr> <td colspan="12">&nbsp;</td></tr>
-						                        <tr>
-                            <th>Period</th>
-                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
-                            <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
-                            <th>Goals</th>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P1</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P2</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P3</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td colspan="12" class="total-row">FINAL: _______</td>
-                        </tr><tr> <td colspan="12">&nbsp;</td></tr>
-						                        <tr>
-                            <th>Period</th>
-                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
-                            <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
-                            <th>Goals</th>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P1</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P2</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P3</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td colspan="12" class="total-row">FINAL: _______</td>
-                        </tr><tr> <td colspan="12">&nbsp;</td></tr>
-						                        <tr>
-                            <th>Period</th>
-                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
-                            <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
-                            <th>Goals</th>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P1</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P2</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P3</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td colspan="12" class="total-row">FINAL: _______</td>
-                        </tr><tr> <td colspan="12">&nbsp;</td></tr>
-						                        <tr>
-                            <th>Period</th>
-                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
-                            <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
-                            <th>Goals</th>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P1</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P2</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="period-header">P3</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>☐</td><td>☐</td><td>☐</td><td>☐</td><td>☐</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td colspan="12" class="total-row">FINAL: _______</td>
-                        </tr>
-                    </table>
-                    <div style="text-align: center; font-size: 6px; margin-top: 2px;">
-                        Check ☑ for goals. 10 shots per period.
-                    </div>
-                </div>
-            </div>`;
-            
-            return html;
-        }
-        
-        function loadSelected() {
-            const sel = document.getElementById('teamSelect');
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = renderTeamCard(sel.value);
-        }
-        
-        window.onbeforeprint = function() {
-            const printOption = document.querySelector('input[name="printOption"]:checked').value;
-            document.body.classList.remove('print-grid-only', 'print-scorecard-only');
-            if (printOption === 'grid') {
-                document.body.classList.add('print-grid-only');
-            } else if (printOption === 'scorecard') {
-                document.body.classList.add('print-scorecard-only');
-            }
-        };
-        
-        window.onload = function() {
-            const sel = document.getElementById('teamSelect');
-            const sortedKeys = Object.keys(nhlTeams).sort((a, b) => 
-                nhlTeams[a].name.localeCompare(nhlTeams[b].name)
-            );
-            sortedKeys.forEach(key => {
-                const opt = document.createElement('option');
-                opt.value = key;
-                opt.textContent = nhlTeams[key].name;
-                sel.appendChild(opt);
-            });
-            loadSelected();
-        };
-    </script>
+<nav>
+  <a href="index.html" class="logo">GRID<span>SPORTS</span></a>
+  <ul>
+    <li><a href="#how-to-play">How to Play</a></li>
+    <li><a href="#games">Games</a></li>
+  </ul>
+  <a href="https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks" target="_blank" class="nav-order">Order on Amazon</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Navigation menu">
+  <a href="#how-to-play">How to Play</a>
+  <a href="#games">Games</a>
+  <a href="https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks" target="_blank" class="order-link">Order Now</a>
+</div>
+
+<section class="hero">
+  <div class="hero-deco">HOCKEY</div>
+  <p class="hero-eyebrow">Grid Sports · Pen &amp; Paper Hockey Game</p>
+  <h1>GRID<br><em>HOCKEY</em></h1>
+  <div class="hero-meta">
+    <span class="pill">2 Dice</span>
+    <span class="pill">32 Teams</span>
+    <span class="pill">2025–26</span>
+    <span class="pill">No Screen</span>
+  </div>
+  <p class="hero-desc">Roll 2 dice — red die for column, blue die for row — and find where they meet on your team's grid. GOAL means it's in. Everything else means it isn't. Thirty-two teams, real 2025–26 standings baked into every card. Buffalo picked on a dare still believes this is their year.</p>
+  <div class="hero-cta">
+    <a href="https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks" target="_blank" class="btn">Order on Amazon</a>
+    <a href="#how-to-play" class="btn btn-outline">How to Play</a>
+  </div>
+</section>
+
+<section class="images-section">
+  <p class="section-label">The Cards</p>
+  <h2 class="section-title">What You're<br>Actually Getting.</h2>
+  <div class="cards-strip">
+    <div class="card-placeholder"><img src="gridhockey.jpg" alt="Grid Hockey card"></div>
+    <div class="card-placeholder"><img src="hockey1.png" alt="Hockey team grid"></div>
+    <div class="card-placeholder"><img src="hockeyscore.png" alt="Hockey scorecard"></div>
+  </div>
+</section>
+
+<section class="how-section" id="how-to-play">
+  <p class="section-label">Rules</p>
+  <h2 class="section-title">Learn It in<br>One Round.</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Pick a Team</h3>
+      <p>Each player picks a team card. Tier A teams have more GOAL cells — they shoot more and score more. Tier D teams have fewer. Someone always picks Buffalo on a dare.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Roll Your Shots</h3>
+      <p>Roll 1d6 and add your card's shot bonus for your total shots on goal. Alternate shots with your opponent — red die for column, blue die for row.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Check the Result</h3>
+      <p>GOAL means it's in. SAVE, BLOCK, POST, or WIDE means it isn't. Mark your goals and keep rolling until both players are out of shots.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Most Goals Wins</h3>
+      <p>Count your goals. Most goals wins 2 pts. Tied? Flip a coin — OT winner gets 1 pt. Loser gets nothing and has to live with it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="data-section">
+  <div class="data-quote">
+    Real data.<br><em>32 teams.</em><br>Goals are rare.
+  </div>
+  <div>
+    <div class="data-body">
+      <p>Every team card in Grid Hockey is built from real 2025–26 standings and scoring data. Tier A teams have more GOAL cells — they shoot more and score more. Tier D teams have fewer. The occasional post is just the universe being cruel.</p>
+      <p>Goals are rare, misses are frequent, and the difference between a Tier A team and a Tier D team shows up every shot. Buffalo picked on a dare still believes this is their year.</p>
+      <p>The notebook ships to your door. Two dice (one red, one blue) are all you add.</p>
+    </div>
+    <div class="data-stat-row">
+      <div class="stat-box">
+        <div class="stat-number">32</div>
+        <div class="stat-label">Teams</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Tiers</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Dice Needed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <p class="section-label">FAQ</p>
+  <h2 class="section-title">Questions.</h2>
+  <div class="faq-item">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">How do you play Grid Hockey?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Each player picks a team card. Roll 1d6 and add your card's shot bonus for your total shots on goal. Alternate shots — red die for column, blue die for row. GOAL means it's in. SAVE, BLOCK, POST, or WIDE means it isn't. Most goals wins 2 pts. Tied? Flip a coin — OT winner gets 1 pt. Loser gets nothing and has to live with it.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">Do I need a phone or app to play?<span class="faq-icon">+</span></div>
+    <div class="faq-a">No. Grid Hockey is a completely physical pen-and-paper game. No app, no screen, no battery. Just the notebook and two dice.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">Are the teams based on real data?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. Every team card is built from real 2025–26 standings and scoring data. Tier A teams have more GOAL cells. Tier D teams have fewer. The data shows up on the grid — it's not just cosmetic.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">How long does a game take?<span class="faq-icon">+</span></div>
+    <div class="faq-a">About 10–15 minutes. You can run a single game, a full playoff bracket, or an entire season on paper. It scales to however much time you have.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">Where can I buy Grid Hockey?<span class="faq-icon">+</span></div>
+    <div class="faq-a">Grid Hockey is available on Amazon through the Grid Sports store. Ships to you as a physical notebook — just add dice.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">Can I play solo or do I need two players?<span class="faq-icon">+</span></div>
+    <div class="faq-a">You can play solo — pick both teams and run the shots back to back. Works great as a solo sim game. Also plays well head-to-head or in a tournament bracket format with more players.</div>
+  </div>
+</section>
+
+<section class="more-section" id="games">
+  <p class="section-label">The Full Lineup</p>
+  <h2 class="section-title">More Games.</h2>
+  <div class="games-grid">
+    <a href="grid-football.html" class="game-card football">
+      <div class="game-card-title">Grid Football</div>
+      <div class="game-card-desc">32 teams. Real 2025–26 scoring offense data. Las Vegas punts a lot. On any FG cell, you can go for it.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+    <a href="grid-baseball.html" class="game-card baseball">
+      <div class="game-card-title">Grid Baseball</div>
+      <div class="game-card-desc">30 teams. 9 innings. Real 2025 offensive data. The Chicago card is exactly as bleak as you'd imagine.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+    <a href="grid-basketball.html" class="game-card basketball">
+      <div class="game-card-title">Grid Basketball</div>
+      <div class="game-card-desc">30 teams. Real 2025–26 ORTG data. Roll 12 times, add your total. Higher score wins.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+    <a href="grid-golf.html" class="game-card golf">
+      <div class="game-card-title">Grid Golf</div>
+      <div class="game-card-desc">18 holes. Two rolls per hole. Breaking 100 is worth bragging about.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+    <a href="grid-soccer.html" class="game-card soccer">
+      <div class="game-card-title">Grid Soccer</div>
+      <div class="game-card-desc">48 nations. Real 2026 tournament data. VAR has no jurisdiction here.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+    <a href="grid-wrestling.html" class="game-card wrestling">
+      <div class="game-card-title">Grid Wrestling</div>
+      <div class="game-card-desc">25 wrestlers. 3 tiers. Dale From Accounting has never won. Don't tell him.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+    <a href="grid-boxing.html" class="game-card boxing">
+      <div class="game-card-title">Grid Boxing</div>
+      <div class="game-card-desc">30 heavyweights. 12 rounds. Don't start with The Legend.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+    <a href="grid-racing.html" class="game-card racing">
+      <div class="game-card-title">Grid Racing</div>
+      <div class="game-card-desc">24 circuits. 30 segments per lap. Some reward speed. Others punish mistakes.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+            <a href="grid-horse-racing.html" class="game-card horse-racing">
+      <div class="game-card-title">Grid Horse Racing</div>
+      <div class="game-card-desc">30 horses. 8 tracks. Some reward speed. Others punish.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+            <a href="grid-tennis.html" class="game-card tennis">
+      <div class="game-card-title">Grid Tennis</div>
+      <div class="game-card-desc">40 players (Men or Women). 3 court types.</div>
+      <div class="game-card-arrow">View Game →</div>
+    </a>
+  </div>
+</section>
+
+<section class="order-section">
+  <p class="section-label">Physical Notebook · Ships to You · No App Store Involved</p>
+  <h2>Pick Your<br>Team.</h2>
+  <p>Grid Hockey ships as a physical notebook with all 32 team cards. Add two dice. That's it.</p>
+  <a href="https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks" target="_blank" class="btn" style="background:var(--black); color:var(--yellow); border-color:var(--black); font-size:1.1rem; padding:1.2rem 3rem;">Order on Amazon</a>
+  <p style="margin-top:1rem; font-size:0.85rem;">Or grab the full collection — all 11 games.</p>
+</section>
+
+<footer>
+  <a href="index.html" class="logo">GRID<span>SPORTS</span></a>
+  <p>Pen · Paper · Dice · No Refunds on Bad Rolls</p>
+  <p>Questions? <a href="mailto:contact@gridsports.net" style="color:var(--yellow); text-decoration:none; opacity:1;">contact@gridsports.net</a></p>
+</footer>
+
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕ CLOSE</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+  (function(){
+    var toggle = document.getElementById('navToggle');
+    var menu   = document.getElementById('mobileMenu');
+    function openMenu(){ toggle.classList.add('open'); menu.classList.add('open'); toggle.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
+    function closeMenu(){ toggle.classList.remove('open'); menu.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+    toggle.addEventListener('click', function(){ menu.classList.contains('open') ? closeMenu() : openMenu(); });
+    menu.querySelectorAll('a').forEach(function(link){ link.addEventListener('click', closeMenu); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeMenu(); });
+  })();
+  (function(){
+    var overlay  = document.getElementById('lightbox');
+    var lbImg    = document.getElementById('lightboxImg');
+    var closeBtn = document.getElementById('lightboxClose');
+    function openLightbox(src,alt){ lbImg.src=src; lbImg.alt=alt||''; overlay.classList.add('active'); document.body.style.overflow='hidden'; }
+    function closeLightbox(){ overlay.classList.remove('active'); document.body.style.overflow=''; lbImg.src=''; }
+    closeBtn.addEventListener('click', closeLightbox);
+    overlay.addEventListener('click', function(e){ if(e.target===overlay) closeLightbox(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
+    document.querySelectorAll('.card-placeholder img').forEach(function(img){
+      img.addEventListener('click', function(e){ e.stopPropagation(); openLightbox(img.src, img.alt); });
+    });
+  })();
+  (function(){
+    document.querySelectorAll('.faq-q').forEach(function(q){
+      function toggle(){
+        var item = q.parentElement;
+        var open = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); i.querySelector('.faq-q').setAttribute('aria-expanded','false'); });
+        if(!open){ item.classList.add('open'); q.setAttribute('aria-expanded','true'); }
+      }
+      q.addEventListener('click', toggle);
+      q.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+    });
+  })();
+</script>
 </body>
 </html>
