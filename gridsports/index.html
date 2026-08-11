@@ -57,54 +57,55 @@
      STRUCTURED DATA – WebSite + Organization
      ═══════════════════════════════════════════ -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://gridsports.net/#website",
-      "url": "https://gridsports.net/",
-      "name": "Grid Sports",
-      "description": "Pen and paper sports games played with two dice. No app. No screen.",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://gridsports.net/?s={search_term_string}",
-        "query-input": "required name=search_term_string"
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://gridsports.net/#website",
+            "url": "https://gridsports.net/",
+            "name": "Grid Sports",
+            "description": "Pen and paper sports games played with two dice. No app. No screen.",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://gridsports.net/?s={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://gridsports.net/#organization",
+            "name": "Grid Sports",
+            "url": "https://gridsports.net/",
+            "logo": "https://gridsports.net/og-image.jpg",
+            "sameAs": [
+              "https://www.facebook.com/gridsports.net",
+              "https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks"
+            ]
+          },
+          {
+            "@type": "ItemList",
+            "name": "Grid Sports Game Notebooks",
+            "description": "Physical pen-and-paper sports game notebooks available on Amazon",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Grid Football", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 2, "name": "Grid Baseball", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 3, "name": "Grid Basketball", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 4, "name": "Grid Hockey", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 5, "name": "Grid Golf", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 6, "name": "Grid Soccer", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 7, "name": "Grid Wrestling", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 8, "name": "Grid Boxing", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 9, "name": "Grid Racing", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 10, "name": "Grid HR Derby", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 11, "name": "Grid Horse Racing", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 12, "name": "Grid Tennis", "url": "https://gridsports.net/" },
+              { "@type": "ListItem", "position": 13, "name": "Grid Lacrosse", "url": "https://gridsports.net/" }
+            ]
+          }
+        ]
       }
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://gridsports.net/#organization",
-      "name": "Grid Sports",
-      "url": "https://gridsports.net/",
-      "logo": "https://gridsports.net/og-image.jpg",
-      "sameAs": [
-        "https://www.facebook.com/gridsports.net",
-        "https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks"
-      ]
-    },
-    {
-      "@type": "ItemList",
-      "name": "Grid Sports Game Notebooks",
-      "description": "Physical pen-and-paper sports game notebooks available on Amazon",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Grid Football", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 2, "name": "Grid Baseball", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 3, "name": "Grid Basketball", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 4, "name": "Grid Hockey", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 5, "name": "Grid Golf", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 6, "name": "Grid Soccer", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 7, "name": "Grid Wrestling", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 8, "name": "Grid Boxing", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 9, "name": "Grid Racing", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 10, "name": "Grid HR Derby", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 11, "name": "Grid Horse Racing", "url": "https://gridsports.net/" },
-        { "@type": "ListItem", "position": 12, "name": "Grid Tennis", "url": "https://gridsports.net/" }
-      ]
-    }
-  ]
-}
-</script>
+  </script>
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap"
     rel="stylesheet">
@@ -470,6 +471,15 @@
     .game-card.tennis::before {
       background: linear-gradient(135deg, rgba(251, 146, 60, 0.08) 0%, transparent 60%);
     }
+
+      /* lacrosse = GREEN */
+      .game-card.lacrosse {
+          --card-accent: #22c55e;
+      }
+
+          .game-card.lacrosse::before {
+              background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, transparent 60%);
+          }
 
     .card-number {
       font-family: 'Bebas Neue', sans-serif;
@@ -1074,38 +1084,40 @@
 
   <!-- TICKER -->
   <div class="ticker">
-    <div class="ticker-inner">
-      <span>GRID RACING</span><span>✦</span>
-      <span>GRID GOLF</span><span>✦</span>
-      <span>GRID HR DERBY</span><span>✦</span>
-      <span>GRID HOCKEY</span><span>✦</span>
-      <span>GRID BASEBALL</span><span>✦</span>
-      <span>GRID SOCCER</span><span>✦</span>
-      <span>GRID WRESTLING</span><span>✦</span>
-      <span>GRID BOXING</span><span>✦</span>
-      <span>GRID BASKETBALL</span><span>✦</span>
-      <span>GRID Football</span><span>✦</span>
-      <span>GRID COLLEGE FOOTBALL</span><span>✦</span>
-      <span>GRID HORSE RACING</span><span>✦</span>
-      <span>GRID TENNIS</span><span>✦</span>
-      <span>NO PHONE NEEDED</span><span>✦</span>
-      <span>DICE + PAPER = FUN</span><span>✦</span>
-      <span>GRID RACING</span><span>✦</span>
-      <span>GRID GOLF</span><span>✦</span>
-      <span>GRID HR DERBY</span><span>✦</span>
-      <span>GRID HOCKEY</span><span>✦</span>
-      <span>GRID BASEBALL</span><span>✦</span>
-      <span>GRID SOCCER</span><span>✦</span>
-      <span>GRID WRESTLING</span><span>✦</span>
-      <span>GRID BOXING</span><span>✦</span>
-      <span>GRID BASKETBALL</span><span>✦</span>
-      <span>GRID Football</span><span>✦</span>
-      <span>GRID COLLEGE FOOTBALL</span><span>✦</span>
-      <span>GRID HORSE RACING</span><span>✦</span>
-      <span>GRID TENNIS</span><span>✦</span>
-      <span>NO PHONE NEEDED</span><span>✦</span>
-      <span>DICE + PAPER = FUN</span><span>✦</span>
-    </div>
+      <div class="ticker-inner">
+          <span>GRID RACING</span><span>✦</span>
+          <span>GRID GOLF</span><span>✦</span>
+          <span>GRID HR DERBY</span><span>✦</span>
+          <span>GRID HOCKEY</span><span>✦</span>
+          <span>GRID BASEBALL</span><span>✦</span>
+          <span>GRID SOCCER</span><span>✦</span>
+          <span>GRID WRESTLING</span><span>✦</span>
+          <span>GRID BOXING</span><span>✦</span>
+          <span>GRID BASKETBALL</span><span>✦</span>
+          <span>GRID Football</span><span>✦</span>
+          <span>GRID COLLEGE FOOTBALL</span><span>✦</span>
+          <span>GRID HORSE RACING</span><span>✦</span>
+          <span>GRID TENNIS</span><span>✦</span>
+          <span>GRID LACROSSE</span><span>✦</span>
+          <span>NO PHONE NEEDED</span><span>✦</span>
+          <span>DICE + PAPER = FUN</span><span>✦</span>
+          <span>GRID RACING</span><span>✦</span>
+          <span>GRID GOLF</span><span>✦</span>
+          <span>GRID HR DERBY</span><span>✦</span>
+          <span>GRID HOCKEY</span><span>✦</span>
+          <span>GRID BASEBALL</span><span>✦</span>
+          <span>GRID SOCCER</span><span>✦</span>
+          <span>GRID WRESTLING</span><span>✦</span>
+          <span>GRID BOXING</span><span>✦</span>
+          <span>GRID BASKETBALL</span><span>✦</span>
+          <span>GRID Football</span><span>✦</span>
+          <span>GRID COLLEGE FOOTBALL</span><span>✦</span>
+          <span>GRID HORSE RACING</span><span>✦</span>
+          <span>GRID TENNIS</span><span>✦</span>
+          <span>GRID LACROSSE</span><span>✦</span>
+          <span>NO PHONE NEEDED</span><span>✦</span>
+          <span>DICE + PAPER = FUN</span><span>✦</span>
+      </div>
   </div>
 
   <!-- GAMES -->
@@ -1114,7 +1126,7 @@
     <h2 class="section-title">Pick a Game.<br>Zero Screens.</h2>
     <div class="games-grid">
 
-      <!-- HOCKEY COMMENTED OUT
+        <!-- HOCKEY COMMENTED OUT
     <div class="game-card hockey">
       <span class="card-number">01</span>
       <h3 class="card-title">Grid Hockey</h3>
@@ -1126,198 +1138,231 @@
       </div>
     </div>
     -->
+        <!-- GRID RACING -->
+        <a href="grid-racing.html" style="text-decoration:none; color:inherit; display:block;">
 
-      <!-- GRID RACING -->
-      <a href="grid-racing.html" style="text-decoration:none; color:inherit; display:block;">
+            <div class="game-card racing">
+                <span class="card-number">01</span>
+                <h3 class="card-title">Grid Racing</h3>
+                <p class="card-desc">
+                    Roll 1 die through 30 segments per lap — each segment has a target number based on its
+                    type. Long straights reward high rolls. Hairpins punish them. Your score is how far you land from each
+                    target. Lowest total wins. Every circuit plays differently. Monza rewards speed. Monaco punishes mistakes.
+                </p>
+                <div class="card-details">
+                    <span class="pill">1 Die</span>
+                    <span class="pill">30 Segments · 1 Lap</span>
+                    <span class="pill">24 Circuit Cards</span>
+                </div>
+            </div>
+        </a>
+        <a href="grid-golf.html" style="text-decoration:none; color:inherit; display:block;">
 
-        <div class="game-card racing">
-          <span class="card-number">01</span>
-          <h3 class="card-title">Grid Racing</h3>
-          <p class="card-desc">Roll 1 die through 30 segments per lap — each segment has a target number based on its
-            type. Long straights reward high rolls. Hairpins punish them. Your score is how far you land from each
-            target. Lowest total wins. Every circuit plays differently. Monza rewards speed. Monaco punishes mistakes.
-          </p>
-          <div class="card-details">
-            <span class="pill">1 Die</span>
-            <span class="pill">30 Segments · 1 Lap</span>
-            <span class="pill">24 Circuit Cards</span>
-          </div>
+            <div class="game-card golf">
+                <span class="card-number">02</span>
+                <h3 class="card-title">Grid Golf</h3>
+                <p class="card-desc">
+                    Roll the dice twice per hole — once for your tee shot, once for your approach. This isn't
+                    a pro sim — it's a Saturday morning round with your buddies where someone loses a ball in the third hole and
+                    claims it "probably didn't count." Scores run high, bogeys are expected, and making par feels like a win.
+                    Simple enough for a napkin, humbling enough for 18 holes.
+                </p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">18 Holes</span>
+                    <span class="pill">Grid Paper</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="grid-hockey.html" style="text-decoration:none; color:inherit; display:block;">
+
+            <div class="game-card hockey">
+                <span class="card-number">03</span>
+                <h3 class="card-title">Grid Hockey</h3>
+                <p class="card-desc">
+                    Roll 2 dice — red die for column, blue die for row — and find where they meet on your
+                    team's grid. GOAL means it's in. Everything else means it isn't. Thirty-two teams, real 2025–26 standings
+                    baked into every card. Buffalo picked on a dare still believes this is their year.
+                </p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">32 Team Cards</span>
+                    <span class="pill">2025–26</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="grid-soccer.html" style="text-decoration:none; color:inherit; display:block;">
+
+            <div class="game-card soccer">
+                <span class="card-number">04</span>
+                <h3 class="card-title">Grid Soccer</h3>
+                <p class="card-desc">
+                    Roll 2 dice for each shot — column and row land you on GOAL, SAVE, BLOCK, POST, or MISS.
+                    nations, real tournament stats baked into every card. VAR cannot review your dice rolls. This is between you
+                    and the grid.
+                </p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">48 Nation Cards</span>
+                    <span class="pill">2026</span>
+                </div>
+            </div>
+        </a>
+        <a href="grid-wrestling.html" style="text-decoration:none; color:inherit; display:block;">
+
+            <div class="game-card wrestling">
+                <span class="card-number">05</span>
+                <h3 class="card-title">Grid Wrestling</h3>
+                <p class="card-desc">
+                    Roll 2 dice each turn — column and row land you on HIT, GRAPPLE, STUN, BLOCK, or PIN.
+                    Build your momentum meter to 5 before your PIN counts. Twenty-five wrestlers across three tiers. Jobbers
+                    grind. Mid-Carders could go either way. Main Eventers are here to end you. Dale From Accounting has never
+                    won. Don't tell him.
+                </p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">25 Wrestler Cards</span>
+                    <span class="pill">3 Tiers</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="grid-boxing.html" style="text-decoration:none; color:inherit; display:block;">
+
+            <div class="game-card boxing">
+                <span class="card-number">06</span>
+                <h3 class="card-title">Grid Boxing</h3>
+                <p class="card-desc">
+                    Pick any two fighters from a roster of 30 heavyweights. Roll once each round — higher
+                    result wins the round on the judges' scorecard. Roll a KO and your opponent better have had a good round, or
+                    it's over. Roll HURT and you hit the canvas. Three knockdowns and the ref waves it off. Goes twelve rounds?
+                    The scorecards decide it.
+                </p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">30 Fighter Cards</span>
+                    <span class="pill">12 Rounds</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="grid-baseball.html" style="text-decoration:none; color:inherit; display:block;">
+
+            <div class="game-card baseball">
+                <span class="card-number">07</span>
+                <h3 class="card-title">Grid Baseball</h3>
+                <p class="card-desc">
+                    Two dice, nine innings, 30 teams. Roll for column and row — HR scores a run, RUN scores a
+                    run, HIT or BB puts a runner on base. Your next HR scores 2. OUT or K and he's gone. Most runs wins. The
+                    Colorado card is exactly as bleak as you'd imagine.
+                </p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">9 Innings</span>
+                    <span class="pill">30 Team Cards · 2025</span>
+                </div>
+            </div>
+        </a>
+
+        <div class="game-card derby">
+            <span class="card-number">08</span>
+            <h3 class="card-title">Grid HR Derby</h3>
+            <p class="card-desc">
+                It's a home run derby in a notebook. Each ballpark has its own layout — wind zones, wall
+                distances, quirky dimensions. Roll the dice and see if you can clear the fence.
+            </p>
+            <div class="card-details">
+                <span class="pill">2 Dice</span>
+                <span class="pill">30 Ballparks</span>
+                <span class="pill">Roll &amp; Play</span>
+            </div>
         </div>
-      </a>
-      <a href="grid-golf.html" style="text-decoration:none; color:inherit; display:block;">
 
-        <div class="game-card golf">
-          <span class="card-number">02</span>
-          <h3 class="card-title">Grid Golf</h3>
-          <p class="card-desc">Roll the dice twice per hole — once for your tee shot, once for your approach. This isn't
-            a pro sim — it's a Saturday morning round with your buddies where someone loses a ball in the third hole and
-            claims it "probably didn't count." Scores run high, bogeys are expected, and making par feels like a win.
-            Simple enough for a napkin, humbling enough for 18 holes.</p>
-          <div class="card-details">
-            <span class="pill">2 Dice</span>
-            <span class="pill">18 Holes</span>
-            <span class="pill">Grid Paper</span>
-          </div>
-        </div>
-      </a>
+        <a href="grid-basketball.html" style="text-decoration:none; color:inherit; display:block;">
+            <div class="game-card basketball">
+                <span class="card-number">09</span>
+                <h3 class="card-title">Grid Basketball</h3>
+                <p class="card-desc">
+                    Thirty teams, real 2025–26 ORTG data baked into every card. Each team gets twelve rolls —
+                    red die for column, blue die for row. The number in the cell is the points scored on that possession run.
+                    Better teams have higher floors. Rebuilding teams have wildcards. The rebuilding team doesn't know it's
+                    supposed to lose.
+                </p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">30 Team Cards</span>
+                    <span class="pill">2025–26</span>
+                </div>
+            </div>
+        </a>
 
-      <a href="grid-hockey.html" style="text-decoration:none; color:inherit; display:block;">
+        <a href="grid-football.html" style="text-decoration:none; color:inherit; display:block;">
+            <div class="game-card football">
+                <span class="card-number">10</span>
+                <h3 class="card-title">Grid Football</h3>
+                <p class="card-desc">
+                    Thirty-two teams, real 2025–26 scoring offense data baked into every card. Each team runs
+                    twelve drives — red die for row, blue die for column. TD scores seven, FG scores three, first downs keep the
+                    drive
+                    alive. Better offenses score more. Las Vegas punts a lot. On any FG cell, you can go for it. Roll a 1 and
+                    you're
+                    in. Roll anything else and it's a long walk back.
+                </p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">32 Team Cards</span>
+                    <span class="pill">2025–26</span>
+                </div>
+            </div>
+        </a>
 
-        <div class="game-card hockey">
-          <span class="card-number">03</span>
-          <h3 class="card-title">Grid Hockey</h3>
-          <p class="card-desc">Roll 2 dice — red die for column, blue die for row — and find where they meet on your
-            team's grid. GOAL means it's in. Everything else means it isn't. Thirty-two teams, real 2025–26 standings
-            baked into every card. Buffalo picked on a dare still believes this is their year.</p>
-          <div class="card-details">
-            <span class="pill">2 Dice</span>
-            <span class="pill">32 Team Cards</span>
-            <span class="pill">2025–26</span>
-          </div>
-        </div>
-      </a>
+        <a href="grid-horse-racing.html" style="text-decoration:none; color:inherit; display:block;">
+            <div class="game-card horse-racing">
+                <span class="card-number">11</span>
+                <h3 class="card-title">Grid Horse Racing</h3>
+                <p class="card-desc">
+                    Thirty horses. Eight tracks. Pick your horse before you roll — no changing your mind once
+                    the gate opens. Tracks play differently.
+                    Louisville rewards stamina. Del Mar eats stamina runners alive. Every horse
+                    has a trait and every track boosts one and punishes another. Pick accordingly.
+                </p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">30 Horses</span>
+                    <span class="pill">8 Tracks</span>
+                </div>
+            </div>
+        </a>
 
-      <a href="grid-soccer.html" style="text-decoration:none; color:inherit; display:block;">
+        <a href="grid-tennis.html" style="text-decoration:none; color:inherit; display:block;">
+            <div class="game-card tennis">
+                <span class="card-number">12</span>
+                <h3 class="card-title">Grid Tennis</h3>
+                <p class="card-desc">Forty players — Men's or Women's Division — full game quality baked into every grid. Both players roll simultaneously: Green, White, or Red. Green beats White and Red. White beats Red. Tie goes to the server. First to six games wins the set.</p>
+                <div class="card-details">
+                    <span class="pill">2 Players</span>
+                    <span class="pill">40 Player Cards</span>
+                    <span class="pill">2026</span>
+                </div>
+            </div>
+        </a>
 
-        <div class="game-card soccer">
-          <span class="card-number">04</span>
-          <h3 class="card-title">Grid Soccer</h3>
-          <p class="card-desc">Roll 2 dice for each shot — column and row land you on GOAL, SAVE, BLOCK, POST, or MISS.
-            nations, real tournament stats baked into every card. VAR cannot review your dice rolls. This is between you
-            and the grid.</p>
-          <div class="card-details">
-            <span class="pill">2 Dice</span>
-            <span class="pill">48 Nation Cards</span>
-            <span class="pill">2026</span>
-          </div>
-        </div>
-      </a>
-      <a href="grid-wrestling.html" style="text-decoration:none; color:inherit; display:block;">
+        <a href="grid-lacrosse.html" style="text-decoration:none; color:inherit; display:block;">
+            <div class="game-card lacrosse">
+                <span class="card-number">13</span>
+                <h3 class="card-title">Grid Lacrosse</h3>
+                <p class="card-desc">Roll 2 dice per shot — column and row land you on GOAL, SAVE, CTO, PIPE, or MISS. Thirty-two teams, Men's or Women's Division, a full season of results baked into every card. Champions rip 30-plus shots a game. Cinderellas just want to hang around.</p>
+                <div class="card-details">
+                    <span class="pill">2 Dice</span>
+                    <span class="pill">32 Team Cards</span>
+                    <span class="pill">Men's or Women's</span>
+                </div>
+            </div>
+        </a>
 
-        <div class="game-card wrestling">
-          <span class="card-number">05</span>
-          <h3 class="card-title">Grid Wrestling</h3>
-          <p class="card-desc">Roll 2 dice each turn — column and row land you on HIT, GRAPPLE, STUN, BLOCK, or PIN.
-            Build your momentum meter to 5 before your PIN counts. Twenty-five wrestlers across three tiers. Jobbers
-            grind. Mid-Carders could go either way. Main Eventers are here to end you. Dale From Accounting has never
-            won. Don't tell him.</p>
-          <div class="card-details">
-            <span class="pill">2 Dice</span>
-            <span class="pill">25 Wrestler Cards</span>
-            <span class="pill">3 Tiers</span>
-          </div>
-        </div>
-      </a>
-
-      <a href="grid-boxing.html" style="text-decoration:none; color:inherit; display:block;">
-
-        <div class="game-card boxing">
-          <span class="card-number">06</span>
-          <h3 class="card-title">Grid Boxing</h3>
-          <p class="card-desc">Pick any two fighters from a roster of 30 heavyweights. Roll once each round — higher
-            result wins the round on the judges' scorecard. Roll a KO and your opponent better have had a good round, or
-            it's over. Roll HURT and you hit the canvas. Three knockdowns and the ref waves it off. Goes twelve rounds?
-            The scorecards decide it.</p>
-          <div class="card-details">
-            <span class="pill">2 Dice</span>
-            <span class="pill">30 Fighter Cards</span>
-            <span class="pill">12 Rounds</span>
-          </div>
-        </div>
-      </a>
-
-      <a href="grid-baseball.html" style="text-decoration:none; color:inherit; display:block;">
-
-        <div class="game-card baseball">
-          <span class="card-number">07</span>
-          <h3 class="card-title">Grid Baseball</h3>
-          <p class="card-desc">Two dice, nine innings, 30 teams. Roll for column and row — HR scores a run, RUN scores a
-            run, HIT or BB puts a runner on base. Your next HR scores 2. OUT or K and he's gone. Most runs wins. The
-            Colorado card is exactly as bleak as you'd imagine.</p>
-          <div class="card-details">
-            <span class="pill">2 Dice</span>
-            <span class="pill">9 Innings</span>
-            <span class="pill">30 Team Cards · 2025</span>
-          </div>
-        </div>
-      </a>
-
-      <div class="game-card derby">
-        <span class="card-number">08</span>
-        <h3 class="card-title">Grid HR Derby</h3>
-        <p class="card-desc">It's a home run derby in a notebook. Each ballpark has its own layout — wind zones, wall
-          distances, quirky dimensions. Roll the dice and see if you can clear the fence.</p>
-        <div class="card-details">
-          <span class="pill">2 Dice</span>
-          <span class="pill">30 Ballparks</span>
-          <span class="pill">Roll &amp; Play</span>
-        </div>
-      </div>
-
-      <a href="grid-basketball.html" style="text-decoration:none; color:inherit; display:block;">
-        <div class="game-card basketball">
-          <span class="card-number">09</span>
-          <h3 class="card-title">Grid Basketball</h3>
-          <p class="card-desc">Thirty teams, real 2025–26 ORTG data baked into every card. Each team gets twelve rolls —
-            red die for column, blue die for row. The number in the cell is the points scored on that possession run.
-            Better teams have higher floors. Rebuilding teams have wildcards. The rebuilding team doesn't know it's
-            supposed to lose.</p>
-          <div class="card-details">
-            <span class="pill">2 Dice</span>
-            <span class="pill">30 Team Cards</span>
-            <span class="pill">2025–26</span>
-          </div>
-        </div>
-      </a>
-
-      <a href="grid-football.html" style="text-decoration:none; color:inherit; display:block;">
-        <div class="game-card football">
-          <span class="card-number">10</span>
-          <h3 class="card-title">Grid Football</h3>
-          <p class="card-desc">Thirty-two teams, real 2025–26 scoring offense data baked into every card. Each team runs
-            twelve drives — red die for row, blue die for column. TD scores seven, FG scores three, first downs keep the
-            drive
-            alive. Better offenses score more. Las Vegas punts a lot. On any FG cell, you can go for it. Roll a 1 and
-            you're
-            in. Roll anything else and it's a long walk back.</p>
-          <div class="card-details">
-            <span class="pill">2 Dice</span>
-            <span class="pill">32 Team Cards</span>
-            <span class="pill">2025–26</span>
-          </div>
-        </div>
-      </a>
-
-      <a href="grid-horse-racing.html" style="text-decoration:none; color:inherit; display:block;">
-        <div class="game-card horse-racing">
-          <span class="card-number">11</span>
-          <h3 class="card-title">Grid Horse Racing</h3>
-          <p class="card-desc">Thirty horses. Eight tracks. Pick your horse before you roll — no changing your mind once
-            the gate opens. Tracks play differently.
-            Louisville rewards stamina. Del Mar eats stamina runners alive. Every horse
-            has a trait and every track boosts one and punishes another. Pick accordingly.</p>
-          <div class="card-details">
-            <span class="pill">2 Dice</span>
-            <span class="pill">30 Horses</span>
-            <span class="pill">8 Tracks</span>
-          </div>
-        </div>
-      </a>
-
-<a href="grid-tennis.html" style="text-decoration:none; color:inherit; display:block;">
-  <div class="game-card tennis">
-    <span class="card-number">12</span>
-    <h3 class="card-title">Grid Tennis</h3>
-    <p class="card-desc">Forty players — Men's or Women's Division — full game quality baked into every grid. Both players roll simultaneously: Green, White, or Red. Green beats White and Red. White beats Red. Tie goes to the server. First to six games wins the set.</p>
-    <div class="card-details">
-      <span class="pill">2 Players</span>
-      <span class="pill">40 Player Cards</span>
-      <span class="pill">2026</span>
-    </div>
-  </div>
-</a>
-
-      <!--<div class="game-card football">
+        <!--<div class="game-card football">
       <span class="card-number">11</span>
       <h3 class="card-title">Grid College Football</h3>
       <p class="card-desc">Fifty teams, real 2025–26 scoring offense data. Each team runs twelve drives — roll both dice, find the cell, score the drive. TD, FG, first down, punt, or turnover. Top offenses are loaded with touchdowns. The bottom of the list is loaded with punts. North Texas leads the nation. Nebraska is patient about it.</p>
@@ -1333,679 +1378,859 @@
 
   <!-- CARD SHOWCASE -->
   <section class="showcase" id="cards">
-    <p class="section-label">The Cards</p>
-    <h2 class="section-title">What You're<br>Actually Getting.</h2>
-    <p class="showcase-sub">Pick your game. Each notebook is one sport — play a page, score it, flip to the next. No
-      charger. No tutorial video. No guy on YouTube explaining it for 45 minutes.</p>
+      <p class="section-label">The Cards</p>
+      <h2 class="section-title">What You're<br>Actually Getting.</h2>
+      <p class="showcase-sub">
+          Pick your game. Each notebook is one sport — play a page, score it, flip to the next. No
+          charger. No tutorial video. No guy on YouTube explaining it for 45 minutes.
+      </p>
 
-    <!-- RACING CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Racing</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Circuit
-      Cards.</h3>
-    <p class="showcase-sub">Each card is a unique circuit — straight lengths, corner types, and pit lane strategy baked
-      into the grid. Fast tracks give you more overtake opportunities. Technical circuits punish bad rolls.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder racing-card"><img src="gridracing.jpg" alt="Grid Racing card"></div>
-      <div class="card-placeholder racing-card"><img src="racing1.png" alt="Racing track grid"></div>
-      <div class="card-placeholder racing-card"><img src="racingscore.png" alt="Racing scorecard"></div>
-    </div>
-
-    <!-- GOLF CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Golf</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Course
-      Cards.</h3>
-    <p class="showcase-sub">Pick your course. Each notebook features holes from one legendary course — Wisconsin or
-      Georgia. Fairway, rough, and hazards laid out on a grid. Don't expect to shoot even par. This is a weekend
-      hacker's game — double bogeys happen, the occasional birdie feels amazing, and that's the whole point.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder golf-card"><img src="gridgolf.jpg" alt="Grid Golf card"></div>
-      <div class="card-placeholder golf-card"><img src="golf1.png" alt="Golf course grid"></div>
-      <div class="card-placeholder golf-card"><img src="golfscore.png" alt="Golf scorecard"></div>
-    </div>
-
-    <!-- HOCKEY CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Hockey</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Team Cards.
-    </h3>
-    <p class="showcase-sub">Thirty-two teams, real 2025–26 standings and scoring data baked into every card. Tier A
-      teams score more, Tier D teams exist to humble you. Goals are rare, misses are frequent, and the occasional post
-      is just the universe being cruel.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder hockey-card"><img src="gridhockey.jpg" alt="Grid Hockey card"></div>
-      <div class="card-placeholder hockey-card"><img src="hockey1.png" alt="Hockey team grid"></div>
-      <div class="card-placeholder hockey-card"><img src="hockeyscore.png" alt="Hockey scorecard"></div>
-    </div>
-
-    <!-- SOCCER CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Soccer</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Nation
-      Cards.</h3>
-    <p class="showcase-sub">Thirty-two nations, real qualifying attack and defense data baked into every card. Roll both
-      dice, find your cell — GOAL, SAVE, BLOCK, POST, or MISS. Most goals wins. VAR has no jurisdiction here.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder soccer-card" style="--card-accent:#a78bfa"><img src="gridsoccer.jpg"
-          alt="Grid Soccer card"></div>
-      <div class="card-placeholder soccer-card" style="--card-accent:#a78bfa"><img src="soccer1.png"
-          alt="Soccer nation grid"></div>
-      <div class="card-placeholder soccer-card" style="--card-accent:#a78bfa"><img src="soccerscore.png"
-          alt="Soccer scorecard"></div>
-    </div>
-
-    <!-- WRESTLING CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Wrestling</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Wrestler
-      Cards.</h3>
-    <p class="showcase-sub">Twenty-five wrestlers across three tiers — Jobbers who try their best, Mid-Carders who could
-      go either way, and Main Eventers who are here to end you. Each card has a unique grid, a finisher, and something
-      to say for themselves. Build momentum, land the PIN, write your own storyline.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder wrestling-card" style="--card-accent:#cc2233"><img src="gridwrestling.jpg"
-          alt="Grid Wrestling card"></div>
-      <div class="card-placeholder wrestling-card" style="--card-accent:#cc2233"><img src="wrestling1.png"
-          alt="Wrestler grid"></div>
-      <div class="card-placeholder wrestling-card" style="--card-accent:#cc2233"><img src="wrestlingscore.png"
-          alt="Wrestling scorecard"></div>
-    </div>
-
-    <!-- BOXING CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Boxing</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Fighter
-      Cards.</h3>
-    <p class="showcase-sub">Thirty heavyweight fighters across six styles — Power Punchers, Technical Boxers, Brawlers,
-      Swarmers, Slick Movers, Big Punchers. Each card has a unique grid and stat block. Pick any two, assign corners,
-      and settle it over twelve rounds. The Legend is in there. Don't start with The Legend.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder boxing-card" style="--card-accent:#c9a030"><img src="gridboxing.jpg"
-          alt="Grid Boxing card"></div>
-      <div class="card-placeholder boxing-card" style="--card-accent:#c9a030"><img src="boxing1.png" alt="Fighter grid">
+      <!-- RACING CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Racing</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Circuit
+          Cards.
+      </h3>
+      <p class="showcase-sub">
+          Each card is a unique circuit — straight lengths, corner types, and pit lane strategy baked
+          into the grid. Fast tracks give you more overtake opportunities. Technical circuits punish bad rolls.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder racing-card"><img src="gridracing.jpg" alt="Grid Racing card"></div>
+          <div class="card-placeholder racing-card"><img src="racing1.png" alt="Racing track grid"></div>
+          <div class="card-placeholder racing-card"><img src="racingscore.png" alt="Racing scorecard"></div>
       </div>
-      <div class="card-placeholder boxing-card" style="--card-accent:#c9a030"><img src="boxingscore.png"
-          alt="Boxing scorecard"></div>
-    </div>
+
+      <!-- GOLF CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Golf</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Course
+          Cards.
+      </h3>
+      <p class="showcase-sub">
+          Pick your course. Each notebook features holes from one legendary course — Wisconsin or
+          Georgia. Fairway, rough, and hazards laid out on a grid. Don't expect to shoot even par. This is a weekend
+          hacker's game — double bogeys happen, the occasional birdie feels amazing, and that's the whole point.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder golf-card"><img src="gridgolf.jpg" alt="Grid Golf card"></div>
+          <div class="card-placeholder golf-card"><img src="golf1.png" alt="Golf course grid"></div>
+          <div class="card-placeholder golf-card"><img src="golfscore.png" alt="Golf scorecard"></div>
+      </div>
+
+      <!-- HOCKEY CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Hockey</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Team Cards.
+      </h3>
+      <p class="showcase-sub">
+          Thirty-two teams, real 2025–26 standings and scoring data baked into every card. Tier A
+          teams score more, Tier D teams exist to humble you. Goals are rare, misses are frequent, and the occasional post
+          is just the universe being cruel.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder hockey-card"><img src="gridhockey.jpg" alt="Grid Hockey card"></div>
+          <div class="card-placeholder hockey-card"><img src="hockey1.png" alt="Hockey team grid"></div>
+          <div class="card-placeholder hockey-card"><img src="hockeyscore.png" alt="Hockey scorecard"></div>
+      </div>
+
+      <!-- SOCCER CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Soccer</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Nation
+          Cards.
+      </h3>
+      <p class="showcase-sub">
+          Thirty-two nations, real qualifying attack and defense data baked into every card. Roll both
+          dice, find your cell — GOAL, SAVE, BLOCK, POST, or MISS. Most goals wins. VAR has no jurisdiction here.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder soccer-card" style="--card-accent:#a78bfa">
+              <img src="gridsoccer.jpg"
+                   alt="Grid Soccer card">
+          </div>
+          <div class="card-placeholder soccer-card" style="--card-accent:#a78bfa">
+              <img src="soccer1.png"
+                   alt="Soccer nation grid">
+          </div>
+          <div class="card-placeholder soccer-card" style="--card-accent:#a78bfa">
+              <img src="soccerscore.png"
+                   alt="Soccer scorecard">
+          </div>
+      </div>
+
+      <!-- WRESTLING CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Wrestling</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Wrestler
+          Cards.
+      </h3>
+      <p class="showcase-sub">
+          Twenty-five wrestlers across three tiers — Jobbers who try their best, Mid-Carders who could
+          go either way, and Main Eventers who are here to end you. Each card has a unique grid, a finisher, and something
+          to say for themselves. Build momentum, land the PIN, write your own storyline.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder wrestling-card" style="--card-accent:#cc2233">
+              <img src="gridwrestling.jpg"
+                   alt="Grid Wrestling card">
+          </div>
+          <div class="card-placeholder wrestling-card" style="--card-accent:#cc2233">
+              <img src="wrestling1.png"
+                   alt="Wrestler grid">
+          </div>
+          <div class="card-placeholder wrestling-card" style="--card-accent:#cc2233">
+              <img src="wrestlingscore.png"
+                   alt="Wrestling scorecard">
+          </div>
+      </div>
+
+      <!-- BOXING CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Boxing</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Fighter
+          Cards.
+      </h3>
+      <p class="showcase-sub">
+          Thirty heavyweight fighters across six styles — Power Punchers, Technical Boxers, Brawlers,
+          Swarmers, Slick Movers, Big Punchers. Each card has a unique grid and stat block. Pick any two, assign corners,
+          and settle it over twelve rounds. The Legend is in there. Don't start with The Legend.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder boxing-card" style="--card-accent:#c9a030">
+              <img src="gridboxing.jpg"
+                   alt="Grid Boxing card">
+          </div>
+          <div class="card-placeholder boxing-card" style="--card-accent:#c9a030">
+              <img src="boxing1.png" alt="Fighter grid">
+          </div>
+          <div class="card-placeholder boxing-card" style="--card-accent:#c9a030">
+              <img src="boxingscore.png"
+                   alt="Boxing scorecard">
+          </div>
+      </div>
 
 
-    <!-- BASEBALL CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Baseball</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Team Cards.
-    </h3>
-    <p class="showcase-sub">Thirty teams, nine innings, real 2025 offensive data. HR and RUN cells score runs. HIT and
-      BB set a Rally Token — your next scoring cell is worth double. OUT and K kill it. Most runs after 9 innings wins.
-    </p>
-    <div class="cards-strip">
-      <div class="card-placeholder baseball-card" style="--card-accent:#22c55e"><img src="gridbaseball.jpg"
-          alt="Grid Baseball card"></div>
-      <div class="card-placeholder baseball-card" style="--card-accent:#22c55e"><img src="baseball1.png"
-          alt="Baseball team grid"></div>
-      <div class="card-placeholder baseball-card" style="--card-accent:#22c55e"><img src="baseballscore.png"
-          alt="Baseball scorecard"></div>
-    </div>
+      <!-- BASEBALL CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Baseball</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Team Cards.
+      </h3>
+      <p class="showcase-sub">
+          Thirty teams, nine innings, real 2025 offensive data. HR and RUN cells score runs. HIT and
+          BB set a Rally Token — your next scoring cell is worth double. OUT and K kill it. Most runs after 9 innings wins.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder baseball-card" style="--card-accent:#22c55e">
+              <img src="gridbaseball.jpg"
+                   alt="Grid Baseball card">
+          </div>
+          <div class="card-placeholder baseball-card" style="--card-accent:#22c55e">
+              <img src="baseball1.png"
+                   alt="Baseball team grid">
+          </div>
+          <div class="card-placeholder baseball-card" style="--card-accent:#22c55e">
+              <img src="baseballscore.png"
+                   alt="Baseball scorecard">
+          </div>
+      </div>
 
-    <!-- DERBY CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid HR Derby</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Ballpark
-      Cards.</h3>
-    <p class="showcase-sub">Each card is a unique ballpark — real wall distances, wind zones, and quirky park dimensions
-      baked into the grid. Roll the dice and see if your ball clears the fence.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder derby-card"><img src="gridderby.jpg" alt="Grid Derby card"></div>
-      <div class="card-placeholder derby-card"><img src="derby1.png" alt="Derby ballpark grid"></div>
-      <div class="card-placeholder derby-card"><img src="derbyscore.png" alt="Derby scorecard"></div>
-    </div>
+      <!-- DERBY CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid HR Derby</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Ballpark
+          Cards.
+      </h3>
+      <p class="showcase-sub">
+          Each card is a unique ballpark — real wall distances, wind zones, and quirky park dimensions
+          baked into the grid. Roll the dice and see if your ball clears the fence.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder derby-card"><img src="gridderby.jpg" alt="Grid Derby card"></div>
+          <div class="card-placeholder derby-card"><img src="derby1.png" alt="Derby ballpark grid"></div>
+          <div class="card-placeholder derby-card"><img src="derbyscore.png" alt="Derby scorecard"></div>
+      </div>
 
-    <!-- BASKETBALL CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Basketball</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Team Cards.
-    </h3>
-    <p class="showcase-sub">Thirty teams, real 2025–26 offensive rating data baked into every card. Better teams have
-      higher cell averages — contenders run hot, rebuilding teams run cold but carry wildcards. Roll twelve times, add
-      your total. Higher score wins. The rebuilding team doesn't know it's supposed to lose.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder basketball-card"><img src="gridbasketball.jpg" alt="Grid Basketball card"></div>
-      <div class="card-placeholder basketball-card"><img src="basketball1.png" alt="Basketball team grid"></div>
-      <div class="card-placeholder basketball-card"><img src="basketballscore.png" alt="Basketball scorecard"></div>
-    </div>
+      <!-- BASKETBALL CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Basketball</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Team Cards.
+      </h3>
+      <p class="showcase-sub">
+          Thirty teams, real 2025–26 offensive rating data baked into every card. Better teams have
+          higher cell averages — contenders run hot, rebuilding teams run cold but carry wildcards. Roll twelve times, add
+          your total. Higher score wins. The rebuilding team doesn't know it's supposed to lose.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder basketball-card"><img src="gridbasketball.jpg" alt="Grid Basketball card"></div>
+          <div class="card-placeholder basketball-card"><img src="basketball1.png" alt="Basketball team grid"></div>
+          <div class="card-placeholder basketball-card"><img src="basketballscore.png" alt="Basketball scorecard"></div>
+      </div>
 
-    <!-- NFL CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Football</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Team Cards.
-    </h3>
-    <p class="showcase-sub">Thirty-two teams, real 2025–26 scoring offense data. TD, FG, first down, punt, or turnover —
-      each drive resolves on the grid. Better offenses score touchdowns. Struggling offenses punt and occasionally make
-      things worse. Each card shows PPG, offense grade, and defense grade. Las Vegas is in here. It's a short game for
-      them.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder football-card"><img src="gridfootball.jpg" alt="Grid Football card"></div>
-      <div class="card-placeholder football-card"><img src="football1.png" alt="Football team grid"></div>
-      <div class="card-placeholder football-card"><img src="footballscore.png" alt="Football scorecard"></div>
-    </div>
+      <!-- NFL CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Football</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">
+          Team Cards.
+      </h3>
+      <p class="showcase-sub">
+          Thirty-two teams, real 2025–26 scoring offense data. TD, FG, first down, punt, or turnover —
+          each drive resolves on the grid. Better offenses score touchdowns. Struggling offenses punt and occasionally make
+          things worse. Each card shows PPG, offense grade, and defense grade. Las Vegas is in here. It's a short game for
+          them.
+      </p>
+      <div class="cards-strip">
+          <div class="card-placeholder football-card"><img src="gridfootball.jpg" alt="Grid Football card"></div>
+          <div class="card-placeholder football-card"><img src="football1.png" alt="Football team grid"></div>
+          <div class="card-placeholder football-card"><img src="footballscore.png" alt="Football scorecard"></div>
+      </div>
 
-    <!-- COLLEGE FOOTBALL CARDS -->
-    <!--<p class="section-label" style="margin-top:4rem;">Grid College Football</p>
-  <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Team Cards.</h3>
-  <p class="showcase-sub">Fifty teams covering the top scoring offenses in the country from the 2025–26 season. Each card shows the team's scoring rank, conference, PPG, offense grade, and defense grade. First downs chain. Turnovers sting. Going for it on fourth is always your call.</p>
-  <div class="cards-strip">
-    <div class="card-placeholder football-card"><img src="gridcfb.jpg" alt="Grid College Football card"></div>
-    <div class="card-placeholder football-card"><img src="cfb1.png" alt="College Football team grid"></div>
-    <div class="card-placeholder football-card"><img src="cfbscore.png" alt="College Football scorecard"></div>
-  </div>-->
+      <!-- COLLEGE FOOTBALL CARDS 
+      <p class="section-label" style="margin-top:4rem;">Grid College Football</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Team Cards.</h3>
+      <p class="showcase-sub">Fifty teams covering the top scoring offenses in the country from the 2025–26 season. Each card shows the team's scoring rank, conference, PPG, offense grade, and defense grade. First downs chain. Turnovers sting. Going for it on fourth is always your call.</p>
+      <div class="cards-strip">
+          <div class="card-placeholder football-card"><img src="gridcfb.jpg" alt="Grid College Football card"></div>
+          <div class="card-placeholder football-card"><img src="cfb1.png" alt="College Football team grid"></div>
+          <div class="card-placeholder football-card"><img src="cfbscore.png" alt="College Football scorecard"></div>
+      </div>-->
 
-    <!-- HORSE RACING CARDS -->
-    <p class="section-label" style="margin-top:4rem;">Grid Horse Racing</p>
-    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Horse &amp; Track Cards.</h3>
-    <p class="showcase-sub">Thirty horses across eight real tracks. Each horse card has a trait — Speed, Stamina, Turf, or Mud — and each track boosts one and punishes another. Roll the field, rank by total, see where your pick landed.</p>
-    <div class="cards-strip">
-      <div class="card-placeholder" style="--card-accent:#4dbb77"><img src="gridhorseracing.jpg" alt="Grid Horse Racing card"></div>
-      <div class="card-placeholder" style="--card-accent:#4dbb77"><img src="horseracing1.png" alt="Horse racing grid"></div>
-      <div class="card-placeholder" style="--card-accent:#4dbb77"><img src="horseracingscore.png" alt="Horse racing scorecard"></div>
-    </div>
+      <!-- HORSE RACING CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Horse Racing</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Horse &amp; Track Cards.</h3>
+      <p class="showcase-sub">Thirty horses across eight real tracks. Each horse card has a trait — Speed, Stamina, Turf, or Mud — and each track boosts one and punishes another. Roll the field, rank by total, see where your pick landed.</p>
+      <div class="cards-strip">
+          <div class="card-placeholder" style="--card-accent:#4dbb77"><img src="gridhorseracing.jpg" alt="Grid Horse Racing card"></div>
+          <div class="card-placeholder" style="--card-accent:#4dbb77"><img src="horseracing1.png" alt="Horse racing grid"></div>
+          <div class="card-placeholder" style="--card-accent:#4dbb77"><img src="horseracingscore.png" alt="Horse racing scorecard"></div>
+      </div>
 
-    <!-- TENNIS CARDS -->
-<p class="section-label" style="margin-top:4rem;">Grid Tennis</p>
-<h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Player Cards.</h3>
-<p class="showcase-sub">Forty players — Men's or Women's Division — stats baked into every grid. Color-coded by preferred surface. Green wins the game. Red loses it. Djokovic outlasts. Bublik explodes. Paolini never misses. First to six wins the set.</p>
-<div class="cards-strip">
-  <div class="card-placeholder" style="--card-accent:#fb923c"><img src="gridtennis.jpg" alt="Grid Tennis card"></div>
-  <div class="card-placeholder" style="--card-accent:#fb923c"><img src="tennis1.png" alt="Tennis player grid"></div>
-  <div class="card-placeholder" style="--card-accent:#fb923c"><img src="tennisscore.png" alt="Tennis scorecard"></div>
-</div>
+      <!-- TENNIS CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Tennis</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Player Cards.</h3>
+      <p class="showcase-sub">Forty players — Men's or Women's Division — stats baked into every grid. Color-coded by preferred surface. Green wins the game. Red loses it. Djokovic outlasts. Bublik explodes. Paolini never misses. First to six wins the set.</p>
+      <div class="cards-strip">
+          <div class="card-placeholder" style="--card-accent:#fb923c"><img src="gridtennis.jpg" alt="Grid Tennis card"></div>
+          <div class="card-placeholder" style="--card-accent:#fb923c"><img src="tennis1.png" alt="Tennis player grid"></div>
+          <div class="card-placeholder" style="--card-accent:#fb923c"><img src="tennisscore.png" alt="Tennis scorecard"></div>
+      </div>
+
+      <!-- Lacrosse CARDS -->
+      <p class="section-label" style="margin-top:4rem;">Grid Lacrosse</p>
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.5rem); margin-bottom:0.5rem;">Team Cards.</h3>
+      <p class="showcase-sub">Thirty-two teams — Men's or Women's Division — a full season of results baked into every grid. Color-coded by tier. GOAL finds the net. Everything else the goalie, the pipe, or the wide side handles. Champions rip 30-plus shots a game. Cinderellas just want to hang around. Most goals wins.</p>
+      <div class="cards-strip">
+          <div class="card-placeholder" style="--card-accent:#22c55e"><img src="gridlacrosse.jpg" alt="Grid Lacrosse card"></div>
+          <div class="card-placeholder" style="--card-accent:#22c55e"><img src="lacrosse1.png" alt="Lacrosse team grid"></div>
+          <div class="card-placeholder" style="--card-accent:#22c55e"><img src="lacrossescore.png" alt="Lacrosse scorecard"></div>
+      </div>
   </section>
 
   <!-- HOW IT WORKS -->
   <section class="how" id="how">
-    <p class="section-label">Rules for All 13 Games</p>
-    <h2 class="section-title">Learn It in<br>One Round.<br>(Seriously, One Round.)</h2>
+      <p class="section-label">Rules for All 13 Games</p>
+      <h2 class="section-title">Learn It in<br>One Round.<br>(Seriously, One Round.)</h2>
 
-    <!-- RACING RULES -->
-    <p class="sport-label racing">Grid Racing</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick a Circuit</h3>
-        <p>Choose any of the 24 circuit cards. Each one has 30 segments in order — a mix of long straights, fast
-          corners, medium corners, and hairpins unique to that track.</p>
+      <!-- RACING RULES -->
+      <p class="sport-label racing">Grid Racing</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick a Circuit</h3>
+              <p>
+                  Choose any of the 24 circuit cards. Each one has 30 segments in order — a mix of long straights, fast
+                  corners, medium corners, and hairpins unique to that track.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Roll Through Each Segment</h3>
+              <p>
+                  Roll your die once for each of the 30 segments in order. Every segment has a target number based on its type.
+                  Your score for that segment = how far your roll lands from the target. Hit it exactly = 0.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Add It Up</h3>
+              <p>
+                  Total all 30 segment scores. Lower total = faster lap. Compare your result to the circuit's par. Under par
+                  and you're on the podium. Over par and, well, there's always next race.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Run the Season</h3>
+              <p>
+                  Record your championship points after each circuit. Complete all 24 circuits for your full season total.
+                  Lowest cumulative score takes the title.
+              </p>
+          </div>
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Roll Through Each Segment</h3>
-        <p>Roll your die once for each of the 30 segments in order. Every segment has a target number based on its type.
-          Your score for that segment = how far your roll lands from the target. Hit it exactly = 0.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Add It Up</h3>
-        <p>Total all 30 segment scores. Lower total = faster lap. Compare your result to the circuit's par. Under par
-          and you're on the podium. Over par and, well, there's always next race.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Run the Season</h3>
-        <p>Record your championship points after each circuit. Complete all 24 circuits for your full season total.
-          Lowest cumulative score takes the title.</p>
-      </div>
-    </div>
-
-
-
-    <!-- GOLF RULES -->
-    <p class="sport-label golf">Grid Golf</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Tee Shot</h3>
-        <p>Roll the die for your tee shot. Your result sets your position on the hole. Fairway and rough are safe —
-          sand, water, or out of bounds add +1 stroke. Land in the birdie zone and you're already −1.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Approach</h3>
-        <p>Roll again for your approach shot. Rough, sand, or trees = +1. Water or out of bounds = +2. Birdie = −1.
-          Eagle = −2. Bold rolls get rewarded — and punished.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Calculate Your Score</h3>
-        <p>Add both roll adjustments to par for the hole. That's your final score. Write it on the card and move to the
-          next hole.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Play 18</h3>
-        <p>Work through all 18 holes, tallying strokes as you go. Lowest total score wins — but don't sweat a big
-          number. Breaking 100 is worth bragging about. Breaking 90 and we want to hear from you.</p>
-      </div>
-    </div>
-
-    <!-- HOCKEY RULES -->
-    <p class="sport-label hockey">Grid Hockey</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick a Team</h3>
-        <p>Each player picks a team card. Tier A teams have more GOAL cells — they shoot more and score more. Tier D
-          teams have fewer. Someone always picks Buffalo on a dare.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Roll Your Shots</h3>
-        <p>Roll 1d6 and add your card's shot bonus for your total shots on goal. Alternate shots with your opponent —
-          red die for column, blue die for row.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Check the Result</h3>
-        <p>GOAL means it's in. SAVE, BLOCK, POST, or WIDE means it isn't. Mark your goals and keep rolling until both
-          players are out of shots.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Most Goals Wins</h3>
-        <p>Count your goals. Most goals wins 2 pts. Tied? Flip a coin — OT winner gets 1 pt. Loser gets nothing and has
-          to live with it.</p>
-      </div>
-    </div>
 
 
 
-    <!-- SOCCER RULES -->
-    <p class="sport-label soccer" style="color:#a78bfa">Grid Soccer</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick a Nation</h3>
-        <p>Each player picks a team card. Roll 1 die and add your card's shot bonus — that's your shots for the match.
-          Better teams shoot more. Life isn't fair.</p>
+      <!-- GOLF RULES -->
+      <p class="sport-label golf">Grid Golf</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Tee Shot</h3>
+              <p>
+                  Roll the die for your tee shot. Your result sets your position on the hole. Fairway and rough are safe —
+                  sand, water, or out of bounds add +1 stroke. Land in the birdie zone and you're already −1.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Approach</h3>
+              <p>
+                  Roll again for your approach shot. Rough, sand, or trees = +1. Water or out of bounds = +2. Birdie = −1.
+                  Eagle = −2. Bold rolls get rewarded — and punished.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Calculate Your Score</h3>
+              <p>
+                  Add both roll adjustments to par for the hole. That's your final score. Write it on the card and move to the
+                  next hole.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Play 18</h3>
+              <p>
+                  Work through all 18 holes, tallying strokes as you go. Lowest total score wins — but don't sweat a big
+                  number. Breaking 100 is worth bragging about. Breaking 90 and we want to hear from you.
+              </p>
+          </div>
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Take Your Shots</h3>
-        <p>Alternate shot by shot. Each turn: roll both dice — Red die is the column, Blue die is the row. Find that
-          cell on your own card. You are always the attacker.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Check the Result</h3>
-        <p>GOAL means it's in. SAVE, BLOCK, POST, or MISS means it isn't. Mark your goals and keep going until both
-          players have used all their shots.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Most Goals Wins</h3>
-        <p>Most goals wins 3 pts. Tied? That's a Draw — 1 pt each. Loser gets 0 pts and has to explain it to their
-          imaginary fans. VAR is not available in this jurisdiction.</p>
-      </div>
-    </div>
 
-    <!-- WRESTLING RULES -->
-    <p class="sport-label wrestling">Grid Wrestling</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick a Wrestler</h3>
-        <p>Each player picks a wrestler card. Three tiers — Jobber, Mid-Card, Main Event. Tiers change the grid
-          distribution, not the rules. A Jobber can beat a Main Eventer. It just doesn't happen often.</p>
+      <!-- HOCKEY RULES -->
+      <p class="sport-label hockey">Grid Hockey</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick a Team</h3>
+              <p>
+                  Each player picks a team card. Tier A teams have more GOAL cells — they shoot more and score more. Tier D
+                  teams have fewer. Someone always picks Buffalo on a dare.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Roll Your Shots</h3>
+              <p>
+                  Roll 1d6 and add your card's shot bonus for your total shots on goal. Alternate shots with your opponent —
+                  red die for column, blue die for row.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Check the Result</h3>
+              <p>
+                  GOAL means it's in. SAVE, BLOCK, POST, or WIDE means it isn't. Mark your goals and keep rolling until both
+                  players are out of shots.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Most Goals Wins</h3>
+              <p>
+                  Count your goals. Most goals wins 2 pts. Tied? Flip a coin — OT winner gets 1 pt. Loser gets nothing and has
+                  to live with it.
+              </p>
+          </div>
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Roll Both Dice</h3>
-        <p>Players alternate turns. Roll both dice — first die is the column, second die is the row. Find where they
-          meet on your wrestler's grid and follow the result.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Build Momentum</h3>
-        <p>HIT fills one momentum box. Fill all 5 and your PIN cell is live. Roll a PIN before the meter's full and the
-          ref looks away. STUN costs your opponent their next turn. BLOCK means their next HIT won't count.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Land the PIN</h3>
-        <p>First wrestler to roll a PIN with a full momentum meter wins. Run a single match, a full card, or an 8-person
-          tournament. Book the storyline. Blame the dice.</p>
-      </div>
-    </div>
-
-    <!-- BOXING RULES -->
-    <p class="sport-label boxing" style="color:#c9a030">Grid Boxing</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick 2 Fighters</h3>
-        <p>Choose any two fighters from the roster of 30 heavyweights. Assign Red Corner and Blue Corner. Pull both
-          fighter cards and a scorecard. Six styles to choose from — Power Puncher, Technical Boxer, Brawler, Swarmer,
-          Slick Mover, Big Puncher.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Roll Each Round</h3>
-        <p>Both fighters roll once per round on their own grid — red die is the row, blue die is the column. Find the
-          result: KO, W+, W, D, L, or HURT. Compare results head to head.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Score the Round</h3>
-        <p>Higher result wins the round. W+ beats W beats D beats L. Win by W+ = 10-8. Win by W = 10-9. Draw = 10-10.
-          Roll KO and your opponent rolled D, L, or HURT = fight stopped. Roll HURT = you're down, opponent wins the
-          round no matter what they threw.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>KO or 12 Rounds</h3>
-        <p>Three knockdowns and the ref waves it off. Go all twelve rounds without a stoppage and the judges add it up.
-          Most rounds wins — Unanimous, Split, or Majority Decision. Don't start with The Legend.</p>
-      </div>
-    </div>
-
-    <!-- BASEBALL RULES -->
-    <p class="sport-label baseball" style="color:var(--green)">Grid Baseball</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick a Team</h3>
-        <p>Each player picks a team card. Tier A teams (Los Angeles, New York) have more scoring cells. Tier D teams
-          (Chicago, Colorado) have more Ks and OUTs. Play 9 innings each.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Roll Each At-Bat</h3>
-        <p>Each inning, roll 1d6 — on 1–3 you get 2 at-bats, on 4–6 you get 3. For each at-bat: red die = column, blue
-          die = row. Find the cell.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Check the Result</h3>
-        <p> HR = 1 run (2 if a runner is on base). RUN = 1 run. HIT or BB = puts a runner on base. One runner at a time
-          — this isn't real baseball. OUT or K = nothing, runner is removed.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Nine Innings, Most Runs Wins</h3>
-        <p>After 9 innings each, most runs wins. Tied? Each team gets 3 at-bats per inning until there's a winner.</p>
-      </div>
-    </div>
-
-    <!-- DERBY RULES -->
-    <p class="sport-label derby">Grid HR Derby</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick a Ballpark</h3>
-        <p>Choose any ballpark card. Each one has its own grid layout — some parks launch home runs easily, others are
-          pitchers' parks where you'll struggle to clear the wall.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Roll Both Dice</h3>
-        <p>One die for column, one die for row. Find the square where they meet on your ballpark card grid.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Check the Result</h3>
-        <p>Home run square = gone yard. Any other square = out. Mark your result and step up to the plate again.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>10 Swings Each Round</h3>
-        <p>Each player gets 10 at-bats. Count your home runs and don't blow it in the bonus ball. Argue about park
-          dimensions.</p>
-      </div>
-    </div>
-
-    </div>
-
-    <!-- BASKETBALL RULES -->
-    <p class="sport-label basketball">Grid Basketball</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick Two Teams</h3>
-        <p>Each player picks a team card. Thirty teams, real 2025–26 offensive ratings baked into every grid. Better
-          teams have higher cell averages. Rebuilding teams carry wildcards — the 13 cell doesn't show up often, but
-          when it does it can flip a game.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Roll Twelve Times</h3>
-        <p>Each team gets twelve rolls. Red die for column, blue die for row. The number in the cell is the points
-          scored on that possession run — a grinding 7 or a peak 13, depending on who you picked and how much you
-          believe in the process.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Add It Up</h3>
-        <p>Work through all twelve rolls for one team or alternate teams. Add all twelve point values. Record each roll
-          and running total on the scoresheet so you can watch the lead swing.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Higher Score Wins</h3>
-        <p>Higher total wins. Tied after twelve? One sudden death roll each — high die wins. Re-roll if it happens
-          again. This league doesn't do draws. Better teams have higher floors. The rebuilding team doesn't know it's
-          supposed to lose.</p>
-      </div>
-    </div>
-
-    <!-- FOOTBALL RULES -->
-    <p class="sport-label football">Grid Football</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick Two Cards</h3>
-        <p>Each player picks a team card. Covers all 32 teams using real 2025–26 scoring offense data. Better offenses
-          have more TD cells. Struggling offenses have more punts.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Run 12 Drives</h3>
-        <p>Each team runs 12 drives. Roll both dice — red die is the row, blue die is the column. Find the cell. TD
-          scores 7. FG scores 3. First down means roll again, the drive keeps going. Punt or turnover and it's over.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Go For It</h3>
-        <p>On any FG cell, you can go for the TD instead. Roll one die — 1 gets you the touchdown. 2 through 6 gets you
-          a turnover on downs and a long walk back to the huddle. Your call every time.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Most Points Wins</h3>
-        <p>After 12 drives each, most points wins. Tied? Each team gets 3 more drives until someone pulls ahead.
-          Alternate drives or run both teams back to back — either way works.</p>
-      </div>
-    </div>
-
-    <!-- HORSE RACING RULES -->
-    <p class="sport-label horse-racing" style="color:#4dbb77">Grid Horse Racing</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Pick Your Horse</h3>
-        <p>Choose any horse from the field of 30 before the gate opens — no changing your mind once you've picked. Each horse has a trait: Speed, Stamina, Turf, or Mud. Check the track card to see which trait gets a boost and which gets a penalty.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Run the Whole Field</h3>
-        <p>Roll twice for each horse — red die for column, blue die for row. The cell gives you a race result: SURGE, STRONG, STEADY, FADE, STALL, or STUMBLE. Each has a value. Apply any track modifier based on the horse's trait, then add the two rolls for that horse's total.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Rank the Field</h3>
-        <p>After rolling all 30 horses, rank them by total — highest total wins. Ties go to the horse with better odds. Mark the finishing positions on your track card.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <h3>Check Your Pick</h3>
-        <p>Find where your horse landed. Win, Place, Show, or out of the money. Play all eight tracks to run the full Triple Crown + Championship Circuit season. Best finishing positions across the season take the title.</p>
-      </div>
-    </div>
-
-<!-- TENNIS RULES -->
-<p class="sport-label tennis" style="color:#fb923c">Grid Tennis</p>
-<div class="steps">
-  <div class="step">
-    <div class="step-num">01</div>
-    <h3>Pick a Player</h3>
-    <p>Each player picks a card from the roster of 40. Cards are marked by preferred surface — hard, clay, or grass. Clay specialists start every set 1–0 on their home surface. Matching surfaces cancel out.</p>
-  </div>
-  <div class="step">
-    <div class="step-num">02</div>
-    <h3>Roll Simultaneously</h3>
-    <p>Both players roll two dice at the same time — red die for column, blue die for row. Find your cell: Green, White, or Red. Green beats White and Red. White beats Red. Tie goes to the server.</p>
-  </div>
-  <div class="step">
-    <div class="step-num">03</div>
-    <h3>Switch and Repeat</h3>
-    <p>That's one game. Switch server and roll again. First to six games wins the set. At 6–6, one tiebreak roll — same rules, server wins ties.</p>
-  </div>
-  <div class="step">
-    <div class="step-num">04</div>
-    <h3>Win the Match</h3>
-    <p>Best of three sets wins. Every card reflects the full player — serve, return, and consistency. Djokovic outlasts. Bublik explodes. Paolini never misses. The grids show it.</p>
-  </div>
-</div>
-
-    <!-- ORDER -->
-    <section class="order">
-      <p class="section-label">Physical Notebook · Ships to You · No App Store Involved</p>
-      <h2>Order Your Sets.</h2>
-      <p>Grid Racing (24 circuits), Grid HR Derby (30 ballparks), Grid Golf (Wisconsin or Georgia), Grid Hockey
-        (2025–26), Grid Baseball (2025), Grid Soccer (2026), Grid Wrestling (25 wrestlers, 3 tiers), Grid Boxing (30
-        heavyweights, 12 rounds), Grid Basketball (30 teams, 2025–26), Grid Football (32 teams, 2025–26), Grid Horse Racing (30 horses, 8 tracks), Grid Tennis (20 players, 2025). Each notebook
-        includes everything you need. The fun is analog.</p>
-      <a href="https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks" target="_blank" class="btn"
-        style="background:var(--black); color:var(--yellow); border-color:var(--black); font-size:1.1rem; padding:1.2rem 3rem;">Order
-        Now</a>
-      <p style="margin-top:0.75rem; font-size:0.85rem; opacity:0.6;">Buy one or collect all.</p>
-    </section>
-
-    <!-- PHILOSOPHY -->
-    <section class="philosophy" id="about">
-      <div class="philosophy-quote">
-        Physical notebook.<br><em>Two dice.</em><br>Kills 10 minutes.
-      </div>
-      <div class="philosophy-body">
-        <p>Grid Sports games is a physical game notebook you order and keep. No app to update, no subscription, no
-          screen. Just a notebook and two dice.</p>
-        <p>Each game is purpose-built around real data and real places. Grid Racing maps real circuits — long straights
-          play nothing like hairpins. Grid HR Derby maps real ballparks — Colorado plays nothing like Los Angeles. Grid
-          Golf puts real hole layouts on a page. Grid Hockey uses real 2025–26 standings — Tier A teams shoot more,
-          score more, and will still occasionally lose to a Tier D team because that's sports. Grid Baseball brings nine
-          innings of real offensive data to a grid. Grid Soccer puts 32 nations on a grid and lets you settle it without
-          penalty kicks. Grid Wrestling puts 25 wrestlers on index cards and lets you run the whole show — matches,
-          tournaments, rivalries, storylines — with two dice and a pencil. Grid Boxing puts 30 heavyweight fighters in
-          your hands — pick any two, assign corners, and go twelve rounds. Grid Basketball puts all 30 teams on cards
-          using real 2025–26 offensive data — roll twelve times, add your total, higher score wins. Grid Football puts
-          all 32 teams on cards built from real 2025–26 scoring offense data — run 12 drives, score touchdowns, go for
-          it when you need to. Grid Horse Racing puts 30 horses across 8 real tracks — pick your horse before the gate opens, roll the whole field, 
-          and see where your pick lands. 
-          Grid Tennis puts 40 of the world's best players on cards built from real match data — both players roll simultaneously, Green beats White beats Red, and the clay specialists start every set already up 1–0.</p>
-        <p>Your game. Zero screens. No tutorial video. No guy on YouTube explaining it for 45 minutes. Just a notebook
-          and two dice.</p>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-      <div class="logo">GRID<span>SPORTS</span></div>
-      <p>Pen · Paper · Dice · No Refunds on Bad Rolls</p>
-      <p>Questions? <a href="mailto:contact@gridsports.net"
-          style="color:var(--yellow); text-decoration:none; opacity:1;">contact@gridsports.net</a></p>
-      <a href="https://www.facebook.com/gridsports.net" target="_blank" aria-label="Facebook"
-        style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border:2px solid rgba(245,197,24,0.4); color:var(--yellow); text-decoration:none; transition:border-color 0.2s, background 0.2s; border-radius:2px;"
-        onmouseover="this.style.borderColor='var(--yellow)'; this.style.background='rgba(245,197,24,0.1)'"
-        onmouseout="this.style.borderColor='rgba(245,197,24,0.4)'; this.style.background='transparent'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-        </svg>
-      </a>
-      <a href="https://discord.gg/UX2vFQUa" target="_blank" aria-label="Discord"
-        style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border:2px solid rgba(245,197,24,0.4); color:var(--yellow); text-decoration:none; transition:border-color 0.2s, background 0.2s; border-radius:2px;"
-        onmouseover="this.style.borderColor='var(--yellow)'; this.style.background='rgba(245,197,24,0.1)'"
-        onmouseout="this.style.borderColor='rgba(245,197,24,0.4)'; this.style.background='transparent'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 13.94 13.94 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" />
-        </svg>
-      </a>
-    </footer>
-
-    <!-- LIGHTBOX -->
-    <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-      <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕ CLOSE</button>
-      <img id="lightboxImg" src="" alt="">
-    </div>
 
 
-    <script>
-      // Hamburger menu
-      (function () {
-        var toggle = document.getElementById('navToggle');
-        var menu = document.getElementById('mobileMenu');
 
-        function openMenu() {
-          toggle.classList.add('open');
-          menu.classList.add('open');
-          toggle.setAttribute('aria-expanded', 'true');
-          document.body.style.overflow = 'hidden';
-        }
+      <!-- SOCCER RULES -->
+      <p class="sport-label soccer" style="color:#a78bfa">Grid Soccer</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick a Nation</h3>
+              <p>
+                  Each player picks a team card. Roll 1 die and add your card's shot bonus — that's your shots for the match.
+                  Better teams shoot more. Life isn't fair.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Take Your Shots</h3>
+              <p>
+                  Alternate shot by shot. Each turn: roll both dice — Red die is the column, Blue die is the row. Find that
+                  cell on your own card. You are always the attacker.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Check the Result</h3>
+              <p>
+                  GOAL means it's in. SAVE, BLOCK, POST, or MISS means it isn't. Mark your goals and keep going until both
+                  players have used all their shots.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Most Goals Wins</h3>
+              <p>
+                  Most goals wins 3 pts. Tied? That's a Draw — 1 pt each. Loser gets 0 pts and has to explain it to their
+                  imaginary fans. VAR is not available in this jurisdiction.
+              </p>
+          </div>
+      </div>
 
-        function closeMenu() {
-          toggle.classList.remove('open');
-          menu.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        }
+      <!-- WRESTLING RULES -->
+      <p class="sport-label wrestling">Grid Wrestling</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick a Wrestler</h3>
+              <p>
+                  Each player picks a wrestler card. Three tiers — Jobber, Mid-Card, Main Event. Tiers change the grid
+                  distribution, not the rules. A Jobber can beat a Main Eventer. It just doesn't happen often.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Roll Both Dice</h3>
+              <p>
+                  Players alternate turns. Roll both dice — first die is the column, second die is the row. Find where they
+                  meet on your wrestler's grid and follow the result.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Build Momentum</h3>
+              <p>
+                  HIT fills one momentum box. Fill all 5 and your PIN cell is live. Roll a PIN before the meter's full and the
+                  ref looks away. STUN costs your opponent their next turn. BLOCK means their next HIT won't count.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Land the PIN</h3>
+              <p>
+                  First wrestler to roll a PIN with a full momentum meter wins. Run a single match, a full card, or an 8-person
+                  tournament. Book the storyline. Blame the dice.
+              </p>
+          </div>
+      </div>
 
-        toggle.addEventListener('click', function () {
-          menu.classList.contains('open') ? closeMenu() : openMenu();
-        });
+      <!-- BOXING RULES -->
+      <p class="sport-label boxing" style="color:#c9a030">Grid Boxing</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick 2 Fighters</h3>
+              <p>
+                  Choose any two fighters from the roster of 30 heavyweights. Assign Red Corner and Blue Corner. Pull both
+                  fighter cards and a scorecard. Six styles to choose from — Power Puncher, Technical Boxer, Brawler, Swarmer,
+                  Slick Mover, Big Puncher.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Roll Each Round</h3>
+              <p>
+                  Both fighters roll once per round on their own grid — red die is the row, blue die is the column. Find the
+                  result: KO, W+, W, D, L, or HURT. Compare results head to head.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Score the Round</h3>
+              <p>
+                  Higher result wins the round. W+ beats W beats D beats L. Win by W+ = 10-8. Win by W = 10-9. Draw = 10-10.
+                  Roll KO and your opponent rolled D, L, or HURT = fight stopped. Roll HURT = you're down, opponent wins the
+                  round no matter what they threw.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>KO or 12 Rounds</h3>
+              <p>
+                  Three knockdowns and the ref waves it off. Go all twelve rounds without a stoppage and the judges add it up.
+                  Most rounds wins — Unanimous, Split, or Majority Decision. Don't start with The Legend.
+              </p>
+          </div>
+      </div>
 
-        menu.querySelectorAll('a').forEach(function (link) {
-          link.addEventListener('click', closeMenu);
-        });
+      <!-- BASEBALL RULES -->
+      <p class="sport-label baseball" style="color:var(--green)">Grid Baseball</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick a Team</h3>
+              <p>
+                  Each player picks a team card. Tier A teams (Los Angeles, New York) have more scoring cells. Tier D teams
+                  (Chicago, Colorado) have more Ks and OUTs. Play 9 innings each.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Roll Each At-Bat</h3>
+              <p>
+                  Each inning, roll 1d6 — on 1–3 you get 2 at-bats, on 4–6 you get 3. For each at-bat: red die = column, blue
+                  die = row. Find the cell.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Check the Result</h3>
+              <p>
+                  HR = 1 run (2 if a runner is on base). RUN = 1 run. HIT or BB = puts a runner on base. One runner at a time
+                  — this isn't real baseball. OUT or K = nothing, runner is removed.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Nine Innings, Most Runs Wins</h3>
+              <p>After 9 innings each, most runs wins. Tied? Each team gets 3 at-bats per inning until there's a winner.</p>
+          </div>
+      </div>
 
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape') closeMenu();
-        });
-      })();
-    </script>
+      <!-- DERBY RULES -->
+      <p class="sport-label derby">Grid HR Derby</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick a Ballpark</h3>
+              <p>
+                  Choose any ballpark card. Each one has its own grid layout — some parks launch home runs easily, others are
+                  pitchers' parks where you'll struggle to clear the wall.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Roll Both Dice</h3>
+              <p>One die for column, one die for row. Find the square where they meet on your ballpark card grid.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Check the Result</h3>
+              <p>Home run square = gone yard. Any other square = out. Mark your result and step up to the plate again.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>10 Swings Each Round</h3>
+              <p>
+                  Each player gets 10 at-bats. Count your home runs and don't blow it in the bonus ball. Argue about park
+                  dimensions.
+              </p>
+          </div>
+      </div>
 
-    <script>
-      (function () {
-        var overlay = document.getElementById('lightbox');
-        var lbImg = document.getElementById('lightboxImg');
-        var closeBtn = document.getElementById('lightboxClose');
+      </div>
 
-        function openLightbox(src, alt) {
-          lbImg.src = src;
-          lbImg.alt = alt || '';
-          overlay.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        }
+      <!-- BASKETBALL RULES -->
+      <p class="sport-label basketball">Grid Basketball</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick Two Teams</h3>
+              <p>
+                  Each player picks a team card. Thirty teams, real 2025–26 offensive ratings baked into every grid. Better
+                  teams have higher cell averages. Rebuilding teams carry wildcards — the 13 cell doesn't show up often, but
+                  when it does it can flip a game.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Roll Twelve Times</h3>
+              <p>
+                  Each team gets twelve rolls. Red die for column, blue die for row. The number in the cell is the points
+                  scored on that possession run — a grinding 7 or a peak 13, depending on who you picked and how much you
+                  believe in the process.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Add It Up</h3>
+              <p>
+                  Work through all twelve rolls for one team or alternate teams. Add all twelve point values. Record each roll
+                  and running total on the scoresheet so you can watch the lead swing.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Higher Score Wins</h3>
+              <p>
+                  Higher total wins. Tied after twelve? One sudden death roll each — high die wins. Re-roll if it happens
+                  again. This league doesn't do draws. Better teams have higher floors. The rebuilding team doesn't know it's
+                  supposed to lose.
+              </p>
+          </div>
+      </div>
 
-        function closeLightbox() {
-          overlay.classList.remove('active');
-          document.body.style.overflow = '';
-          lbImg.src = '';
-        }
+      <!-- FOOTBALL RULES -->
+      <p class="sport-label football">Grid Football</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick Two Cards</h3>
+              <p>
+                  Each player picks a team card. Covers all 32 teams using real 2025–26 scoring offense data. Better offenses
+                  have more TD cells. Struggling offenses have more punts.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Run 12 Drives</h3>
+              <p>
+                  Each team runs 12 drives. Roll both dice — red die is the row, blue die is the column. Find the cell. TD
+                  scores 7. FG scores 3. First down means roll again, the drive keeps going. Punt or turnover and it's over.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Go For It</h3>
+              <p>
+                  On any FG cell, you can go for the TD instead. Roll one die — 1 gets you the touchdown. 2 through 6 gets you
+                  a turnover on downs and a long walk back to the huddle. Your call every time.
+              </p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Most Points Wins</h3>
+              <p>
+                  After 12 drives each, most points wins. Tied? Each team gets 3 more drives until someone pulls ahead.
+                  Alternate drives or run both teams back to back — either way works.
+              </p>
+          </div>
+      </div>
 
-        closeBtn.addEventListener('click', closeLightbox);
+      <!-- HORSE RACING RULES -->
+      <p class="sport-label horse-racing" style="color:#4dbb77">Grid Horse Racing</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick Your Horse</h3>
+              <p>Choose any horse from the field of 30 before the gate opens — no changing your mind once you've picked. Each horse has a trait: Speed, Stamina, Turf, or Mud. Check the track card to see which trait gets a boost and which gets a penalty.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Run the Whole Field</h3>
+              <p>Roll twice for each horse — red die for column, blue die for row. The cell gives you a race result: SURGE, STRONG, STEADY, FADE, STALL, or STUMBLE. Each has a value. Apply any track modifier based on the horse's trait, then add the two rolls for that horse's total.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Rank the Field</h3>
+              <p>After rolling all 30 horses, rank them by total — highest total wins. Ties go to the horse with better odds. Mark the finishing positions on your track card.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Check Your Pick</h3>
+              <p>Find where your horse landed. Win, Place, Show, or out of the money. Play all eight tracks to run the full Triple Crown + Championship Circuit season. Best finishing positions across the season take the title.</p>
+          </div>
+      </div>
 
-        overlay.addEventListener('click', function (e) {
-          if (e.target === overlay) closeLightbox();
-        });
+      <!-- TENNIS RULES -->
+      <p class="sport-label tennis" style="color:#fb923c">Grid Tennis</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick a Player</h3>
+              <p>Each player picks a card from the roster of 40. Cards are marked by preferred surface — hard, clay, or grass. Clay specialists start every set 1–0 on their home surface. Matching surfaces cancel out.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Roll Simultaneously</h3>
+              <p>Both players roll two dice at the same time — red die for column, blue die for row. Find your cell: Green, White, or Red. Green beats White and Red. White beats Red. Tie goes to the server.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Switch and Repeat</h3>
+              <p>That's one game. Switch server and roll again. First to six games wins the set. At 6–6, one tiebreak roll — same rules, server wins ties.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Win the Match</h3>
+              <p>Best of three sets wins. Every card reflects the full player — serve, return, and consistency. Djokovic outlasts. Bublik explodes. Paolini never misses. The grids show it.</p>
+          </div>
+      </div>
 
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape') closeLightbox();
-        });
+      <!-- LACROSSE RULES -->
+      <p class="sport-label lacrosse" style="color:#22c55e">Grid Lacrosse</p>
+      <div class="steps">
+          <div class="step">
+              <div class="step-num">01</div>
+              <h3>Pick a Team</h3>
+              <p>Each player picks a card from the roster of 32 — Men's or Women's Division. Cards are color-coded by tier, from champions down to conference-title Cinderellas. Both roll 2 dice and add their card's shot bonus. That's your shots for the game. Better teams shoot more.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">02</div>
+              <h3>Take Your Shots</h3>
+              <p>Alternate shot by shot. Roll both dice — red die for column, blue die for row. Find your cell. GOAL means it's in. SAVE, CTO, PIPE, or MISS means it isn't. Mark your goals as you go.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">03</div>
+              <h3>Run It Out</h3>
+              <p>When one team runs out of shots, the other keeps rolling alone until their shots are done too. No mercy. Double-digit finals are the norm — a shutout is a bad night at the office.</p>
+          </div>
+          <div class="step">
+              <div class="step-num">04</div>
+              <h3>Win the Game</h3>
+              <p>Most goals wins. Tied? There are no ties in lacrosse — go to Sudden Victory: alternate single shots, and the first goal the other side doesn't answer wins it. Then just roll, score, and blame the goalie.</p>
+          </div>
+      </div>
 
-        document.querySelectorAll('.card-placeholder img').forEach(function (img) {
-          img.addEventListener('click', function (e) {
-            e.stopPropagation();
-            openLightbox(img.src, img.alt);
-          });
-        });
-      })();
-    </script>
+      <!-- ORDER -->
+      <section class="order">
+          <p class="section-label">Physical Notebook · Ships to You · No App Store Involved</p>
+          <h2>Order Your Sets.</h2>
+          <p>
+              Grid Racing (24 circuits), Grid HR Derby (30 ballparks), Grid Golf (Wisconsin or Georgia), Grid Hockey
+              (2025–26), Grid Baseball (2025), Grid Soccer (2026), Grid Wrestling (25 wrestlers, 3 tiers), Grid Boxing (30
+              heavyweights, 12 rounds), Grid Basketball (30 teams, 2025–26), Grid Football (32 teams, 2025–26), Grid Horse Racing (30 horses, 8 tracks), Grid Tennis (20 players, 2025). Each notebook
+              includes everything you need. The fun is analog.
+          </p>
+          <a href="https://www.amazon.com/stores/author/B0GSSDRJ9X/allbooks" target="_blank" class="btn"
+             style="background:var(--black); color:var(--yellow); border-color:var(--black); font-size:1.1rem; padding:1.2rem 3rem;">
+              Order
+              Now
+          </a>
+          <p style="margin-top:0.75rem; font-size:0.85rem; opacity:0.6;">Buy one or collect all.</p>
+      </section>
+
+      <!-- PHILOSOPHY -->
+      <section class="philosophy" id="about">
+          <div class="philosophy-quote">
+              Physical notebook.<br><em>Two dice.</em><br>Kills 10 minutes.
+          </div>
+          <div class="philosophy-body">
+              <p>
+                  Grid Sports games is a physical game notebook you order and keep. No app to update, no subscription, no
+                  screen. Just a notebook and two dice.
+              </p>
+              <p>
+                  Each game is purpose-built around real data and real places. Grid Racing maps real circuits — long straights
+                  play nothing like hairpins. Grid HR Derby maps real ballparks — Colorado plays nothing like Los Angeles. Grid
+                  Golf puts real hole layouts on a page. Grid Hockey uses real 2025–26 standings — Tier A teams shoot more,
+                  score more, and will still occasionally lose to a Tier D team because that's sports. Grid Baseball brings nine
+                  innings of real offensive data to a grid. Grid Soccer puts 32 nations on a grid and lets you settle it without
+                  penalty kicks. Grid Wrestling puts 25 wrestlers on index cards and lets you run the whole show — matches,
+                  tournaments, rivalries, storylines — with two dice and a pencil. Grid Boxing puts 30 heavyweight fighters in
+                  your hands — pick any two, assign corners, and go twelve rounds. Grid Basketball puts all 30 teams on cards
+                  using real 2025–26 offensive data — roll twelve times, add your total, higher score wins. Grid Football puts
+                  all 32 teams on cards built from real 2025–26 scoring offense data — run 12 drives, score touchdowns, go for
+                  it when you need to. Grid Horse Racing puts 30 horses across 8 real tracks — pick your horse before the gate opens, roll the whole field,
+                  and see where your pick lands.
+                  Grid Tennis puts 40 of the world's best players on cards built from real match data — both players roll simultaneously, Green beats White beats Red, and the clay specialists start every set already up 1–0.
+              </p>
+              <p>
+                  Your game. Zero screens. No tutorial video. No guy on YouTube explaining it for 45 minutes. Just a notebook
+                  and two dice.
+              </p>
+          </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+          <div class="logo">GRID<span>SPORTS</span></div>
+          <p>Pen · Paper · Dice · No Refunds on Bad Rolls</p>
+          <p>
+              Questions? <a href="mailto:contact@gridsports.net"
+                            style="color:var(--yellow); text-decoration:none; opacity:1;">contact@gridsports.net</a>
+          </p>
+          <a href="https://www.facebook.com/gridsports.net" target="_blank" aria-label="Facebook"
+             style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border:2px solid rgba(245,197,24,0.4); color:var(--yellow); text-decoration:none; transition:border-color 0.2s, background 0.2s; border-radius:2px;"
+             onmouseover="this.style.borderColor='var(--yellow)'; this.style.background='rgba(245,197,24,0.1)'"
+             onmouseout="this.style.borderColor='rgba(245,197,24,0.4)'; this.style.background='transparent'">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </svg>
+          </a>
+          <!--<a href="https://discord.gg/UX2vFQUa" target="_blank" aria-label="Discord"
+             style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border:2px solid rgba(245,197,24,0.4); color:var(--yellow); text-decoration:none; transition:border-color 0.2s, background 0.2s; border-radius:2px;"
+             onmouseover="this.style.borderColor='var(--yellow)'; this.style.background='rgba(245,197,24,0.1)'"
+             onmouseout="this.style.borderColor='rgba(245,197,24,0.4)'; this.style.background='transparent'">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 13.94 13.94 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" />
+              </svg>
+          </a>-->
+      </footer>
+
+      <!-- LIGHTBOX -->
+      <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+          <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕ CLOSE</button>
+          <img id="lightboxImg" src="" alt="">
+      </div>
+
+
+      <script>
+          // Hamburger menu
+          (function () {
+              var toggle = document.getElementById('navToggle');
+              var menu = document.getElementById('mobileMenu');
+
+              function openMenu() {
+                  toggle.classList.add('open');
+                  menu.classList.add('open');
+                  toggle.setAttribute('aria-expanded', 'true');
+                  document.body.style.overflow = 'hidden';
+              }
+
+              function closeMenu() {
+                  toggle.classList.remove('open');
+                  menu.classList.remove('open');
+                  toggle.setAttribute('aria-expanded', 'false');
+                  document.body.style.overflow = '';
+              }
+
+              toggle.addEventListener('click', function () {
+                  menu.classList.contains('open') ? closeMenu() : openMenu();
+              });
+
+              menu.querySelectorAll('a').forEach(function (link) {
+                  link.addEventListener('click', closeMenu);
+              });
+
+              document.addEventListener('keydown', function (e) {
+                  if (e.key === 'Escape') closeMenu();
+              });
+          })();
+      </script>
+
+      <script>
+          (function () {
+              var overlay = document.getElementById('lightbox');
+              var lbImg = document.getElementById('lightboxImg');
+              var closeBtn = document.getElementById('lightboxClose');
+
+              function openLightbox(src, alt) {
+                  lbImg.src = src;
+                  lbImg.alt = alt || '';
+                  overlay.classList.add('active');
+                  document.body.style.overflow = 'hidden';
+              }
+
+              function closeLightbox() {
+                  overlay.classList.remove('active');
+                  document.body.style.overflow = '';
+                  lbImg.src = '';
+              }
+
+              closeBtn.addEventListener('click', closeLightbox);
+
+              overlay.addEventListener('click', function (e) {
+                  if (e.target === overlay) closeLightbox();
+              });
+
+              document.addEventListener('keydown', function (e) {
+                  if (e.key === 'Escape') closeLightbox();
+              });
+
+              document.querySelectorAll('.card-placeholder img').forEach(function (img) {
+                  img.addEventListener('click', function (e) {
+                      e.stopPropagation();
+                      openLightbox(img.src, img.alt);
+                  });
+              });
+          })();
+      </script>
 </body>
 
 </html>
