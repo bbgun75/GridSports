@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deal or No Deal - The Banker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Black', Arial, sans-serif;
+            background: #1e3c72;
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #ffd700;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #a8c5e0;
+        }
+
+        .stats-bar {
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #a8c5e0;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            color: #ffd700;
+        }
+
+        .stat-value.green {
+            color: #4ade80;
+        }
+
+        button {
+            background: #c92a2a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        button.call-banker {
+            background: #22c55e;
+        }
+
+        button.reset {
+            background: #dc2626;
+        }
+
+        .game-area {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .prize-board {
+            background: rgba(0,0,0,0.3);
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .prize-board h3 {
+            text-align: center;
+            color: #ffd700;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .prize-item {
+            background: #c92a2a;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+        }
+
+        .prize-item:hover:not(.revealed) {
+            transform: scale(1.05);
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .prize-item.revealed {
+            background: #333;
+            text-decoration: line-through;
+            opacity: 0.4;
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .banker-offer {
+            background: #22c55e;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .banker-offer h2 {
+            color: #ffd700;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .offer-amount {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        .offer-note {
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .offer-history {
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .offer-history h3 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            background: rgba(30, 58, 138, 0.5);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+        }
+
+        .history-label {
+            color: #a8c5e0;
+        }
+
+        .history-value {
+            color: #ffd700;
+        }
+
+        .remaining-stats {
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .remaining-stats h3 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.95em;
+        }
+
+        .stat-row-label {
+            color: #a8c5e0;
+        }
+
+        .stat-row-value {
+            color: #4ade80;
+        }
+
+        .stat-row-value.red {
+            color: #ef4444;
+        }
+
+        .stat-row-value.yellow {
+            color: #ffd700;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .game-area {
+                grid-template-columns: 1fr;
+            }
+
+            .prizes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stats-bar {
+                flex-direction: column;
+            }
+
+            .stat-value {
+                font-size: 1.5em;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>THE BANKER</h1>
+        <p class="subtitle">Click prizes as you reveal them. Get banker offers anytime!</p>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-label">Cases Opened</div>
+                <div class="stat-value" id="casesOpened">0 / 26</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Prizes Remaining</div>
+                <div class="stat-value green" id="prizesRemaining">26</div>
+            </div>
+            <div>
+                <button class="call-banker" id="callBankerBtn" onclick="callBanker()">
+                    Call Banker
+                </button>
+            </div>
+            <div>
+                <button class="reset" onclick="resetGame()">
+                    Reset
+                </button>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="prize-board">
+                <h3>PRIZE BOARD</h3>
+                <div class="prizes-grid" id="prizesGrid"></div>
+            </div>
+
+            <div class="side-panel">
+                <div class="banker-offer hidden" id="bankerOfferPanel">
+                    <h2>BANKER'S OFFER</h2>
+                    <div class="offer-amount" id="offerAmount">$0</div>
+                    <div class="offer-note" id="offerNote">Based on remaining cases</div>
+                </div>
+
+                <div class="offer-history hidden" id="offerHistoryPanel">
+                    <h3>OFFER HISTORY</h3>
+                    <div class="history-list" id="historyList"></div>
+                </div>
+
+                <div class="remaining-stats" id="remainingStatsPanel">
+                    <h3>REMAINING VALUES</h3>
+                    <div class="stat-row">
+                        <span class="stat-row-label">Highest:</span>
+                        <span class="stat-row-value" id="highestValue">$400</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-row-label">Lowest:</span>
+                        <span class="stat-row-value red" id="lowestValue">1¢</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-row-label">Average:</span>
+                        <span class="stat-row-value yellow" id="averageValue">$67</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const prizes = [
+            0.01, 0.05, 0.10, 0.25, 0.50, 1, 2, 3, 4, 5, 
+            10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 
+            125, 150, 200, 250, 300, 400
+        ];
+
+        let revealedPrizes = new Set();
+        let casesRevealed = 0;
+        let offerHistory = [];
+
+        function formatPrize(prize) {
+            if (prize < 1) return `${Math.round(prize * 100)}¢`;
+            return `$${prize}`;
+        }
+
+        function initGame() {
+            const grid = document.getElementById('prizesGrid');
+            grid.innerHTML = '';
+            
+            prizes.forEach(prize => {
+                const div = document.createElement('div');
+                div.className = 'prize-item';
+                div.textContent = formatPrize(prize);
+                div.onclick = () => togglePrize(prize);
+                div.dataset.prize = prize;
+                grid.appendChild(div);
+            });
+
+            updateStats();
+        }
+
+        function togglePrize(prize) {
+            const prizeElement = document.querySelector(`[data-prize="${prize}"]`);
+            
+            if (revealedPrizes.has(prize)) {
+                revealedPrizes.delete(prize);
+                casesRevealed--;
+                prizeElement.classList.remove('revealed');
+            } else {
+                revealedPrizes.add(prize);
+                casesRevealed++;
+                prizeElement.classList.add('revealed');
+            }
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('casesOpened').textContent = `${casesRevealed} / 26`;
+            
+            const remaining = prizes.filter(p => !revealedPrizes.has(p));
+            const remainingCount = remaining.length;
+            document.getElementById('prizesRemaining').textContent = remainingCount;
+
+            const callBtn = document.getElementById('callBankerBtn');
+            callBtn.disabled = casesRevealed === 0 || remainingCount <= 1;
+
+            if (remainingCount > 1) {
+                const highest = Math.max(...remaining);
+                const lowest = Math.min(...remaining);
+                const average = Math.round(remaining.reduce((a, b) => a + b, 0) / remainingCount);
+
+                document.getElementById('highestValue').textContent = formatPrize(highest);
+                document.getElementById('lowestValue').textContent = formatPrize(lowest);
+                document.getElementById('averageValue').textContent = formatPrize(average);
+                document.getElementById('remainingStatsPanel').classList.remove('hidden');
+            } else {
+                document.getElementById('remainingStatsPanel').classList.add('hidden');
+            }
+        }
+
+        function calculateOffer() {
+            const remaining = prizes.filter(p => !revealedPrizes.has(p));
+            if (remaining.length === 0) return 0;
+
+            const average = remaining.reduce((a, b) => a + b, 0) / remaining.length;
+            const percentOpened = casesRevealed / 26;
+            
+            let generosityFactor;
+            if (percentOpened < 0.3) {
+                generosityFactor = 0.15 + (percentOpened * 0.5);
+            } else if (percentOpened < 0.6) {
+                generosityFactor = 0.30 + (percentOpened * 0.6);
+            } else {
+                generosityFactor = 0.55 + (percentOpened * 0.4);
+            }
+
+            const randomFactor = 0.95 + (Math.random() * 0.1);
+            const offer = Math.round(average * generosityFactor * randomFactor);
+            
+            return offer;
+        }
+
+        function callBanker() {
+            const offer = calculateOffer();
+            const remaining = prizes.filter(p => !revealedPrizes.has(p)).length;
+            
+            document.getElementById('offerAmount').textContent = formatPrize(offer);
+            document.getElementById('offerNote').textContent = 
+                `Based on ${remaining} remaining case${remaining !== 1 ? 's' : ''}`;
+            document.getElementById('bankerOfferPanel').classList.remove('hidden');
+
+            offerHistory.push({ casesOpen: casesRevealed, offer });
+            updateOfferHistory();
+        }
+
+        function updateOfferHistory() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+
+            offerHistory.slice().reverse().forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `
+                    <span class="history-label">After ${item.casesOpen} cases:</span>
+                    <span class="history-value">${formatPrize(item.offer)}</span>
+                `;
+                historyList.appendChild(div);
+            });
+
+            if (offerHistory.length > 0) {
+                document.getElementById('offerHistoryPanel').classList.remove('hidden');
+            }
+        }
+
+        function resetGame() {
+            revealedPrizes.clear();
+            casesRevealed = 0;
+            offerHistory = [];
+            
+            document.getElementById('bankerOfferPanel').classList.add('hidden');
+            document.getElementById('offerHistoryPanel').classList.add('hidden');
+            
+            initGame();
+        }
+
+        initGame();
+    </script>
+</body>
+</html>
+</html>
